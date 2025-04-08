@@ -1,27 +1,25 @@
+<script setup lang="ts">
+import Sidebar from "./components/sidebar.vue";
+import { Page, usePageStore } from "./stores/pages.store";
+const route = useRoute();
+const pageStore = usePageStore();
+pageStore.setCurrentPage(route.path as Page);
+watch(
+  () => route.path,
+  (newPath) => {
+    pageStore.setCurrentPage(newPath as Page);
+  }
+);
+</script>
+
 <template>
   <NuxtRouteAnnouncer />
-  <NuxtPage />
+  <main>
+    <NuxtPage />
+  </main>
+  <Sidebar />
+  <footer>
+    Created by
+    <a href="https://github.com/huyphan2210/" target="_blank">Huy Phan</a>
+  </footer>
 </template>
-
-<style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-:root {
-  --beige-100: #f8f4f0;
-  --beige-500: #98908b;
-
-  --grey-100: #f2f2f2;
-  --grey-300: #b3b3b3;
-  --grey-500: #696868;
-  --grey-900: #201f24;
-}
-
-body {
-  background-color: var(--beige-100);
-  min-height: 100vh;
-}
-</style>
