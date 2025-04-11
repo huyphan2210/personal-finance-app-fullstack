@@ -17,7 +17,8 @@ watch(
   <main>
     <NuxtPage />
   </main>
-  <Sidebar />
+  <Sidebar v-if="pageStore.currentPage !== Page.Login && pageStore.currentPage !== Page.Signup" />
+  <Illustration />
   <footer>
     Created by
     <a href="https://github.com/huyphan2210/" target="_blank">Huy Phan</a>

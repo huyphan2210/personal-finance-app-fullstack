@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 export enum Page {
-  Home = "/",
+  Overview = "/overview",
   Transactions = "/transactions",
   Budgets = "/budgets",
   Pots = "/pots",
@@ -10,13 +10,8 @@ export enum Page {
   Signup = "/sign-up",
 }
 
-interface PageStoreState {
-  currentPage: Page;
-  currentPageHeading: string;
-}
-
 export const pageHeadings: Record<Page, string> = {
-  [Page.Home]: "Overview",
+  [Page.Overview]: "Overview",
   [Page.Transactions]: "Transactions",
   [Page.Budgets]: "Budgets",
   [Page.Pots]: "Pots",
@@ -25,9 +20,14 @@ export const pageHeadings: Record<Page, string> = {
   [Page.Signup]: " Sign Up",
 };
 
+interface PageStoreState {
+  currentPage: Page;
+  currentPageHeading: string;
+}
+
 export const usePageStore = defineStore("page", {
   state: (): PageStoreState => ({
-    currentPage: Page.Home,
+    currentPage: Page.Overview,
     currentPageHeading: "Overview",
   }),
   actions: {

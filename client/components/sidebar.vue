@@ -2,8 +2,10 @@
   <aside class="sidebar">
     <nav>
       <ul>
-        <li :class="{ active: pageStore.currentPage === Page.Home }">
-          <NuxtLink :to="Page.Home">{{ pageHeadings[Page.Home] }}</NuxtLink>
+        <li :class="{ active: pageStore.currentPage === Page.Overview }">
+          <NuxtLink :to="Page.Overview">{{
+            pageHeadings[Page.Overview]
+          }}</NuxtLink>
         </li>
         <li :class="{ active: pageStore.currentPage === Page.Transactions }">
           <NuxtLink :to="Page.Transactions">{{
