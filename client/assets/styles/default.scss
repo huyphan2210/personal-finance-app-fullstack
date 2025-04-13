@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 :root {
@@ -20,10 +19,32 @@ body {
   background-color: var(--beige-100);
   min-height: 100vh;
   font-family: "Public Sans", sans-serif;
+  display: flex;
+
+  #__nuxt {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-inline: 1rem;
+    }
+  }
 }
 
 footer {
   display: none;
+}
+
+@media screen and (min-width: 64rem) {
+  body {
+    #__nuxt {
+      flex-direction: row-reverse;
+    }
+  }
 }
 
 @font-face {
