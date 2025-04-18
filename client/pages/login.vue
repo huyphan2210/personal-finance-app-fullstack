@@ -2,12 +2,12 @@
   <form class="form--login">
     <SharedPageHeading />
     <fieldset>
-      <div class="form--login__field">
-        <label for="email">Email</label>
+      <div class="form--login_field">
+        <label class="form--login_field_label" for="email">Email</label>
         <input id="email" type="email" placeholder="johndoe@yopmail.com" />
       </div>
-      <div class="form--login__field">
-        <label for="password">Password</label>
+      <div class="form--login_field">
+        <label class="form--login_field_label" for="password">Password</label>
         <input id="password" type="password" placeholder="***" />
       </div>
     </fieldset>
@@ -33,6 +33,12 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+
+  &_field {
+    &:focus-within &_label {
+      color: var(--grey-900) !important;
+    }
   }
 
   span {
