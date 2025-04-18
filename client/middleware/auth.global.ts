@@ -1,5 +1,4 @@
-export default defineNuxtRouteMiddleware((to) => {
-
+export default defineNuxtRouteMiddleware(async (to) => {
   const excludeRoutes = [Page.Login, Page.Signup]
   if (excludeRoutes.includes(to.path as Page)) {
     return
@@ -15,6 +14,8 @@ export default defineNuxtRouteMiddleware((to) => {
 
     }
   }
+  
+  checkLogin(isLoaded.value);
 
   watch(() => isLoaded.value, (result) => checkLogin(result))
 })
