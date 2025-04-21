@@ -23,6 +23,7 @@ watch(
     Created by
     <a href="https://github.com/huyphan2210/" target="_blank">Huy Phan</a>
   </footer>
+  <SharedErrorModal />
 </template>
 
 <style lang="scss" scoped>
