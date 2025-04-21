@@ -1,14 +1,14 @@
 <template>
-  <form class="form--login">
+  <form @submit="login" class="form--login">
     <SharedPageHeading />
     <fieldset>
       <div class="form--login_field">
         <label class="form--login_field_label" for="email">Email</label>
-        <input id="email" type="email" placeholder="johndoe@yopmail.com" />
+        <input required v-model="email" id="email" type="email" placeholder="johndoe@yopmail.com" />
       </div>
       <div class="form--login_field">
         <label class="form--login_field_label" for="password">Password</label>
-        <input id="password" type="password" placeholder="***" />
+        <input required v-model="password" id="password" type="password" placeholder="***" />
       </div>
     </fieldset>
     <button type="submit">Login</button>
@@ -16,7 +16,34 @@
   </form>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const errorStore = useErrorStore();
+const { signIn, setActive } = useSignIn();
+
+const email = ref('');
+const password = ref('');
+
+const login = async (e: Event) => {
+  e.preventDefault();
+
+  try {
+    const result = await signIn.value?.create({
+      identifier: email.value,
+      password: password.value,
+    })
+
+    if (result?.status === 'complete' && setActive.value) {
+      await setActive.value({ session: result?.createdSessionId })
+    }
+  } catch (error) {
+    const err = error as any;
+    if (err.status && err.status === 422) {
+      errorStore.setErrorMessage("Your email or password is incorrect.");
+    }
+  }
+}
+
+</script>
 
 <style lang="scss" scoped>
 .form--login {
