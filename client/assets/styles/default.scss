@@ -1,3 +1,5 @@
+@use "fonts" as *;
+
 * {
   margin: 0;
   padding: 0;
@@ -6,16 +8,14 @@
 }
 
 :root {
+  // Colors
   --beige-100: #f8f4f0;
   --beige-500: #98908b;
-
   --grey-100: #f2f2f2;
   --grey-300: #b3b3b3;
   --grey-500: #696868;
   --grey-900: #201f24;
-
   --red: #c94736;
-
   --white: #fff;
 }
 
@@ -36,26 +36,25 @@ body {
       padding-inline: 1rem;
 
       h1 {
-        font-size: 2rem;
+        @include text-preset-1;
       }
 
       form {
         fieldset {
           border: none;
         }
+
         label {
-          font-weight: 700;
-          font-size: 0.75rem;
+          @include text-preset-5-bold;
           color: var(--grey-500);
         }
 
         input {
           display: block;
-          padding: 0.75rem 1.125rem;
+          padding: 0.75rem 1.25rem;
           border: solid 1px var(--beige-500);
           border-radius: 0.5rem;
-          width: calc(100% - 2.25rem - 2px);
-          font-size: 0.875rem;
+          width: calc(100% - 2.5rem - 2px);
           color: var(--grey-900);
           margin-top: 0.25rem;
 
@@ -67,6 +66,8 @@ body {
             border-color: var(--grey-900);
             outline: none;
           }
+
+          @include text-preset-4;
         }
 
         button {
@@ -74,10 +75,11 @@ body {
           cursor: pointer;
           background-color: var(--grey-900);
           color: var(--white);
-          font-size: 0.875rem;
           border-radius: 0.5rem;
           padding: 1rem;
           border: none;
+
+          @include text-preset-4-bold;
         }
       }
     }
@@ -94,11 +96,4 @@ footer {
       flex-direction: row-reverse;
     }
   }
-}
-
-@font-face {
-  font-family: "Public Sans";
-  src: url("./../fonts/PublicSans-VariableFont_wght.ttf");
-  font-weight: 100 900;
-  font-display: swap;
 }

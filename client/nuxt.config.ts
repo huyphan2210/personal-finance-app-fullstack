@@ -7,4 +7,13 @@ export default defineNuxtConfig({
   modules: ["@pinia/nuxt", "@clerk/nuxt"],
   ssr: false,
   components: true,
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "@/assets/styles/fonts" as *;`
+        }
+      }
+    }
+  }
 });
