@@ -69,14 +69,13 @@
 
       p {
         color: var(--white);
-        font-size: 0.875rem;
         line-height: 1.5;
 
+        @include text-preset-4;
+
         &:first-child {
-          font-size: 2rem;
-          font-weight: 700;
           margin-bottom: 1.5rem;
-          line-height: 1.2;
+          @include text-preset-1;
         }
       }
     }

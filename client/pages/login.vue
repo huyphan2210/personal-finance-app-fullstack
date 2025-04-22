@@ -71,11 +71,11 @@ const login = async (e: Event) => {
   span {
     text-align: center;
     color: var(--grey-500);
-    font-size: 0.875rem;
+    @include text-preset-4;
 
     a {
-      font-weight: 700;
       color: var(--grey-900);
+      @include text-preset-4-bold;
     }
   }
 }
