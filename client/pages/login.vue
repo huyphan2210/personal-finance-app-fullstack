@@ -49,7 +49,8 @@ const login = async (e: Event) => {
 .form--login {
   background-color: var(--white);
   padding: 1.5rem 1.25rem;
-  width: clamp(303px, 73vw, 31rem);
+  width: calc(100% - 2.5rem);
+  max-width: 32.5rem;
   margin: auto;
   border-radius: 0.75rem;
   display: flex;
@@ -83,6 +84,8 @@ const login = async (e: Event) => {
 @media screen and (min-width: 48rem) {
   .form--login {
     padding: 2rem;
+    width: calc(100% - 4rem);
+    max-width: 31rem;
   }
 }
 </style>
