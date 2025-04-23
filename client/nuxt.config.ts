@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "@/assets/styles/fonts" as *;`
+          additionalData: `@use "@/assets/styles/fonts" as *; @use "@/assets/styles/modal" as *;`
         }
       }
     }
