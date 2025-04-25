@@ -30,10 +30,12 @@ const login = async (e: Event) => {
     const result = await signIn.value?.create({
       identifier: email.value,
       password: password.value,
+      redirectUrl: Page.Overview
     })
 
     if (result?.status === 'complete' && setActive.value) {
       await setActive.value({ session: result?.createdSessionId })
+      navigateTo(Page.Overview);
     }
   } catch (error) {
     const err = error as any;

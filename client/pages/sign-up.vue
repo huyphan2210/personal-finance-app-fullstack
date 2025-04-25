@@ -34,7 +34,6 @@ const createAccount = async (e: Event) => {
 
   try {
     const result = await signUp.value?.create({
-      firstName: name.value,
       emailAddress: email.value,
       password: password.value
     })
@@ -56,7 +55,8 @@ const createAccount = async (e: Event) => {
 .form--signup {
   background-color: var(--white);
   padding: 1.5rem 1.25rem;
-  width: clamp(303px, 73vw, 31rem);
+  width: calc(100% - 2.5rem);
+  max-width: 32.5rem;
   margin: auto;
   border-radius: 0.75rem;
   display: flex;
@@ -99,6 +99,7 @@ const createAccount = async (e: Event) => {
 @media screen and (min-width: 48rem) {
   .form--signup {
     padding: 2rem;
+    max-width: 31rem;
   }
 }
 </style>
