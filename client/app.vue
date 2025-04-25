@@ -10,14 +10,16 @@ watch(
     pageStore.setCurrentPage(newPath as Page);
   }
 );
+
+const authenticationRoutes = [Page.Login, Page.Signup]
 </script>
 
 <template>
   <NuxtRouteAnnouncer />
-  <main :class="{ second: pageStore.currentPage == Page.Login || pageStore.currentPage == Page.Signup }">
+  <main :class="{ second: authenticationRoutes.includes(pageStore.currentPage) }">
     <NuxtPage />
   </main>
-  <Sidebar v-if="pageStore.currentPage !== Page.Login && pageStore.currentPage !== Page.Signup" />
+  <Sidebar v-if="!authenticationRoutes.includes(pageStore.currentPage) && pageStore.currentPage !== Page.Home" />
   <Illustration v-else />
   <footer>
     Created by
