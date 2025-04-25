@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
+import { useRoute } from "#app";
 
 export enum Page {
+  Home = "/",
   Overview = "/overview",
   Transactions = "/transactions",
   Budgets = "/budgets",
@@ -11,6 +13,7 @@ export enum Page {
 }
 
 export const pageHeadings: Record<Page, string> = {
+  [Page.Home]: "",
   [Page.Overview]: "Overview",
   [Page.Transactions]: "Transactions",
   [Page.Budgets]: "Budgets",
@@ -27,7 +30,7 @@ interface PageStoreState {
 
 export const usePageStore = defineStore("page", {
   state: (): PageStoreState => ({
-    currentPage: Page.Overview,
+    currentPage: window.location.pathname as Page,
     currentPageHeading: "Overview",
   }),
   actions: {
