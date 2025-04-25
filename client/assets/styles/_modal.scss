@@ -3,6 +3,10 @@
 @mixin modal-style {
   &[open] {
     display: grid;
+    animation: show-up 0.3s ease-in-out;
+    &::backdrop {
+      animation: show-up-backdrop 0.3s ease-in-out;
+    }
   }
 
   gap: 1.25rem;
@@ -38,5 +42,25 @@
   @media screen and (min-width: 48rem) {
     padding: 2rem;
     max-width: 31rem;
+  }
+}
+
+@keyframes show-up-backdrop {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes show-up {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
