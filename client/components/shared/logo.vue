@@ -1,3 +1,5 @@
 <template>
-  <NuxtLink :to="Page.Overview"><img src="../../assets/images/logo.svg" alt="Logo" /></NuxtLink>
+  <NuxtLink :to="Page.Overview"
+    ><img src="../../assets/images/logo.svg" alt="Logo"
+  /></NuxtLink>
 </template>

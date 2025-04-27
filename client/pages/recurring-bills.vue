@@ -1,13 +1,7 @@
 <template>
-  <div>
-    
-  </div>
+  <shared-page-heading />
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup></script>
 
-</script>
-
-<style>
-
-</style>
+<style></style>

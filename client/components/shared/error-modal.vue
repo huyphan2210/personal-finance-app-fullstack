@@ -1,14 +1,18 @@
 <template>
-  <SharedModal modal-heading="Error" :is-modal-shown="errorStore.isError" v-on:close-modal="closeErrorModal">
+  <shared-modal
+    modal-heading="Error"
+    :is-modal-shown="errorStore.isError"
+    v-on:close-modal="closeErrorModal"
+  >
     {{ errorStore.message }}
-  </SharedModal>
+  </shared-modal>
 </template>
 
 <script lang="ts" setup>
 const errorStore = useErrorStore();
 const closeErrorModal = (isClosed: boolean) => {
   if (isClosed) {
-    errorStore.setErrorMessage('');
+    errorStore.setErrorMessage("");
   }
-}
+};
 </script>

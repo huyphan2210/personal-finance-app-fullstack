@@ -2,10 +2,10 @@
   <aside class="sidebar">
     <nav>
       <ul>
-        <SidebarNavLink
+        <sidebar-nav-link
           v-for="nav in listOfNavigations"
           :page="nav"
-        ></SidebarNavLink>
+        ></sidebar-nav-link>
       </ul>
     </nav>
     <button class="sidebar_minimize-button" type="button">Minimize Menu</button>
