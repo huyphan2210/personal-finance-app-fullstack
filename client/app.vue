@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Sidebar from "./components/sidebar.vue";
+import Sidebar from "./components/sidebar/index.vue";
 import { Page, usePageStore } from "./stores/pages.store";
 const route = useRoute();
 const pageStore = usePageStore();
