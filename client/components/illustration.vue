@@ -1,9 +1,9 @@
 <template>
   <aside class="topbar">
-    <SharedLogo class="logo" />
+    <shared-logo class="logo" />
   </aside>
   <aside class="sidebar">
-    <SharedLogo class="logo" />
+    <shared-logo class="logo" />
     <article class="sidebar_content">
       <picture class="sidebar_content_illustration">
         <img src="../assets/images/illustration-authentication.svg" loading="lazy" alt="Login Illustration" />
