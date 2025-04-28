@@ -1,12 +1,8 @@
 <template>
   <li>
-    <NuxtLink
-      @mouseover="handleMouseOver"
-      @mouseleave="handleMouseLeave"
-      :to="page"
-    >
-      <SharedIcon :type="type" :state="currentState" />
-      <span>{{ pageHeadings[pageStore.currentPage] }}</span>
+    <NuxtLink @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :to="page">
+      <shared-icon :type="type" :state="currentState" />
+      <span>{{ pageHeadings[page] }}</span>
     </NuxtLink>
   </li>
 </template>
@@ -72,11 +68,22 @@ li {
     min-width: 68.6px;
     padding-block: 0.5rem 0.75rem;
     position: relative;
+    text-decoration: none;
+    color: var(--grey-300);
+    gap: 0.25rem;
+
+    &:hover {
+      color: var(--grey-100);
+    }
 
     &.router-link-active.router-link-exact-active {
       color: var(--grey-900);
       background-color: var(--beige-100);
       border-radius: 0.5rem 0.5rem 0 0;
+
+      &:hover {
+        color: unset;
+      }
 
       &::after {
         background-color: var(--green);
@@ -95,6 +102,57 @@ li {
 
     span {
       display: none;
+      @include text-preset-5-bold;
+    }
+  }
+}
+
+@media screen and (min-width: 48rem) {
+  li {
+    a {
+      min-width: 6.5rem;
+
+      span {
+        display: unset;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 64rem) {
+  li {
+    a {
+      flex-direction: unset;
+      padding: 1rem 2rem;
+      gap: 1rem;
+      min-width: unset;
+
+      &.router-link-active.router-link-exact-active {
+        border-radius: 0 0.75rem 0.75rem 0;
+
+        &::after {
+          background-color: var(--green);
+        }
+      }
+
+      &::after {
+        top: 0;
+        bottom: unset;
+        width: 0.25rem;
+        height: 100%;
+      }
+
+      span {
+        @include text-preset-3;
+      }
+    }
+
+    &.minimize {
+      a {
+        span {
+          display: none;
+        }
+      }
     }
   }
 }
