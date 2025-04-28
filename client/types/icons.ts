@@ -3,7 +3,9 @@ export enum IconType {
   Transactions,
   Budgets,
   Pots,
-  RecurringBills
+  RecurringBills,
+  ArrowLeft,
+  ArrowRight
 }
 
 export enum IconState {
