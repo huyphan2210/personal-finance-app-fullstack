@@ -1,0 +1,77 @@
+{
+  "swagger": "2.0",
+  "basePath": "/",
+  "paths": {
+    "/overview": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/OverviewSummary"
+            }
+          }
+        },
+        "operationId": "get_overview_api",
+        "parameters": [
+          {
+            "name": "X-Fields",
+            "in": "header",
+            "type": "string",
+            "format": "mask",
+            "description": "An optional fields mask"
+          }
+        ],
+        "tags": [""]
+      }
+    }
+  },
+  "info": {
+    "title": "API",
+    "version": "1.0"
+  },
+  "produces": ["application/json"],
+  "consumes": ["application/json"],
+  "tags": [
+    {
+      "name": "",
+      "description": "Get summary of Overview"
+    }
+  ],
+  "definitions": {
+    "OverviewSummary": {
+      "properties": {
+        "balance": {
+          "$ref": "#/definitions/Balance"
+        }
+      },
+      "type": "object"
+    },
+    "Balance": {
+      "required": ["current", "expenses", "income"],
+      "properties": {
+        "current": {
+          "type": "number",
+          "description": "Current balance"
+        },
+        "income": {
+          "type": "number",
+          "description": "Total income"
+        },
+        "expenses": {
+          "type": "number",
+          "description": "Total expenses"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "responses": {
+    "ParseError": {
+      "description": "When a mask can't be parsed"
+    },
+    "MaskError": {
+      "description": "When any error occurs on mask"
+    }
+  }
+}
