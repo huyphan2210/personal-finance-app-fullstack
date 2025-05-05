@@ -103,6 +103,21 @@ export class PagedResultDto<T = any> implements IPagedResult<T> {
 // customer definition
 // empty
 
+export class OverviewService {
+  /**
+   *
+   */
+  static getOverviewApi(options: IRequestOptions = {}): Promise<OverviewSummary> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/overview';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
 /** OverviewSummary */
 export interface OverviewSummary {
   /**  */
