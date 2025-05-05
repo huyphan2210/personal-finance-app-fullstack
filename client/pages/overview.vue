@@ -14,19 +14,30 @@
 </template>
 
 <script setup lang="ts">
-const summaryCards = [{
-  cardHeading: "Current Balance",
-  cardContent: "$4,836.00",
-  isMainCard: true,
-},
-{
-  cardHeading: "Income",
-  cardContent: "$3,814.25"
-},
-{
-  cardHeading: "Expenses",
-  cardContent: "$1,700.50"
-}]
+import { OverviewService, type OverviewSummary } from '~/api';
+import { type ISummaryCard } from '~/components/overview/summary-card/model';
+
+const summaryCards = ref<ISummaryCard[]>();
+
+OverviewService.getOverviewApi().then((summaryInfo: OverviewSummary) => {
+  const enUSFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
+  summaryCards.value = [{
+    cardHeading: "Current Balance",
+    cardContent: enUSFormatter.format(summaryInfo.balance?.current || 0),
+    isMainCard: true,
+  },
+  {
+    cardHeading: "Income",
+    cardContent: enUSFormatter.format(summaryInfo.balance?.income || 0)
+  },
+  {
+    cardHeading: "Expenses",
+    cardContent: enUSFormatter.format(summaryInfo.balance?.expenses || 0)
+  }]
+})
 </script>
 
 <style lang="scss">
