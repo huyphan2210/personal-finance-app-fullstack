@@ -8,6 +8,7 @@ flask = "*"
 black = "*"
 pydantic = "*"
 flask-restx = "*"
+flask-cors = "*"
 
 [dev-packages]
 
