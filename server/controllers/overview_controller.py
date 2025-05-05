@@ -6,7 +6,9 @@ from models.overview_model import OverviewSummary, Balance
 OVERVIEW = "overview"
 overview_bp = Blueprint("OVERVIEW", __name__)
 overview_api = Api(overview_bp)
-overview_ns = overview_api.namespace("", description="Get summary of Overview")
+overview_ns = overview_api.namespace(
+    f"{OVERVIEW}", description="Get summary of Overview"
+)
 
 
 class OverviewApi(Resource):
@@ -17,4 +19,4 @@ class OverviewApi(Resource):
         return summary.dict()
 
 
-overview_ns.add_resource(OverviewApi, f"/{OVERVIEW}")
+overview_ns.add_resource(OverviewApi, "")
