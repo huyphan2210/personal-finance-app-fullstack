@@ -6,10 +6,9 @@
 </template>
 
 <script lang="ts" setup>
-const { cardHeading, cardContent } = defineProps<{
-  cardHeading: string,
-  cardContent: string
-}>();
+import type { ISummaryCard } from './model';
+
+const { cardHeading, cardContent } = defineProps<ISummaryCard>();
 </script>
 
 <style lang="scss" scoped>
