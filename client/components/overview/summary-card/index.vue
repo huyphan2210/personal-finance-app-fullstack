@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { ISummaryCard } from './model';
+import type { IOverviewSummaryCard } from './summary-card.model';
 
-const { cardHeading, cardContent } = defineProps<ISummaryCard>();
+const { cardHeading, cardContent } = defineProps<IOverviewSummaryCard>();
 </script>
 
 <style lang="scss" scoped>
@@ -16,6 +16,7 @@ const { cardHeading, cardContent } = defineProps<ISummaryCard>();
   background-color: var(--white);
   padding: 1.25rem;
   border-radius: 0.75rem;
+  flex: 1;
 
   small {
     color: var(--grey-500);

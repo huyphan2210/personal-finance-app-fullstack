@@ -15,15 +15,16 @@
 
 <script setup lang="ts">
 import { OverviewService, type OverviewSummary } from '~/api';
-import { type ISummaryCard } from '~/components/overview/summary-card/model';
+import { type IOverviewSummaryCard } from '~/components/overview/summary-card/summary-card.model';
 
-const summaryCards = ref<ISummaryCard[]>();
+const summaryCards = ref<IOverviewSummaryCard[]>();
 
 OverviewService.getOverviewApi().then((summaryInfo: OverviewSummary) => {
   const enUSFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   })
+
   summaryCards.value = [{
     cardHeading: "Current Balance",
     cardContent: enUSFormatter.format(summaryInfo.balance?.current || 0),
@@ -46,6 +47,15 @@ OverviewService.getOverviewApi().then((summaryInfo: OverviewSummary) => {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+  }
+}
+
+@media screen and (min-width: 48rem) {
+  .overview {
+    &_summary {
+      flex-direction: unset;
+      gap: 1.5rem;
+    }
   }
 }
 </style>
