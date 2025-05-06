@@ -93,6 +93,16 @@ footer {
   display: none;
 }
 
+@media screen and (min-width: 48rem) {
+  body {
+    #__nuxt {
+      main {
+        padding: 2rem 2.5rem;
+      }
+    }
+  }
+}
+
 @media screen and (min-width: 64rem) {
   body {
     #__nuxt {

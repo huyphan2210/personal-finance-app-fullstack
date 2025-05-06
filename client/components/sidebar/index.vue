@@ -70,7 +70,6 @@ const handleSizeOfBar = (e: MouseEvent) => {
   nav {
     flex: 1;
     display: flex;
-    padding-right: 1.5rem;
 
     ul {
       flex: 1;
@@ -147,6 +146,7 @@ const handleSizeOfBar = (e: MouseEvent) => {
       flex-direction: column;
       flex: unset;
       gap: 1.5rem;
+      padding-right: 1.5rem;
 
       ul {
         flex-direction: column;
