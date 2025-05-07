@@ -95,6 +95,12 @@ const handleSizeOfBar = (e: MouseEvent) => {
   }
 }
 
+@media screen and (min-width: 48rem) {
+  .sidebar {
+    padding-inline: 2.5rem;
+  }
+}
+
 @media screen and (min-width: 64rem) {
   .sidebar {
     width: 18.75rem;
