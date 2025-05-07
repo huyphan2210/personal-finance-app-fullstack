@@ -1,5 +1,5 @@
 export interface IOverviewSectionCard {
   heading: string;
-  navContent: string;
+  navContent?: string;
   navigateTo: Page;
 }

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="overview_content_card">
     <hgroup>
       <h2>{{ heading }}</h2>
       <NuxtLink @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :to="navigateTo">
@@ -31,4 +31,40 @@ const handleMouseLeave = () => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.overview_content_card {
+  background-color: var(--white);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.75rem;
+
+  hgroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      @include text-preset-2;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--grey-500);
+      text-decoration: none;
+
+      @include text-preset-4;
+
+      &:hover {
+        color: var(--grey-900);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 48rem) {
+  .overview_content_card {
+    padding: 2rem;
+  }
+}
+</style>
