@@ -1,14 +1,38 @@
 <template>
   <shared-page-heading />
   <section class="overview_summary">
-    <overview_summary-card v-for="card in summaryCards" :class="{ main: card.isMainCard }"
+    <overview-summary-card v-for="card in summaryCards" :class="{ main: card.isMainCard }"
       :card-heading="card.cardHeading" :card-content="card.cardContent" />
   </section>
   <section class="overview_content">
-    <section class="overview_content_pots"></section>
-    <section class="overview_content_transactions"></section>
-    <section class="overview_content_budgets"></section>
-    <section class="overview_content_recurring-bills"></section>
+    <overview-section-card
+      class="overview_content_pots"
+      :heading="pageHeadings[Page.Pots]"
+      :navigate-to="Page.Pots"
+      nav-content="See Details"
+    >
+
+    </overview-section-card>
+    <overview-section-card
+      class="overview_content_transactions"
+      :heading="pageHeadings[Page.Transactions]"
+      :navigate-to="Page.Transactions"
+    >
+
+    </overview-section-card>
+    <overview-section-card
+      class="overview_content_budgets"
+      :heading="pageHeadings[Page.Budgets]"
+      :navigate-to="Page.Budgets"
+    >
+
+    </overview-section-card>
+    <overview-section-card
+      class="overview_content_recurring-bills"
+      :heading="pageHeadings[Page.RecurringBills]"
+      :navigate-to="Page.RecurringBills">
+
+    </overview-section-card>
   </section>
 
 </template>
@@ -43,11 +67,12 @@ OverviewService.getOverviewApi().then((summaryInfo: OverviewSummary) => {
 
 <style lang="scss">
 .overview {
-  &_summary {
+  &_summary, &_content {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
+  
 }
 
 @media screen and (min-width: 48rem) {
@@ -55,6 +80,38 @@ OverviewService.getOverviewApi().then((summaryInfo: OverviewSummary) => {
     &_summary {
       flex-direction: unset;
       gap: 1.5rem;
+    }
+
+    &_content {
+      gap: 1.5rem;
+    }
+  }
+}
+
+@media screen and (min-width:64rem) {
+  .overview {
+    &_content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: calc(60% - 1.5rem) 40%;
+      grid-template-areas:
+        "pots budgets"
+        "transactions budgets"
+        "transactions recurring-bills"
+        "transactions recurring-bills";
+
+      &_pots {
+        grid-area: pots;
+      }
+      &_transactions {
+        grid-area: transactions;
+      }
+      &_budgets {
+        grid-area: budgets;
+      }
+      &_recurring-bills {
+        grid-area: recurring-bills;
+      }
     }
   }
 }
