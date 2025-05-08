@@ -1,5 +1,5 @@
-from pydantic import BaseModel
 from flask_restx import fields, Api
+from models.base_model import BaseModel
 
 
 class Balance(BaseModel):
@@ -7,24 +7,6 @@ class Balance(BaseModel):
     income: float
     expenses: float
 
-    def get_api_model(api):
-        return api.model(
-            Balance.__name__,
-            {
-                "current": fields.Float(required=True, description="Current balance"),
-                "income": fields.Float(required=True, description="Total income"),
-                "expenses": fields.Float(required=True, description="Total expenses"),
-            },
-        )
 
-
-class OverviewSummary(BaseModel):
+class OverviewContent(BaseModel):
     balance: Balance
-
-    def get_api_model(api: Api):
-        return api.model(
-            OverviewSummary.__name__,
-            {
-                "balance": fields.Nested(Balance.get_api_model(api)),
-            },
-        )
