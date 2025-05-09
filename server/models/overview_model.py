@@ -1,5 +1,6 @@
 from flask_restx import fields, Api
 from models.base_model import BaseModel
+from models.pots_model import Pot
 
 
 class Balance(BaseModel):
@@ -10,3 +11,4 @@ class Balance(BaseModel):
 
 class OverviewContent(BaseModel):
     balance: Balance
+    pots: list[Pot]
