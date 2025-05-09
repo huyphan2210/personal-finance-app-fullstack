@@ -1,4 +1,4 @@
-from typing import Type
+from typing import get_origin, get_args, List, Type
 from pydantic import BaseModel as PydanticBaseModel
 from flask_restx import fields, Api
 
@@ -16,6 +16,29 @@ class BaseModel(PydanticBaseModel):
         model_fields = {}
         for name, model_field in cls.model_fields.items():
             field_type: Type = model_field.annotation
+            origin = get_origin(field_type)
+            args = get_args(field_type)
+
+            # Handle List[BaseModel]
+            if origin in (list, List):
+                item_type = args[0]
+                if isinstance(item_type, type) and issubclass(item_type, BaseModel):
+                    nested_model = item_type.get_api_model(api)
+                    model_fields[name] = fields.List(
+                        fields.Nested(nested_model),
+                        required=model_field.is_required(),
+                        description=model_field.description or "",
+                    )
+                    continue
+                elif item_type in TYPE_MAP:
+                    model_fields[name] = fields.List(
+                        TYPE_MAP[item_type](),
+                        required=model_field.is_required(),
+                        description=model_field.description or "",
+                    )
+                    continue
+                else:
+                    raise TypeError(f"Unsupported list item type: {item_type}")
 
             # Case 1: field is a nested Pydantic model
             if isinstance(field_type, type) and issubclass(field_type, BaseModel):
