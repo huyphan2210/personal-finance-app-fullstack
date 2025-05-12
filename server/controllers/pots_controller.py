@@ -1,19 +1,17 @@
-from flask import Blueprint, jsonify
-from flask_restx import Api, Resource, fields
+from flask_restx import Namespace, Resource
+
 from services.pots_service import get_pots
-from models.pots_model import Pots
+from models.pots_model import Pots as PotsModel
 
 POTS = "pots"
-pots_bp = Blueprint(POTS.upper(), __name__)
-pots_api = Api(pots_bp)
-pots_ns = pots_api.namespace(f"{POTS}", description="Get Pots content")
+pots_ns = Namespace(f"{POTS}", description="Get Pots content")
 
 
 class Pots(Resource):
-    @pots_ns.marshal_with(Pots.get_api_model(pots_api))
+    @pots_ns.marshal_with(PotsModel.get_api_model(pots_ns))
     def get(self):
         pots = get_pots()
-        return Pots(pots=pots).dict()
+        return PotsModel(pots=pots).dict()
 
 
 pots_ns.add_resource(Pots, "")

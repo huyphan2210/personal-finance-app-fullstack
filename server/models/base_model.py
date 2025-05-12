@@ -1,6 +1,6 @@
 from typing import get_origin, get_args, List, Type
 from pydantic import BaseModel as PydanticBaseModel
-from flask_restx import fields, Api
+from flask_restx import fields, Namespace
 
 TYPE_MAP = {
     str: fields.String,
@@ -12,7 +12,7 @@ TYPE_MAP = {
 
 class BaseModel(PydanticBaseModel):
     @classmethod
-    def get_api_model(cls, api: Api):
+    def get_api_model(cls, ns: Namespace):
         model_fields = {}
         for name, model_field in cls.model_fields.items():
             field_type: Type = model_field.annotation
@@ -23,7 +23,7 @@ class BaseModel(PydanticBaseModel):
             if origin in (list, List):
                 item_type = args[0]
                 if isinstance(item_type, type) and issubclass(item_type, BaseModel):
-                    nested_model = item_type.get_api_model(api)
+                    nested_model = item_type.get_api_model(ns)
                     model_fields[name] = fields.List(
                         fields.Nested(nested_model),
                         required=model_field.is_required(),
@@ -42,7 +42,7 @@ class BaseModel(PydanticBaseModel):
 
             # Case 1: field is a nested Pydantic model
             if isinstance(field_type, type) and issubclass(field_type, BaseModel):
-                nested_model = field_type.get_api_model(api)
+                nested_model = field_type.get_api_model(ns)
                 model_fields[name] = fields.Nested(
                     nested_model, required=model_field.is_required()
                 )
@@ -60,4 +60,4 @@ class BaseModel(PydanticBaseModel):
                 description=model_field.description,
             )
 
-        return api.model(cls.__name__, model_fields)
+        return ns.model(cls.__name__, model_fields)
