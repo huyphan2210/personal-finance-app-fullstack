@@ -73,7 +73,7 @@ export function getConfigs(method: string, contentType: string, url: string, opt
   return configs;
 }
 
-export const basePath = '';
+export const basePath = '/api';
 
 export interface IList<T> extends Array<T> {}
 export interface List<T> extends Array<T> {}
@@ -107,7 +107,7 @@ export class OverviewService {
   /**
    *
    */
-  static getOverviewApi(options: IRequestOptions = {}): Promise<OverviewSummary> {
+  static getOverview(options: IRequestOptions = {}): Promise<OverviewContent> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/overview';
 
@@ -118,20 +118,56 @@ export class OverviewService {
   }
 }
 
-/** OverviewSummary */
-export interface OverviewSummary {
+export class PotsService {
+  /**
+   *
+   */
+  static getPots(options: IRequestOptions = {}): Promise<Pots> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/pots';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
+/** OverviewContent */
+export interface OverviewContent {
   /**  */
-  balance?: Balance;
+  balance: Balance;
+
+  /**  */
+  pots: Pot[];
 }
 
 /** Balance */
 export interface Balance {
-  /** Current balance */
+  /**  */
   current: number;
 
-  /** Total income */
+  /**  */
   income: number;
 
-  /** Total expenses */
+  /**  */
   expenses: number;
+}
+
+/** Pot */
+export interface Pot {
+  /**  */
+  name: string;
+
+  /**  */
+  target: number;
+
+  /**  */
+  total: number;
+}
+
+/** Pots */
+export interface Pots {
+  /**  */
+  pots: Pot[];
 }

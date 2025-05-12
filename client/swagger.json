@@ -1,6 +1,6 @@
 {
     "swagger": "2.0",
-    "basePath": "/",
+    "basePath": "/api",
     "paths": {
         "/overview": {
             "get": {
@@ -8,11 +8,11 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/OverviewSummary"
+                            "$ref": "#/definitions/OverviewContent"
                         }
                     }
                 },
-                "operationId": "get_overview_api",
+                "operationId": "get_overview",
                 "parameters": [
                     {
                         "name": "X-Fields",
@@ -26,10 +26,35 @@
                     "overview"
                 ]
             }
+        },
+        "/pots": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/Pots"
+                        }
+                    }
+                },
+                "operationId": "get_pots",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "pots"
+                ]
+            }
         }
     },
     "info": {
-        "title": "API",
+        "title": "My API",
         "version": "1.0"
     },
     "produces": [
@@ -42,13 +67,28 @@
         {
             "name": "overview",
             "description": "Get summary of Overview"
+        },
+        {
+            "name": "pots",
+            "description": "Get Pots content"
         }
     ],
     "definitions": {
-        "OverviewSummary": {
+        "OverviewContent": {
+            "required": [
+                "balance",
+                "pots"
+            ],
             "properties": {
                 "balance": {
                     "$ref": "#/definitions/Balance"
+                },
+                "pots": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                        "$ref": "#/definitions/Pot"
+                    }
                 }
             },
             "type": "object"
@@ -61,16 +101,47 @@
             ],
             "properties": {
                 "current": {
-                    "type": "number",
-                    "description": "Current balance"
+                    "type": "number"
                 },
                 "income": {
-                    "type": "number",
-                    "description": "Total income"
+                    "type": "number"
                 },
                 "expenses": {
-                    "type": "number",
-                    "description": "Total expenses"
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "Pot": {
+            "required": [
+                "name",
+                "target",
+                "total"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "Pots": {
+            "required": [
+                "pots"
+            ],
+            "properties": {
+                "pots": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                        "$ref": "#/definitions/Pot"
+                    }
                 }
             },
             "type": "object"
