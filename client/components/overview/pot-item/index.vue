@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { IPotItem } from './pot-item.model';
+import type { IPotItem } from "./pot-item.model";
 
 const { label, content } = defineProps<IPotItem>();
 </script>
@@ -15,13 +15,16 @@ const { label, content } = defineProps<IPotItem>();
 .pot-item {
   position: relative;
   padding-left: 1.25rem;
+  width: calc(50% - 1.75rem);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     height: 100%;
     width: 0.25rem;
     border-radius: 0.5rem;
+    top: 0;
+    left: 0;
   }
 
   small {
