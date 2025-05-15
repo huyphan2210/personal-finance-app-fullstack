@@ -9,55 +9,10 @@
     />
   </section>
   <section class="overview_content">
-    <overview-section-card
-      class="overview_content--pots"
-      :heading="pageHeadings[Page.Pots]"
-      :navigate-to="Page.Pots"
-      nav-content="See Details"
-    >
-      <section class="overview_content--pots_total-saved">
-        <img
-          src="../assets/images/pots.svg"
-          loading="lazy"
-          alt="Total Saved Icon"
-        />
-        <div class="overview_content--pots_total-saved_text">
-          <small>Total Saved</small>
-          <span>{{ overviewContent?.potsCardContent.totalSaved }}</span>
-        </div>
-      </section>
-      <section class="overview_content--pots_items">
-        <overview-pot-item
-          v-for="(potItem, index) in overviewContent?.potsCardContent.potItems"
-          :label="potItem.name"
-          :content="potItem.total.toString()"
-          :class="{
-            'border-green': index % 4 === 0,
-            'border-cyan': index % 4 === 1,
-            'border-navy': index % 4 === 2,
-            'border-yellow': index % 4 === 3,
-          }"
-        />
-      </section>
-    </overview-section-card>
-    <overview-section-card
-      class="overview_content--transactions"
-      :heading="pageHeadings[Page.Transactions]"
-      :navigate-to="Page.Transactions"
-    >
-    </overview-section-card>
-    <overview-section-card
-      class="overview_content--budgets"
-      :heading="pageHeadings[Page.Budgets]"
-      :navigate-to="Page.Budgets"
-    >
-    </overview-section-card>
-    <overview-section-card
-      class="overview_content--recurring-bills"
-      :heading="pageHeadings[Page.RecurringBills]"
-      :navigate-to="Page.RecurringBills"
-    >
-    </overview-section-card>
+    <overview-pot-card :pots-card-content="overviewContent?.potsCardContent" />
+    <overview-transactions-card />
+    <overview-budgets-card />
+    <overview-recurring-bills-card />
   </section>
 </template>
 
@@ -78,26 +33,6 @@ getSummaryContent().then((content) => (overviewContent.value = content));
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-  }
-
-  &_content {
-    &--pots {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-
-      &_total-saved {
-        padding: 1rem;
-        background-color: var(--beige-100);
-        border-radius: 1rem;
-      }
-      &_items {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 1rem;
-      }
-    }
   }
 }
 
@@ -125,7 +60,7 @@ getSummaryContent().then((content) => (overviewContent.value = content));
         "transactions budgets"
         "transactions recurring-bills"
         "transactions recurring-bills";
-
+      grid-template-rows: repeat(2, min-content) repeat(2, 1fr);
       &--pots {
         grid-area: pots;
       }

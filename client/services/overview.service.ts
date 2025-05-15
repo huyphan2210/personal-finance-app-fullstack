@@ -1,12 +1,9 @@
 import { OverviewService, type OverviewContent, type Pot } from "~/api";
+import type { IOverviewPotSection } from "~/components/overview/pot-card/pot-section.model";
 import type { IOverviewSummaryCard } from "~/components/overview/summary-card/summary-card.model";
 
-export interface IOverviewPageContent {
+export interface IOverviewPageContent extends IOverviewPotSection {
   summaryCardsContent: IOverviewSummaryCard[];
-  potsCardContent: {
-    totalSaved: number;
-    potItems: Pot[];
-  };
 }
 
 export const getSummaryContent: () => Promise<IOverviewPageContent> =

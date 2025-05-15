@@ -1,7 +1,7 @@
 <template>
   <div class="pot-item">
     <small>{{ label }}</small>
-    <span>{{ content }}</span>
+    <span>${{ content }}</span>
   </div>
 </template>
 
