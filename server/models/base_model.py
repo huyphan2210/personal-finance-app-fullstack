@@ -1,3 +1,4 @@
+from enum import EnumMeta
 from typing import get_origin, get_args, List, Type
 from pydantic import BaseModel as PydanticBaseModel
 from flask_restx import fields, Namespace
@@ -48,7 +49,20 @@ class BaseModel(PydanticBaseModel):
                 )
                 continue
 
-            # Case 2: field is a primitive
+            # Case 2: field is an enum
+            if isinstance(field_type, type) and isinstance(field_type, EnumMeta):
+                enum_values = [e.name for e in field_type]
+                field_class = (
+                    fields.String if isinstance(enum_values[0], str) else fields.Integer
+                )
+                model_fields[name] = field_class(
+                    required=model_field.is_required(),
+                    description=model_field.description or f"One of: {enum_values}",
+                    enum=enum_values,
+                )
+                continue
+
+            # Case 3: field is a primitive
             restx_field = TYPE_MAP.get(field_type)
             if not restx_field:
                 raise TypeError(
