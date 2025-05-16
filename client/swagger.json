@@ -77,6 +77,7 @@
         "OverviewContent": {
             "required": [
                 "balance",
+                "budgets",
                 "pots"
             ],
             "properties": {
@@ -88,6 +89,13 @@
                     "description": "",
                     "items": {
                         "$ref": "#/definitions/Pot"
+                    }
+                },
+                "budgets": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                        "$ref": "#/definitions/Budget"
                     }
                 }
             },
@@ -127,6 +135,29 @@
                 },
                 "total": {
                     "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "Budget": {
+            "required": [
+                "category",
+                "maximum"
+            ],
+            "properties": {
+                "maximum": {
+                    "type": "number"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "One of: ['Entertainment', 'Bills', 'DiningOut', 'PersonalCare']",
+                    "example": "Entertainment",
+                    "enum": [
+                        "Entertainment",
+                        "Bills",
+                        "DiningOut",
+                        "PersonalCare"
+                    ]
                 }
             },
             "type": "object"

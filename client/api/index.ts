@@ -140,6 +140,9 @@ export interface OverviewContent {
 
   /**  */
   pots: Pot[];
+
+  /**  */
+  budgets: Budget[];
 }
 
 /** Balance */
@@ -166,8 +169,23 @@ export interface Pot {
   total: number;
 }
 
+/** Budget */
+export interface Budget {
+  /**  */
+  maximum: number;
+
+  /** One of: ['Entertainment', 'Bills', 'DiningOut', 'PersonalCare'] */
+  category: EnumBudgetCategory;
+}
+
 /** Pots */
 export interface Pots {
   /**  */
   pots: Pot[];
+}
+export enum EnumBudgetCategory {
+  'Entertainment' = 'Entertainment',
+  'Bills' = 'Bills',
+  'DiningOut' = 'DiningOut',
+  'PersonalCare' = 'PersonalCare'
 }
