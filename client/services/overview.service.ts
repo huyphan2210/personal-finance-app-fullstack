@@ -1,8 +1,11 @@
-import { OverviewService, type OverviewContent, type Pot } from "~/api";
-import type { IOverviewPotSection } from "~/components/overview/pot-card/pot-section.model";
+import { EnumBudgetCategory, OverviewService, type Budget } from "~/api";
+import type { IOverviewBudgetsCard } from "~/components/overview/budgets-card/budgets-card.model";
+import type { IOverviewPotCard } from "~/components/overview/pot-card/pot-card.model";
 import type { IOverviewSummaryCard } from "~/components/overview/summary-card/summary-card.model";
 
-export interface IOverviewPageContent extends IOverviewPotSection {
+export interface IOverviewPageContent
+  extends IOverviewPotCard,
+    IOverviewBudgetsCard {
   summaryCardsContent: IOverviewSummaryCard[];
 }
 
@@ -23,6 +26,18 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
         total: 0,
       }
     ).total;
+
+    const budgets = overviewContent.budgets;
+    const totalBudget = budgets.reduce(
+      (start: Budget, end: Budget) => ({
+        category: EnumBudgetCategory.Bills,
+        maximum: start.maximum + end.maximum,
+      }),
+      {
+        category: EnumBudgetCategory.Bills,
+        maximum: 0,
+      }
+    ).maximum;
 
     const overviewPageContent: IOverviewPageContent = {
       summaryCardsContent: [
@@ -49,6 +64,10 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
       potsCardContent: {
         totalSaved: potsTotalSaved,
         potItems: [...overviewContent.pots].slice(0, 4),
+      },
+      budgetsCardContent: {
+        spentBudget: 338,
+        budgetItems: budgets,
       },
     };
 

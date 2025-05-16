@@ -11,7 +11,9 @@
   <section class="overview_content">
     <overview-pot-card :pots-card-content="overviewContent?.potsCardContent" />
     <overview-transactions-card />
-    <overview-budgets-card />
+    <overview-budgets-card
+      :budgets-card-content="overviewContent?.budgetsCardContent"
+    />
     <overview-recurring-bills-card />
   </section>
 </template>

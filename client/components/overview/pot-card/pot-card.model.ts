@@ -1,6 +1,6 @@
 import type { Pot } from "~/api";
 
-export interface IOverviewPotSection {
+export interface IOverviewPotCard {
   potsCardContent?: {
     totalSaved: number;
     potItems: Pot[];

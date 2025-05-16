@@ -18,7 +18,7 @@
         </div>
       </section>
       <section class="overview_content--pots_wrapper_items">
-        <overview-pot-card-item
+        <overview-card-item
           v-for="(potItem, index) in potsCardContent?.potItems"
           :label="potItem.name"
           :content="potItem.total.toString()"
@@ -35,9 +35,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { IOverviewPotSection } from "./pot-section.model";
+import type { IOverviewPotCard } from "./pot-card.model";
 
-const { potsCardContent } = defineProps<IOverviewPotSection>();
+const { potsCardContent } = defineProps<IOverviewPotCard>();
 </script>
 
 <style lang="scss" scoped>

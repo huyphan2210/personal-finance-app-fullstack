@@ -1,18 +1,18 @@
 <template>
-  <div class="pot-item">
+  <div class="card-item">
     <small>{{ label }}</small>
     <span>${{ content }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { IPotItem } from "./pot-item.model";
+import type { ICardItem } from "./card-item.model";
 
-const { label, content } = defineProps<IPotItem>();
+const { label, content } = defineProps<ICardItem>();
 </script>
 
 <style lang="scss" scoped>
-.pot-item {
+.card-item {
   position: relative;
   padding-left: 1.25rem;
   width: calc(50% - 1.75rem);
