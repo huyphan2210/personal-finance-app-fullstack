@@ -1,4 +1,3 @@
-from flask_restx import fields, Api
 from models.base_model import BaseModel
 from models.pots_model import Pot
 from models.budgets_model import Budget

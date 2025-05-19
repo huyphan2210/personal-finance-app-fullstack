@@ -8,7 +8,10 @@ overview_ns = Namespace(f"{OVERVIEW}", description="Get summary of Overview")
 
 
 class Overview(Resource):
-    @overview_ns.marshal_with(OverviewContent.get_api_model(overview_ns))
+    @overview_ns.doc(description="Get the overview data")
+    @overview_ns.response(
+        200, "Success", model=OverviewContent.get_api_model(overview_ns)
+    )
     def get(self):
         overview_content = get_overview()
         return overview_content.dict()

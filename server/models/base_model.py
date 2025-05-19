@@ -51,10 +51,12 @@ class BaseModel(PydanticBaseModel):
 
             # Case 2: field is an enum
             if isinstance(field_type, type) and isinstance(field_type, EnumMeta):
-                enum_values = [e.name for e in field_type]
+                enum_values = [e.value for e in field_type]
+
                 field_class = (
                     fields.String if isinstance(enum_values[0], str) else fields.Integer
                 )
+
                 model_fields[name] = field_class(
                     required=model_field.is_required(),
                     description=model_field.description or f"One of: {enum_values}",
