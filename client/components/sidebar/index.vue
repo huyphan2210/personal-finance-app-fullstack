@@ -3,23 +3,38 @@
     <nav>
       <shared-logo class="logo" />
       <ul ref="navListRef">
-        <sidebar-nav-link ref="listItems" v-for="nav in listOfNavigations" :page="nav" />
+        <sidebar-nav-link
+          ref="listItems"
+          v-for="nav in listOfNavigations"
+          :page="nav"
+        />
       </ul>
     </nav>
-    <button @mouseenter="() => isButtonHovered = true" @mouseleave="() => isButtonHovered = false"
-      @click="handleSizeOfBar" class="sidebar_minimize-button" type="button">
-      <shared-icon class="sidebar_minimize-button_icon--right" :type="IconType.ArrowRight"
-        :state="isButtonHovered ? IconState.Hovered : IconState.Default" />
-      <shared-icon class=" sidebar_minimize-button_icon--left" :type="IconType.ArrowLeft"
-        :state="isButtonHovered ? IconState.Hovered : IconState.Default" />
+    <button
+      @mouseenter="() => (isButtonHovered = true)"
+      @mouseleave="() => (isButtonHovered = false)"
+      @click="handleSizeOfBar"
+      class="sidebar_minimize-button"
+      type="button"
+    >
+      <shared-icon
+        class="sidebar_minimize-button_icon--right"
+        :type="IconType.ArrowRight"
+        :state="isButtonHovered ? IconState.Hovered : IconState.Default"
+      />
+      <shared-icon
+        class="sidebar_minimize-button_icon--left"
+        :type="IconType.ArrowLeft"
+        :state="isButtonHovered ? IconState.Hovered : IconState.Default"
+      />
       <span>Minimize Menu</span>
     </button>
   </aside>
 </template>
 
 <script setup lang="ts">
-import type { SidebarNavLink } from '#components';
-import { IconState, IconType } from '~/types/icons';
+import type { SidebarNavLink } from "#components";
+import { IconState, IconType } from "~/types/icons";
 
 const sidebarRef = ref<HTMLElement>();
 const navListRef = ref<HTMLUListElement>();
@@ -48,7 +63,7 @@ const handleSizeOfBar = (e: MouseEvent) => {
       links[i].classList.toggle(minimizeClass);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -101,7 +116,7 @@ const handleSizeOfBar = (e: MouseEvent) => {
   }
 }
 
-@media screen and (min-width: 64rem) {
+@media screen and (min-width: 80rem) {
   .sidebar {
     width: 18.75rem;
     padding: 0;

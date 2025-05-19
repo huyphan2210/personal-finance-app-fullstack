@@ -1,6 +1,10 @@
 <template>
   <li>
-    <NuxtLink @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :to="page">
+    <NuxtLink
+      @mouseover="handleMouseOver"
+      @mouseleave="handleMouseLeave"
+      :to="page"
+    >
       <shared-icon :type="type" :state="currentState" />
       <span>{{ pageHeadings[page] }}</span>
     </NuxtLink>
@@ -119,7 +123,7 @@ li {
   }
 }
 
-@media screen and (min-width: 64rem) {
+@media screen and (min-width: 80rem) {
   li {
     a {
       flex-direction: unset;
