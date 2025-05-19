@@ -51,7 +51,7 @@ getSummaryContent().then((content) => (overviewContent.value = content));
   }
 }
 
-@media screen and (min-width: 64rem) {
+@media screen and (min-width: 80rem) {
   .overview {
     &_content {
       flex: 1;

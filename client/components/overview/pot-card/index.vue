@@ -17,8 +17,9 @@
           <span>${{ potsCardContent?.totalSaved }}</span>
         </div>
       </section>
-      <section class="overview_content--pots_wrapper_items">
+      <ul class="overview_content--pots_wrapper_items">
         <overview-card-item
+          class="pot-item"
           v-for="(potItem, index) in potsCardContent?.potItems"
           :label="potItem.name"
           :content="potItem.total.toString()"
@@ -29,7 +30,7 @@
             'border-yellow': index % 4 === 3,
           }"
         />
-      </section>
+      </ul>
     </div>
   </overview-section-card>
 </template>
@@ -86,6 +87,22 @@ const { potsCardContent } = defineProps<IOverviewPotCard>();
   .overview_content--pots {
     &_wrapper {
       flex-direction: unset;
+      &_total-saved {
+        min-width: 247px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 80rem) {
+  .overview_content--pots {
+    &_wrapper {
+      &_items {
+        max-width: 277px;
+        .pot-item {
+          width: unset;
+        }
+      }
     }
   }
 }
