@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import EnumMeta
 from typing import get_origin, get_args, List, Type
 from pydantic import BaseModel as PydanticBaseModel
@@ -8,6 +9,7 @@ TYPE_MAP = {
     int: fields.Integer,
     float: fields.Float,
     bool: fields.Boolean,
+    datetime: fields.String,
 }
 
 

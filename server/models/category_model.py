@@ -6,3 +6,4 @@ class Category(str, Enum):
     Bills = "Bills"
     DiningOut = "Dining Out"
     PersonalCare = "Personal Care"
+    General = "General"

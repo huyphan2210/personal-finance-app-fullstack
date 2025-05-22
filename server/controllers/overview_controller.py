@@ -1,3 +1,4 @@
+from flask import jsonify
 from flask_restx import Namespace, Resource
 
 from services.overview_service import get_overview
@@ -14,7 +15,7 @@ class Overview(Resource):
     )
     def get(self):
         overview_content = get_overview()
-        return overview_content.dict()
+        return jsonify(overview_content.model_dump())
 
 
 overview_ns.add_resource(Overview, "")
