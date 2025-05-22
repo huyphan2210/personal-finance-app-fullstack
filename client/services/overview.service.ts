@@ -1,11 +1,13 @@
-import { EnumBudgetCategory, OverviewService, type Budget } from "~/api";
+import { OverviewService } from "~/api";
 import type { IOverviewBudgetsCard } from "~/components/overview/budgets-card/budgets-card.model";
 import type { IOverviewPotCard } from "~/components/overview/pot-card/pot-card.model";
 import type { IOverviewSummaryCard } from "~/components/overview/summary-card/summary-card.model";
+import type { IOverviewTransactionsCard } from "~/components/overview/transactions-card/transactions-card.model";
 
 export interface IOverviewPageContent
   extends IOverviewPotCard,
-    IOverviewBudgetsCard {
+    IOverviewBudgetsCard,
+    IOverviewTransactionsCard {
   summaryCardsContent: IOverviewSummaryCard[];
 }
 
@@ -28,16 +30,6 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
     ).total;
 
     const budgets = overviewContent.budgets;
-    const totalBudget = budgets.reduce(
-      (start: Budget, end: Budget) => ({
-        category: EnumBudgetCategory.Bills,
-        maximum: start.maximum + end.maximum,
-      }),
-      {
-        category: EnumBudgetCategory.Bills,
-        maximum: 0,
-      }
-    ).maximum;
 
     const overviewPageContent: IOverviewPageContent = {
       summaryCardsContent: [
@@ -68,6 +60,9 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
       budgetsCardContent: {
         spentBudget: 338,
         budgetItems: budgets,
+      },
+      transactionsCardContent: {
+        transactions: overviewContent.transactions,
       },
     };
 

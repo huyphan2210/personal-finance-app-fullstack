@@ -12,16 +12,8 @@
                         }
                     }
                 },
+                "description": "Get the overview data",
                 "operationId": "get_overview",
-                "parameters": [
-                    {
-                        "name": "X-Fields",
-                        "in": "header",
-                        "type": "string",
-                        "format": "mask",
-                        "description": "An optional fields mask"
-                    }
-                ],
                 "tags": [
                     "overview"
                 ]
@@ -78,7 +70,8 @@
             "required": [
                 "balance",
                 "budgets",
-                "pots"
+                "pots",
+                "transactions"
             ],
             "properties": {
                 "balance": {
@@ -96,6 +89,13 @@
                     "description": "",
                     "items": {
                         "$ref": "#/definitions/Budget"
+                    }
+                },
+                "transactions": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                        "$ref": "#/definitions/Transaction"
                     }
                 }
             },
@@ -150,14 +150,55 @@
                 },
                 "category": {
                     "type": "string",
-                    "description": "One of: ['Entertainment', 'Bills', 'DiningOut', 'PersonalCare']",
-                    "example": "Entertainment",
+                    "description": "One of: ['Entertaiment', 'Bills', 'Dining Out', 'Personal Care', 'General']",
+                    "example": "Entertaiment",
                     "enum": [
-                        "Entertainment",
+                        "Entertaiment",
                         "Bills",
-                        "DiningOut",
-                        "PersonalCare"
+                        "Dining Out",
+                        "Personal Care",
+                        "General"
                     ]
+                }
+            },
+            "type": "object"
+        },
+        "Transaction": {
+            "required": [
+                "amount",
+                "avatarUrl",
+                "category",
+                "date",
+                "recurring",
+                "user"
+            ],
+            "properties": {
+                "avatarUrl": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "One of: ['Entertaiment', 'Bills', 'Dining Out', 'Personal Care', 'General']",
+                    "example": "Entertaiment",
+                    "enum": [
+                        "Entertaiment",
+                        "Bills",
+                        "Dining Out",
+                        "Personal Care",
+                        "General"
+                    ]
+                },
+                "date": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "recurring": {
+                    "type": "boolean"
                 }
             },
             "type": "object"

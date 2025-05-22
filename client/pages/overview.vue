@@ -10,7 +10,9 @@
   </section>
   <section class="overview_content">
     <overview-pot-card :pots-card-content="overviewContent?.potsCardContent" />
-    <overview-transactions-card />
+    <overview-transactions-card
+      :transactions-card-content="overviewContent?.transactionsCardContent"
+    />
     <overview-budgets-card
       :budgets-card-content="overviewContent?.budgetsCardContent"
     />

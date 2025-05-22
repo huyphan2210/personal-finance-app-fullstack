@@ -143,6 +143,9 @@ export interface OverviewContent {
 
   /**  */
   budgets: Budget[];
+
+  /**  */
+  transactions: Transaction[];
 }
 
 /** Balance */
@@ -174,8 +177,29 @@ export interface Budget {
   /**  */
   maximum: number;
 
-  /** One of: ['Entertainment', 'Bills', 'DiningOut', 'PersonalCare'] */
+  /** One of: ['Entertaiment', 'Bills', 'Dining Out', 'Personal Care', 'General'] */
   category: EnumBudgetCategory;
+}
+
+/** Transaction */
+export interface Transaction {
+  /**  */
+  avatarUrl: string;
+
+  /**  */
+  user: string;
+
+  /** One of: ['Entertaiment', 'Bills', 'Dining Out', 'Personal Care', 'General'] */
+  category: EnumTransactionCategory;
+
+  /**  */
+  date: string;
+
+  /**  */
+  amount: number;
+
+  /**  */
+  recurring: boolean;
 }
 
 /** Pots */
@@ -184,8 +208,16 @@ export interface Pots {
   pots: Pot[];
 }
 export enum EnumBudgetCategory {
-  'Entertainment' = 'Entertainment',
+  'Entertaiment' = 'Entertaiment',
   'Bills' = 'Bills',
-  'DiningOut' = 'DiningOut',
-  'PersonalCare' = 'PersonalCare'
+  'Dining Out' = 'Dining Out',
+  'Personal Care' = 'Personal Care',
+  'General' = 'General'
+}
+export enum EnumTransactionCategory {
+  'Entertaiment' = 'Entertaiment',
+  'Bills' = 'Bills',
+  'Dining Out' = 'Dining Out',
+  'Personal Care' = 'Personal Care',
+  'General' = 'General'
 }

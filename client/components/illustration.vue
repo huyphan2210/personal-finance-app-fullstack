@@ -6,16 +6,17 @@
     <shared-logo class="logo" />
     <article class="sidebar_content">
       <picture class="sidebar_content_illustration">
-        <img src="../assets/images/illustration-authentication.svg" loading="lazy" alt="Login Illustration" />
+        <img
+          src="../assets/images/illustration-authentication.svg"
+          loading="lazy"
+          alt="Login Illustration"
+        />
       </picture>
       <div class="sidebar_content_text">
+        <p>Keep track of your money and save for your future</p>
         <p>
-          Keep track of your money
-          and save for your future
-        </p>
-        <p>
-          Personal finance app puts you in control of your spending. Track transactions, set budgets, and add to savings
-          pots easily.
+          Personal finance app puts you in control of your spending. Track
+          transactions, set budgets, and add to savings pots easily.
         </p>
       </div>
     </article>
@@ -82,7 +83,7 @@
   }
 }
 
-@media screen and (min-width: 64rem) {
+@media screen and (min-width: 80rem) {
   .topbar {
     display: none;
   }

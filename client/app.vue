@@ -28,10 +28,17 @@ serviceOptions.axios = axios.create({
 
 <template>
   <NuxtRouteAnnouncer />
-  <main :class="{ second: authenticationRoutes.includes(pageStore.currentPage) }">
+  <main
+    :class="{ second: authenticationRoutes.includes(pageStore.currentPage) }"
+  >
     <NuxtPage />
   </main>
-  <Sidebar v-if="!authenticationRoutes.includes(pageStore.currentPage) && pageStore.currentPage !== Page.Home" />
+  <Sidebar
+    v-if="
+      !authenticationRoutes.includes(pageStore.currentPage) &&
+      pageStore.currentPage !== Page.Home
+    "
+  />
   <Illustration v-else />
   <footer>
     Created by
@@ -44,7 +51,7 @@ serviceOptions.axios = axios.create({
 .second {
   order: 2;
 
-  @media screen and (min-width: 64rem) {
+  @media screen and (min-width: 80rem) {
     order: unset;
   }
 }
