@@ -53,32 +53,32 @@ getSummaryContent().then((content) => (overviewContent.value = content));
   }
 }
 
-@media screen and (min-width: 80rem) {
+@media screen and (min-width: 90rem) {
   .overview {
     &_content {
       flex: 1;
       display: grid;
-      grid-template-columns: calc(60% - 1.5rem) 40%;
-      grid-template-areas:
-        "pots budgets"
-        "transactions budgets"
-        "transactions recurring-bills"
-        "transactions recurring-bills";
+      grid-template-columns: repeat(12, 1fr);
       grid-template-rows: repeat(2, min-content) repeat(2, 1fr);
-      &--pots {
-        grid-area: pots;
-      }
 
-      &--transactions {
-        grid-area: transactions;
+      &--pots {
+        grid-column: 1 / span 7;
+        grid-row: 1;
       }
 
       &--budgets {
-        grid-area: budgets;
+        grid-column: 8 / -1;
+        grid-row: 1 / span 2;
+      }
+
+      &--transactions {
+        grid-column: 1 / span 7;
+        grid-row: 2 / -1;
       }
 
       &--recurring-bills {
-        grid-area: recurring-bills;
+        grid-column: 8 / -1;
+        grid-row: 3 / -1;
       }
     }
   }

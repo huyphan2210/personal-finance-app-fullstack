@@ -7,7 +7,7 @@
         @mouseleave="handleMouseLeave"
         :to="navigateTo"
       >
-        {{ navContent ?? "View All" }}
+        {{ navContent ?? "See Details" }}
         <svg
           width="12"
           height="12"

@@ -83,7 +83,7 @@
   }
 }
 
-@media screen and (min-width: 80rem) {
+@media screen and (min-width: 90rem) {
   .topbar {
     display: none;
   }

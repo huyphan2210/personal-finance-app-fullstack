@@ -94,7 +94,7 @@ const { potsCardContent } = defineProps<IOverviewPotCard>();
   }
 }
 
-@media screen and (min-width: 80rem) {
+@media screen and (min-width: 90rem) {
   .overview_content--pots {
     &_wrapper {
       &_items {

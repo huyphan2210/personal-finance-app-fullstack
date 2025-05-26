@@ -123,7 +123,7 @@ li {
   }
 }
 
-@media screen and (min-width: 80rem) {
+@media screen and (min-width: 90rem) {
   li {
     a {
       flex-direction: unset;

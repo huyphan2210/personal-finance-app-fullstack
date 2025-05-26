@@ -116,13 +116,16 @@ const handleSizeOfBar = (e: MouseEvent) => {
   }
 }
 
-@media screen and (min-width: 80rem) {
+@media screen and (min-width: 90rem) {
   .sidebar {
     width: 18.75rem;
     padding: 0;
     padding-bottom: 1.5rem;
     flex-direction: column;
     gap: 1.5rem;
+    max-height: calc(100vh - 1.5rem);
+    bottom: unset;
+    top: 0;
 
     &.minimize {
       width: 5.5rem;
