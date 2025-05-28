@@ -146,6 +146,9 @@ export interface OverviewContent {
 
   /**  */
   transactions: Transaction[];
+
+  /**  */
+  recurringBillsSummary: RecurringBillsSummary;
 }
 
 /** Balance */
@@ -200,6 +203,18 @@ export interface Transaction {
 
   /**  */
   recurring: boolean;
+}
+
+/** RecurringBillsSummary */
+export interface RecurringBillsSummary {
+  /**  */
+  paidAmount: number;
+
+  /**  */
+  totalUpcomingAmount: number;
+
+  /**  */
+  dueSoonAmount: number;
 }
 
 /** Pots */

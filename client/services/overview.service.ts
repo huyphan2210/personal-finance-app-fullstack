@@ -1,13 +1,15 @@
 import { OverviewService } from "~/api";
 import type { IOverviewBudgetsCard } from "~/components/overview/budgets-card/budgets-card.model";
 import type { IOverviewPotCard } from "~/components/overview/pot-card/pot-card.model";
+import type { IOverviewRecurringBillsCard } from "~/components/overview/recurring-bills-card/recurring-bills-card.model";
 import type { IOverviewSummaryCard } from "~/components/overview/summary-card/summary-card.model";
 import type { IOverviewTransactionsCard } from "~/components/overview/transactions-card/transactions-card.model";
 
 export interface IOverviewPageContent
   extends IOverviewPotCard,
     IOverviewBudgetsCard,
-    IOverviewTransactionsCard {
+    IOverviewTransactionsCard,
+    IOverviewRecurringBillsCard {
   summaryCardsContent: IOverviewSummaryCard[];
 }
 
@@ -64,6 +66,7 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
       transactionsCardContent: {
         transactions: overviewContent.transactions,
       },
+      recurringBillsCardContent: overviewContent.recurringBillsSummary,
     };
 
     return overviewPageContent;

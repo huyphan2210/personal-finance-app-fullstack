@@ -16,7 +16,9 @@
     <overview-budgets-card
       :budgets-card-content="overviewContent?.budgetsCardContent"
     />
-    <overview-recurring-bills-card />
+    <overview-recurring-bills-card
+      :recurring-bills-card-content="overviewContent?.recurringBillsCardContent"
+    />
   </section>
 </template>
 
