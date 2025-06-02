@@ -8,6 +8,7 @@
       <shared-doughnut-chart
         v-if="chartDataRef"
         class="overview_content--budgets_content_chart"
+        :overlay-number="budgetsCardContent?.spentBudget || 0"
         :data="chartDataRef"
       />
       <ul class="overview_content--budgets_content_list">
