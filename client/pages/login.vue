@@ -4,15 +4,30 @@
     <fieldset>
       <div class="form--login_field">
         <label class="form--login_field_label" for="email">Email</label>
-        <input required v-model="email" id="email" type="email" placeholder="johndoe@yopmail.com" />
+        <input
+          required
+          v-model="email"
+          id="email"
+          type="email"
+          placeholder="johndoe@yopmail.com"
+        />
       </div>
       <div class="form--login_field">
         <label class="form--login_field_label" for="password">Password</label>
-        <input required v-model="password" id="password" type="password" placeholder="***" />
+        <input
+          required
+          v-model="password"
+          id="password"
+          type="password"
+          placeholder="***"
+        />
       </div>
     </fieldset>
     <button type="submit">Login</button>
-    <span>Need to create an account? <NuxtLink :to="Page.Signup">Sign Up</NuxtLink></span>
+    <span
+      >Need to create an account?
+      <NuxtLink :to="Page.Signup">Sign Up</NuxtLink></span
+    >
   </form>
 </template>
 
@@ -20,8 +35,8 @@
 const errorStore = useErrorStore();
 const { signIn, setActive } = useSignIn();
 
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 
 const login = async (e: Event) => {
   e.preventDefault();
@@ -30,11 +45,11 @@ const login = async (e: Event) => {
     const result = await signIn.value?.create({
       identifier: email.value,
       password: password.value,
-      redirectUrl: Page.Overview
-    })
+      redirectUrl: Page.Overview,
+    });
 
-    if (result?.status === 'complete' && setActive.value) {
-      await setActive.value({ session: result?.createdSessionId })
+    if (result?.status === "complete" && setActive.value) {
+      await setActive.value({ session: result?.createdSessionId });
       navigateTo(Page.Overview);
     }
   } catch (error) {
@@ -43,8 +58,7 @@ const login = async (e: Event) => {
       errorStore.setErrorMessage("Your email or password is incorrect.");
     }
   }
-}
-
+};
 </script>
 
 <style lang="scss" scoped>
@@ -66,6 +80,9 @@ const login = async (e: Event) => {
   }
 
   &_field {
+    input {
+      width: calc(100% - 2.5rem - 2px);
+    }
     &:focus-within &_label {
       color: var(--grey-900) !important;
     }

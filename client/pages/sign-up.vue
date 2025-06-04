@@ -4,20 +4,44 @@
     <fieldset>
       <div class="form--signup_field">
         <label class="form--signup_field_label" for="name">Name</label>
-        <input required v-model="name" id="name" type="text" placeholder="John Doe" />
+        <input
+          required
+          v-model="name"
+          id="name"
+          type="text"
+          placeholder="John Doe"
+        />
       </div>
       <div class="form--signup_field">
         <label class="form--signup_field_label" for="email">Email</label>
-        <input required v-model="email" id="email" type="email" placeholder="johndoe@yopmail.com" />
+        <input
+          required
+          v-model="email"
+          id="email"
+          type="email"
+          placeholder="johndoe@yopmail.com"
+        />
       </div>
       <div class="form--signup_field">
         <label class="form--signup_field_label" for="password">Password</label>
-        <input required v-model="password" minlength="8" id="password" type="password" placeholder="********" />
-        <small class="form--signup_field_tip">Passwords must be at least 8 characters</small>
+        <input
+          required
+          v-model="password"
+          minlength="8"
+          id="password"
+          type="password"
+          placeholder="********"
+        />
+        <small class="form--signup_field_tip"
+          >Passwords must be at least 8 characters</small
+        >
       </div>
     </fieldset>
     <button type="submit">Create Account</button>
-    <span>Already have an account? <NuxtLink :to="Page.Login">Login</NuxtLink></span>
+    <span
+      >Already have an account?
+      <NuxtLink :to="Page.Login">Login</NuxtLink></span
+    >
   </form>
 </template>
 
@@ -25,9 +49,9 @@
 const errorStore = useErrorStore();
 const { signUp, setActive } = useSignUp();
 
-const name = ref('');
-const email = ref('');
-const password = ref('');
+const name = ref("");
+const email = ref("");
+const password = ref("");
 
 const createAccount = async (e: Event) => {
   e.preventDefault();
@@ -35,11 +59,11 @@ const createAccount = async (e: Event) => {
   try {
     const result = await signUp.value?.create({
       emailAddress: email.value,
-      password: password.value
-    })
+      password: password.value,
+    });
 
-    if (result?.status === 'complete' && setActive.value) {
-      await setActive.value({ session: result?.createdSessionId })
+    if (result?.status === "complete" && setActive.value) {
+      await setActive.value({ session: result?.createdSessionId });
     }
   } catch (error) {
     const err = error as any;
@@ -47,8 +71,7 @@ const createAccount = async (e: Event) => {
       errorStore.setErrorMessage("Your email or password is incorrect.");
     }
   }
-}
-
+};
 </script>
 
 <style lang="scss" scoped>
@@ -70,6 +93,9 @@ const createAccount = async (e: Event) => {
   }
 
   &_field {
+    input {
+      width: calc(100% - 2.5rem - 2px);
+    }
     &:focus-within &_label {
       color: var(--grey-900) !important;
     }
