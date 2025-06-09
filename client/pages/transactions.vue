@@ -16,6 +16,14 @@
           alt="Search Icon"
         />
       </div>
+      <div class="transactions_filter_dropdowns">
+        <shared-dropdown
+          v-for="filter in filters"
+          :mobile-icon="filter.mobileIcon"
+          :label="filter.label"
+          :options="filter.options"
+        />
+      </div>
     </fieldset>
     <table class="transactions_table">
       <thead>
@@ -39,7 +47,25 @@
   </form>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { IDropdown } from "~/components/shared/dropdown/dropdown.modal";
+import sortIcon from "../assets/images/sort.svg";
+import categoryIcon from "../assets/images/category.svg";
+import { EnumTransactionCategory } from "~/api";
+
+const filters: IDropdown[] = [
+  {
+    mobileIcon: sortIcon,
+    label: "Sort by",
+    options: ["Latest", "Oldest", "A to Z", "Z to A", "Highest", "Lowest"],
+  },
+  {
+    mobileIcon: categoryIcon,
+    label: "Category",
+    options: ["All Transctions", ...Object.values(EnumTransactionCategory)],
+  },
+];
+</script>
 
 <style lang="scss" scoped>
 .transactions {
@@ -69,6 +95,11 @@
         right: 1.25rem;
         transform: translateY(-50%);
       }
+    }
+
+    &_dropdowns {
+      display: flex;
+      gap: 1.5rem;
     }
   }
   &_table {
