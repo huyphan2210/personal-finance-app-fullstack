@@ -107,11 +107,16 @@ onMounted(() => {
   }
 
   &_button {
-    background-color: transparent !important;
-    padding: 0 !important;
+    border-radius: 0.5rem;
+    &:hover {
+      cursor: auto;
+    }
 
     &_content {
       display: none;
+      &:hover {
+        cursor: pointer;
+      }
       &_current-option {
         color: var(--grey-900);
         font-weight: 400;
@@ -120,6 +125,9 @@ onMounted(() => {
 
     img {
       vertical-align: top;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
@@ -127,6 +135,7 @@ onMounted(() => {
     background-color: var(--white);
     position: absolute;
     top: calc(100% + 1rem);
+    text-align: left;
     right: 0;
     transform: scaleY(0);
     padding: 0.75rem 1.25rem;
@@ -158,20 +167,22 @@ onMounted(() => {
 
       &.last-option {
         .dropdown-wrapper_option-list_item_button {
-          padding-bottom: 0 !important;
+          padding-bottom: 0;
         }
       }
 
       &_button {
-        color: var(--grey-900) !important;
-        background-color: transparent !important;
+        display: block;
+        width: 100%;
+        color: var(--grey-900);
+        background-color: transparent;
         text-align: left;
-        padding: 0.75rem 0 !important;
-        font-weight: 400 !important;
+        padding: 0.75rem 0;
+        font-weight: 400;
 
         &:hover,
         &.current {
-          font-weight: 700 !important;
+          font-weight: 700;
         }
       }
     }
@@ -194,8 +205,11 @@ onMounted(() => {
     }
 
     &_button {
-      border: solid 1px var(--beige-500) !important;
-      padding: 0.75rem 1.25rem !important;
+      &:hover {
+        cursor: pointer;
+      }
+      border: solid 1px var(--beige-500);
+      padding: 0.75rem 1.25rem;
       position: relative;
       &_content {
         display: flex;

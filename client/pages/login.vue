@@ -88,6 +88,10 @@ const login = async (e: Event) => {
     }
   }
 
+  button {
+    @include button-style;
+  }
+
   span {
     text-align: center;
     color: var(--grey-500);

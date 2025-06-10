@@ -28,6 +28,15 @@ body {
   min-height: 100vh;
   display: flex;
 
+  button {
+    border: none;
+    background-color: transparent;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   #__nuxt {
     display: flex;
     flex-direction: column;
@@ -74,18 +83,6 @@ body {
           }
 
           @include text-preset-4;
-        }
-
-        button {
-          width: 100%;
-          cursor: pointer;
-          background-color: var(--grey-900);
-          color: var(--white);
-          border-radius: 0.5rem;
-          padding: 1rem;
-          border: none;
-
-          @include text-preset-4-bold;
         }
       }
     }

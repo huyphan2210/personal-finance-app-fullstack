@@ -92,6 +92,10 @@ const createAccount = async (e: Event) => {
     gap: 1rem;
   }
 
+  button {
+    @include button-style;
+  }
+
   &_field {
     input {
       width: calc(100% - 2.5rem - 2px);
