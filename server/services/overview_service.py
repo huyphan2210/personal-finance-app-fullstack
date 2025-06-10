@@ -1,6 +1,6 @@
 from models.overview_model import Balance, OverviewContent
 from services.recurring_bills_service import get_recurring_bills_summary
-from services.transactions_serivce import get_overview_transactions
+from services.transactions_service import get_overview_transactions
 from services.budgets_service import get_budgets
 from services.pots_service import get_pots
 
