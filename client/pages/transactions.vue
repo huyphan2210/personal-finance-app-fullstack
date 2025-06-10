@@ -1,6 +1,11 @@
 <template>
   <shared-page-heading />
-  <form role="search" class="transactions">
+  <form
+    ref="formRef"
+    role="search"
+    class="transactions"
+    @submit="searchTransactions"
+  >
     <fieldset class="transactions_filter">
       <div class="transactions_filter_search-field-wrapper">
         <input
@@ -9,12 +14,15 @@
           type="search"
           name="Search Transactions"
           placeholder="Search Transactions"
+          @input="handleSearchString"
         />
-        <img
-          src="../assets/images/search.svg"
-          loading="lazy"
-          alt="Search Icon"
-        />
+        <button type="button">
+          <img
+            src="../assets/images/search.svg"
+            loading="lazy"
+            alt="Search Icon"
+          />
+        </button>
       </div>
       <div class="transactions_filter_dropdowns">
         <shared-dropdown
@@ -25,25 +33,11 @@
         />
       </div>
     </fieldset>
-    <table class="transactions_table">
-      <thead>
-        <tr>
-          <th>Recipient / Sender</th>
-          <th>Category</th>
-          <th>Transaction Date</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>Recipient / Sender</th>
-          <th>Category</th>
-          <th>Transaction Date</th>
-          <th>Amount</th>
-        </tr>
-      </tbody>
-    </table>
-    <nav class="transactions_pagination"></nav>
+    <transactions-table :data="transactionItems" />
+    <transactions-table-nav
+      :current-page="paginationData.currentPage"
+      :number-of-pages="paginationData.numberOfPages"
+    />
   </form>
 </template>
 
@@ -52,6 +46,10 @@ import type { IDropdown } from "~/components/shared/dropdown/dropdown.modal";
 import sortIcon from "../assets/images/sort.svg";
 import categoryIcon from "../assets/images/category.svg";
 import { EnumTransactionCategory } from "~/api";
+import type {
+  ITransactionItem,
+  ITransactionsNavigation,
+} from "~/interfaces/transactions.interface";
 
 const filters: IDropdown[] = [
   {
@@ -62,9 +60,50 @@ const filters: IDropdown[] = [
   {
     mobileIcon: categoryIcon,
     label: "Category",
-    options: ["All Transctions", ...Object.values(EnumTransactionCategory)],
+    options: ["All Transactions", ...Object.values(EnumTransactionCategory)],
   },
 ];
+
+const formRef = ref<HTMLFormElement>();
+const searchTimeout = ref<number>(0);
+
+const transactionItems: ITransactionItem[] = [
+  {
+    name: "Emma Richardson",
+    avatarUrl:
+      "https://res.cloudinary.com/dejteftxn/image/upload/v1747793082/emma-richardson_b0zi3o.jpg",
+    category: EnumTransactionCategory.General,
+    transactionDate: "2024-08-19T14:23:11+00:00",
+    amount: 75.5,
+  },
+];
+
+const paginationData: ITransactionsNavigation = {
+  currentPage: 1,
+  numberOfPages: 5,
+};
+
+const formValues = reactive({
+  searchString: "",
+  sortBy: "Lastest",
+  category: "All Transactions",
+  page: 1,
+});
+
+onBeforeMount(() => searchTransactions);
+
+const handleSearchString = (event: Event) => {
+  clearTimeout(searchTimeout.value);
+  formValues.searchString = (event.currentTarget as HTMLInputElement).value;
+  searchTimeout.value = setTimeout(() => {
+    formRef.value?.requestSubmit();
+  }, 300);
+};
+
+const searchTransactions = (event?: Event) => {
+  event?.preventDefault();
+  // TODO: Call Transactions API
+};
 </script>
 
 <style lang="scss" scoped>
@@ -77,10 +116,15 @@ const filters: IDropdown[] = [
     display: flex;
     justify-content: space-between;
     gap: 1.5rem;
+    margin-bottom: 1.5rem;
+
     &_search-field-wrapper {
       position: relative;
+      flex: 1;
+      max-width: 20rem;
       .search-input {
         width: 100%;
+        padding-right: 3.25rem !important;
         &::-webkit-search-decoration,
         &::-webkit-search-cancel-button,
         &::-webkit-search-results-button,
@@ -89,11 +133,15 @@ const filters: IDropdown[] = [
         }
       }
 
-      img {
+      button {
         position: absolute;
         top: 50%;
         right: 1.25rem;
         transform: translateY(-50%);
+
+        img {
+          vertical-align: top;
+        }
       }
     }
 
@@ -102,27 +150,11 @@ const filters: IDropdown[] = [
       gap: 1.5rem;
     }
   }
-  &_table {
-    table-layout: fixed;
-    width: 100%;
-    th,
-    td {
-      text-align: start;
-      color: var(--grey-500);
-      @include text-preset-5;
+}
 
-      &:last-child {
-        text-align: end;
-      }
-
-      &:not(:last-child):not(:first-child) {
-        display: none;
-      }
-    }
-
-    thead {
-      display: none;
-    }
+@media screen and (min-width: 48rem) {
+  .transactions {
+    padding: 2rem;
   }
 }
 </style>
