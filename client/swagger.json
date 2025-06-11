@@ -43,6 +43,49 @@
                     "pots"
                 ]
             }
+        },
+        "/transactions": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionsContent"
+                        }
+                    }
+                },
+                "description": "Get the transactions data",
+                "operationId": "get_transactions",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "tags": [
+                    "transactions"
+                ]
+            }
         }
     },
     "info": {
@@ -59,6 +102,10 @@
         {
             "name": "overview",
             "description": "Get summary of Overview"
+        },
+        {
+            "name": "transactions",
+            "description": "Get Transactions content"
         },
         {
             "name": "pots",
@@ -222,6 +269,25 @@
                 },
                 "dueSoonAmount": {
                     "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "TransactionsContent": {
+            "required": [
+                "numberOfPages",
+                "transactions"
+            ],
+            "properties": {
+                "transactions": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                        "$ref": "#/definitions/Transaction"
+                    }
+                },
+                "numberOfPages": {
+                    "type": "integer"
                 }
             },
             "type": "object"

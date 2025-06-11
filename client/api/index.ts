@@ -133,6 +133,39 @@ export class PotsService {
   }
 }
 
+export class TransactionsService {
+  /**
+   *
+   */
+  static getTransactions(
+    params: {
+      /**  */
+      page?: number;
+      /**  */
+      search?: string;
+      /**  */
+      category?: string;
+      /**  */
+      sortBy?: string;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<TransactionsContent> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/transactions';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      configs.params = {
+        page: params['page'],
+        search: params['search'],
+        category: params['category'],
+        sortBy: params['sortBy']
+      };
+
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
 /** OverviewContent */
 export interface OverviewContent {
   /**  */
@@ -215,6 +248,15 @@ export interface RecurringBillsSummary {
 
   /**  */
   dueSoonAmount: number;
+}
+
+/** TransactionsContent */
+export interface TransactionsContent {
+  /**  */
+  transactions: Transaction[];
+
+  /**  */
+  numberOfPages: number;
 }
 
 /** Pots */
