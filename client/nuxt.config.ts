@@ -15,14 +15,15 @@ export default defineNuxtConfig({
             @use "@/assets/styles/fonts" as *;
             @use "@/assets/styles/modal" as *;
             @use "@/assets/styles/form" as *;
-          `
-        }
-      }
-    }
+            @use "@/assets/styles/animations" as *;
+          `,
+        },
+      },
+    },
   },
   runtimeConfig: {
     public: {
-      apiBase: 'http://127.0.0.1:5000'
-    }
-  }
+      apiBase: "http://127.0.0.1:5000",
+    },
+  },
 });

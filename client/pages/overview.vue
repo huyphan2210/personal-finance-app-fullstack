@@ -1,6 +1,11 @@
 <template>
   <shared-page-heading />
-  <section class="overview_summary">
+  <section
+    :class="{
+      overview_summary: true,
+      'is-loading': isLoading,
+    }"
+  >
     <overview-summary-card
       v-for="card in overviewContent?.summaryCardsContent"
       :class="{ main: card.isMainCard }"
@@ -8,17 +13,28 @@
       :card-content="card.cardContent"
     />
   </section>
-  <section class="overview_content">
-    <overview-pot-card :pots-card-content="overviewContent?.potsCardContent" />
-    <overview-transactions-card
-      :transactions-card-content="overviewContent?.transactionsCardContent"
-    />
-    <overview-budgets-card
-      :budgets-card-content="overviewContent?.budgetsCardContent"
-    />
-    <overview-recurring-bills-card
-      :recurring-bills-card-content="overviewContent?.recurringBillsCardContent"
-    />
+  <section
+    :class="{
+      overview_content: true,
+      'is-loading': isLoading,
+    }"
+  >
+    <template v-if="!isLoading">
+      <overview-pot-card
+        :pots-card-content="overviewContent?.potsCardContent"
+      />
+      <overview-transactions-card
+        :transactions-card-content="overviewContent?.transactionsCardContent"
+      />
+      <overview-budgets-card
+        :budgets-card-content="overviewContent?.budgetsCardContent"
+      />
+      <overview-recurring-bills-card
+        :recurring-bills-card-content="
+          overviewContent?.recurringBillsCardContent
+        "
+      />
+    </template>
   </section>
 </template>
 
@@ -27,9 +43,11 @@ import {
   getSummaryContent,
   type IOverviewPageContent,
 } from "~/services/overview.service";
-
+const isLoading = ref<boolean>(true);
 const overviewContent = ref<IOverviewPageContent>();
-getSummaryContent().then((content) => (overviewContent.value = content));
+getSummaryContent()
+  .then((content) => (overviewContent.value = content))
+  .finally(() => (isLoading.value = false));
 </script>
 
 <style lang="scss">
@@ -39,6 +57,9 @@ getSummaryContent().then((content) => (overviewContent.value = content));
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    &.is-loading {
+      flex: 1;
+    }
   }
 }
 

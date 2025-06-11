@@ -68,6 +68,11 @@ const transformDate = (dateString: string) => {
 .transactions {
   &_table {
     margin-bottom: 1.5rem;
+
+    &.is-loading {
+      flex: 1;
+    }
+
     colgroup {
       display: none;
     }

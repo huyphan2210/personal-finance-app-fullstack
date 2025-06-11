@@ -1,4 +1,5 @@
 @use "fonts" as *;
+@use "animations" as *;
 
 * {
   margin: 0;
@@ -27,6 +28,10 @@ body {
   background-color: var(--beige-100);
   min-height: 100vh;
   display: flex;
+
+  .is-loading {
+    @include is-loading-animation;
+  }
 
   button {
     border: none;

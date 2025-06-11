@@ -1,4 +1,4 @@
-import type { EnumTransactionCategory } from "~/api"
+import type { EnumTransactionCategory } from "~/api";
 
 export interface ITransactionItem {
   category: EnumTransactionCategory;
@@ -8,11 +8,17 @@ export interface ITransactionItem {
   avatarUrl: string;
 }
 
+export interface ITransactionSearchForm {
+  searchString?: string;
+  sortBy?: string;
+  category?: string;
+  page: 1;
+}
+
 export interface ITransactionsTable {
-  data: ITransactionItem[]
+  data: ITransactionItem[];
 }
 
 export interface ITransactionsNavigation {
   numberOfPages: number;
-  currentPage: number;
 }

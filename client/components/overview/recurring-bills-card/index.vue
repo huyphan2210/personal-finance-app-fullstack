@@ -28,29 +28,20 @@ const { recurringBillsCardContent } =
   defineProps<IOverviewRecurringBillsCard>();
 
 const recurringItems = ref<IRecurringBillSummaryItem[]>();
-watch(
-  () => recurringBillsCardContent,
-  (content) => {
-    if (!content) {
-      return;
-    }
-
-    recurringItems.value = [
-      {
-        label: "Paid Bills",
-        amount: content?.paidAmount,
-      },
-      {
-        label: "Total Upcoming",
-        amount: content?.totalUpcomingAmount,
-      },
-      {
-        label: "Due Soon",
-        amount: content?.dueSoonAmount,
-      },
-    ];
-  }
-);
+recurringItems.value = [
+  {
+    label: "Paid Bills",
+    amount: recurringBillsCardContent?.paidAmount,
+  },
+  {
+    label: "Total Upcoming",
+    amount: recurringBillsCardContent?.totalUpcomingAmount,
+  },
+  {
+    label: "Due Soon",
+    amount: recurringBillsCardContent?.dueSoonAmount,
+  },
+];
 </script>
 <style lang="scss" scoped>
 .overview_content--recurring-bills {

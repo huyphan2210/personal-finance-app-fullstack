@@ -1,7 +1,7 @@
 <template>
   <shared-page-heading />
   <form
-    ref="formRef"
+    ref="form"
     role="search"
     class="transactions"
     @submit="searchTransactions"
@@ -33,11 +33,13 @@
         />
       </div>
     </fieldset>
-    <transactions-table :data="transactionItems" />
-    <transactions-table-nav
-      :current-page="paginationData.currentPage"
-      :number-of-pages="paginationData.numberOfPages"
+    <transactions-table
+      :data="transactionItems"
+      :class="{
+        'is-loading': isLoading === true,
+      }"
     />
+    <transactions-table-nav :number-of-pages="paginationData.numberOfPages" />
   </form>
 </template>
 
@@ -48,8 +50,10 @@ import categoryIcon from "../assets/images/category.svg";
 import { EnumTransactionCategory } from "~/api";
 import type {
   ITransactionItem,
+  ITransactionSearchForm,
   ITransactionsNavigation,
 } from "~/interfaces/transactions.interface";
+import { getTransactions } from "~/services/transaction.service";
 
 const filters: IDropdown[] = [
   {
@@ -64,50 +68,67 @@ const filters: IDropdown[] = [
   },
 ];
 
-const formRef = ref<HTMLFormElement>();
-const searchTimeout = ref<number>(0);
-
-const transactionItems: ITransactionItem[] = [
-  {
-    name: "Emma Richardson",
-    avatarUrl:
-      "https://res.cloudinary.com/dejteftxn/image/upload/v1747793082/emma-richardson_b0zi3o.jpg",
-    category: EnumTransactionCategory.General,
-    transactionDate: "2024-08-19T14:23:11+00:00",
-    amount: 75.5,
-  },
-];
-
-const paginationData: ITransactionsNavigation = {
-  currentPage: 1,
-  numberOfPages: 5,
-};
-
-const formValues = reactive({
-  searchString: "",
+const formValues = reactive<ITransactionSearchForm>({
+  searchString: undefined,
   sortBy: "Lastest",
-  category: "All Transactions",
+  category: undefined,
   page: 1,
 });
 
-onBeforeMount(() => searchTransactions);
+const form = ref<HTMLFormElement>();
+const searchTimeout = ref<number>(0);
+const transactionItems = ref<ITransactionItem[]>([]);
+const isLoading = ref<boolean>(true);
+
+const paginationData = ref<ITransactionsNavigation>({
+  numberOfPages: 1,
+});
+
+onBeforeMount(() => searchTransactions());
 
 const handleSearchString = (event: Event) => {
   clearTimeout(searchTimeout.value);
   formValues.searchString = (event.currentTarget as HTMLInputElement).value;
   searchTimeout.value = setTimeout(() => {
-    formRef.value?.requestSubmit();
+    form.value?.requestSubmit();
   }, 300);
 };
 
-const searchTransactions = (event?: Event) => {
+const searchTransactions = async (event?: Event) => {
   event?.preventDefault();
-  // TODO: Call Transactions API
+  try {
+    isLoading.value = true;
+    const transactionsContent = await getTransactions(
+      formValues.page,
+      formValues.searchString,
+      formValues.category,
+      formValues.sortBy
+    );
+
+    transactionItems.value = transactionsContent.transactions.map(
+      (transaction) => ({
+        name: transaction.user,
+        avatarUrl: transaction.avatarUrl,
+        category: transaction.category,
+        amount: transaction.amount,
+        transactionDate: transaction.date,
+      })
+    );
+
+    paginationData.value = {
+      numberOfPages: transactionsContent.numberOfPages,
+    };
+  } catch (error) {
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .transactions {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   background-color: var(--white);
   border-radius: 0.75rem;
