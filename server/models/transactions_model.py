@@ -10,3 +10,8 @@ class Transaction(BaseModel):
     date: datetime
     amount: float
     recurring: bool
+
+
+class TransactionsContent(BaseModel):
+    transactions: list[Transaction]
+    numberOfPages: int

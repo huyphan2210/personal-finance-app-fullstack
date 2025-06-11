@@ -1,5 +1,5 @@
 from datetime import datetime
-from models.transactions_model import Transaction
+from models.transactions_model import Transaction, TransactionsContent
 from models.category_model import Category
 
 
@@ -48,3 +48,29 @@ def get_overview_transactions():
     ]
 
     return overview_transactions
+
+
+def get_transactions(page: int, searchString: str, category: str, sortBy: str):
+
+    transactions = [
+        Transaction(
+            avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793082/emma-richardson_b0zi3o.jpg",
+            user="Emma Richardson",
+            category=Category.General,
+            date=datetime.fromisoformat("2024-08-19T14:23:11+00:00"),
+            amount=75.5,
+            recurring=False,
+        ),
+        Transaction(
+            avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793083/savory-bites-bistro_ha4gab.jpg",
+            user="Savory Bites Bistro",
+            category=Category.DiningOut,
+            date=datetime.fromisoformat("2024-08-19T20:23:11+00:00"),
+            amount=-55.5,
+            recurring=False,
+        ),
+    ]
+
+    numberOfPages = 5
+
+    return TransactionsContent(transactions=transactions, numberOfPages=numberOfPages)
