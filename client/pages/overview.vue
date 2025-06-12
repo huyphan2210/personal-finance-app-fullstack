@@ -39,15 +39,29 @@
 </template>
 
 <script setup lang="ts">
+import { AxiosError } from "axios";
 import {
   getSummaryContent,
   type IOverviewPageContent,
 } from "~/services/overview.service";
+
+const errorStore = useErrorStore();
 const isLoading = ref<boolean>(true);
 const overviewContent = ref<IOverviewPageContent>();
-getSummaryContent()
-  .then((content) => (overviewContent.value = content))
-  .finally(() => (isLoading.value = false));
+
+onBeforeMount(async () => {
+  try {
+    overviewContent.value = await getSummaryContent();
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      errorStore.setErrorMessage(error.message);
+    } else {
+      errorStore.setDefaultErrorMessage();
+    }
+  } finally {
+    isLoading.value = false;
+  }
+});
 </script>
 
 <style lang="scss">

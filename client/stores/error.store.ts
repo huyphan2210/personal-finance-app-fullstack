@@ -3,6 +3,8 @@ interface ErrorState {
   isError: boolean;
 }
 
+const DEFAULT_ERROR_MESSAGE = "Something's wrong! Please contact the developer."
+
 export const useErrorStore = defineStore("error", {
   state: (): ErrorState => ({
     message: "",
@@ -16,6 +18,10 @@ export const useErrorStore = defineStore("error", {
       } else {
         this.isError = true;
       }
+    },
+    setDefaultErrorMessage() {
+      this.message = DEFAULT_ERROR_MESSAGE;
+      this.isError = true;
     }
   },
 });

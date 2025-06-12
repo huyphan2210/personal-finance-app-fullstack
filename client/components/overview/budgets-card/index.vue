@@ -6,16 +6,21 @@
   >
     <div class="overview_content--budgets_content">
       <shared-doughnut-chart
-        v-if="chartDataRef"
+        v-if="chartData"
         class="overview_content--budgets_content_chart"
         :overlay-number="budgetsCardContent?.spentBudget || 0"
-        :data="chartDataRef"
-        :total-number="budgetsCardContent?.budgetItems.reduce((prev, next) => ({
-          maximum: prev.maximum + next.maximum,
-          category: EnumBudgetCategory.Bills
-        }), {
-          maximum: 0
-        }).maximum || 0"
+        :data="chartData"
+        :total-number="
+          budgetsCardContent?.budgetItems.reduce(
+            (prev, next) => ({
+              maximum: prev.maximum + next.maximum,
+              category: EnumBudgetCategory.Bills,
+            }),
+            {
+              maximum: 0,
+            }
+          ).maximum || 0
+        "
       />
       <ul class="overview_content--budgets_content_list">
         <overview-card-item
@@ -43,21 +48,16 @@ import { EnumBudgetCategory } from "~/api";
 
 const { budgetsCardContent } = defineProps<IOverviewBudgetsCard>();
 
-const chartDataRef = ref<ChartData>();
-watch(
-  () => budgetsCardContent,
-  (content) => {
-    chartDataRef.value = {
-      datasets: [
-        {
-          data: content?.budgetItems.map((item) => item.maximum) || [],
-          backgroundColor: [Color.Green, Color.Cyan, Color.Yellow, Color.Navy],
-          hoverOffset: 4,
-        },
-      ],
-    };
-  }
-);
+const chartData = ref<ChartData>();
+chartData.value = {
+  datasets: [
+    {
+      data: budgetsCardContent?.budgetItems.map((item) => item.maximum) || [],
+      backgroundColor: [Color.Green, Color.Cyan, Color.Yellow, Color.Navy],
+      hoverOffset: 4,
+    },
+  ],
+};
 </script>
 <style lang="scss" scoped>
 .overview_content--budgets {

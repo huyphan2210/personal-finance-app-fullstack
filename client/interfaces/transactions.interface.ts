@@ -1,5 +1,6 @@
 import type { EnumTransactionCategory } from "~/api";
 
+export type FormFieldTypes = 'sortBy' | 'category';
 export interface ITransactionItem {
   category: EnumTransactionCategory;
   transactionDate: string;
@@ -12,7 +13,7 @@ export interface ITransactionSearchForm {
   searchString?: string;
   sortBy?: string;
   category?: string;
-  page: 1;
+  page: number;
 }
 
 export interface ITransactionsTable {
@@ -21,4 +22,5 @@ export interface ITransactionsTable {
 
 export interface ITransactionsNavigation {
   numberOfPages: number;
+  setPage: (page: number) => void
 }

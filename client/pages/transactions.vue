@@ -30,6 +30,8 @@
           :mobile-icon="filter.mobileIcon"
           :label="filter.label"
           :options="filter.options"
+          :on-selection="filter.onSelection"
+          :for-field="filter.forField"
         />
       </div>
     </fieldset>
@@ -39,7 +41,10 @@
         'is-loading': isLoading === true,
       }"
     />
-    <transactions-table-nav :number-of-pages="paginationData.numberOfPages" />
+    <transactions-table-nav
+      :number-of-pages="pageNumber"
+      :setPage="setCurrentPage"
+    />
   </form>
 </template>
 
@@ -49,25 +54,19 @@ import sortIcon from "../assets/images/sort.svg";
 import categoryIcon from "../assets/images/category.svg";
 import { EnumTransactionCategory } from "~/api";
 import type {
+  FormFieldTypes,
   ITransactionItem,
   ITransactionSearchForm,
-  ITransactionsNavigation,
 } from "~/interfaces/transactions.interface";
 import { getTransactions } from "~/services/transaction.service";
+import { AxiosError } from "axios";
 
-const filters: IDropdown[] = [
-  {
-    mobileIcon: sortIcon,
-    label: "Sort by",
-    options: ["Latest", "Oldest", "A to Z", "Z to A", "Highest", "Lowest"],
-  },
-  {
-    mobileIcon: categoryIcon,
-    label: "Category",
-    options: ["All Transactions", ...Object.values(EnumTransactionCategory)],
-  },
-];
-
+const errorStore = useErrorStore();
+const form = ref<HTMLFormElement>();
+const searchTimeout = ref<number>(0);
+const transactionItems = ref<ITransactionItem[]>([]);
+const isLoading = ref<boolean>(true);
+const pageNumber = ref<number>(1);
 const formValues = reactive<ITransactionSearchForm>({
   searchString: undefined,
   sortBy: "Lastest",
@@ -75,22 +74,51 @@ const formValues = reactive<ITransactionSearchForm>({
   page: 1,
 });
 
-const form = ref<HTMLFormElement>();
-const searchTimeout = ref<number>(0);
-const transactionItems = ref<ITransactionItem[]>([]);
-const isLoading = ref<boolean>(true);
+const setCurrentPage = (page: number) => {
+  formValues.page = page;
+  searchTransactions();
+};
 
-const paginationData = ref<ITransactionsNavigation>({
-  numberOfPages: 1,
-});
+const handleFilter = (field: FormFieldTypes, value?: string) => {
+  switch (field) {
+    case "category":
+      if (value === "All Transactions") {
+        value = undefined;
+      }
+      break;
+    default:
+      break;
+  }
+
+  formValues[field] = value;
+  searchTransactions();
+};
+
+const filters: IDropdown[] = [
+  {
+    mobileIcon: sortIcon,
+    label: "Sort by",
+    options: ["Latest", "Oldest", "A to Z", "Z to A", "Highest", "Lowest"],
+    onSelection: handleFilter,
+    forField: "sortBy",
+  },
+  {
+    mobileIcon: categoryIcon,
+    label: "Category",
+    options: ["All Transactions", ...Object.values(EnumTransactionCategory)],
+    onSelection: handleFilter,
+    forField: "category",
+  },
+];
 
 onBeforeMount(() => searchTransactions());
 
 const handleSearchString = (event: Event) => {
   clearTimeout(searchTimeout.value);
-  formValues.searchString = (event.currentTarget as HTMLInputElement).value;
+  const value = (event.currentTarget as HTMLInputElement).value || undefined;
+  formValues.searchString = value;
   searchTimeout.value = setTimeout(() => {
-    form.value?.requestSubmit();
+    searchTransactions();
   }, 300);
 };
 
@@ -115,10 +143,18 @@ const searchTransactions = async (event?: Event) => {
       })
     );
 
-    paginationData.value = {
-      numberOfPages: transactionsContent.numberOfPages,
-    };
+    pageNumber.value = transactionsContent.numberOfPages;
+
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
   } catch (error) {
+    if (error instanceof AxiosError) {
+      errorStore.setErrorMessage(error.message);
+    } else {
+      errorStore.setDefaultErrorMessage();
+    }
   } finally {
     isLoading.value = false;
   }

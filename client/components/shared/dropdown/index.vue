@@ -58,7 +58,8 @@
 <script lang="ts" setup>
 import { type IDropdown } from "./dropdown.modal";
 
-const { mobileIcon, options, label } = defineProps<IDropdown>();
+const { mobileIcon, options, label, onSelection, forField } =
+  defineProps<IDropdown>();
 const dropdownWrapperRef = ref<HTMLDivElement>();
 const optionListRef = ref<HTMLUListElement>();
 const currentOption = ref<string>(options[0] || "");
@@ -85,6 +86,7 @@ const closeDropdown = (event: MouseEvent) => {
 
 const handleOption = (option: string) => {
   currentOption.value = option;
+  onSelection(forField, option);
   dropdownWrapperRef.value?.classList.remove("open");
 };
 

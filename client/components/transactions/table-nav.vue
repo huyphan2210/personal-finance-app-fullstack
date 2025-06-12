@@ -2,7 +2,11 @@
   <nav class="transactions_pagination">
     <ul class="transactions_pagination_list">
       <li class="transactions_pagination_list_item prev">
-        <button type="button" :disabled="currentPage === 1">
+        <button
+          type="button"
+          :disabled="currentPage === 1"
+          @click="setCurrentPage(currentPage - 1)"
+        >
           <svg
             width="16"
             height="16"
@@ -22,18 +26,23 @@
         v-for="(content, index) in pagination"
         :class="{
           transactions_pagination_list_item: true,
-          current: currentPage === index + 1,
+          current: currentPage === content,
         }"
       >
-        <button type="button" :disabled="content === '...'">
+        <button
+          type="button"
+          :disabled="content === '...'"
+          @click="setCurrentPage(typeof content === 'number' ? content : 0)"
+        >
           {{ content }}
         </button>
       </li>
-      <li
-        class="transactions_pagination_list_item next"
-        :disabled="currentPage === numberOfPages"
-      >
-        <button type="button">
+      <li class="transactions_pagination_list_item next">
+        <button
+          type="button"
+          :disabled="currentPage === numberOfPages"
+          @click="setCurrentPage(currentPage + 1)"
+        >
           <span>Next</span>
           <svg
             width="16"
@@ -55,22 +64,38 @@
 <script lang="ts" setup>
 import type { ITransactionsNavigation } from "~/interfaces/transactions.interface";
 
-const { numberOfPages } = defineProps<ITransactionsNavigation>();
+const { numberOfPages, setPage } = defineProps<ITransactionsNavigation>();
 const currentPage = ref<number>(1);
 const pagination = ref<(number | string)[]>([1]);
-const PAGE_AROUND_CURRENT = 1;
+let pageAroundCurrent = 0;
+
+const setCurrentPage = (page: number) => {
+  if (page === currentPage.value || page === 0) {
+    return;
+  }
+  currentPage.value = page;
+  handlePagination();
+  setPage(currentPage.value);
+};
 
 const handlePagination = (): void => {
   const range: (number | string)[] = [];
-  if (window.innerWidth >= 768) {
+  if (window.innerWidth >= 768 && numberOfPages <= 10) {
+    pageAroundCurrent = 2;
     for (let i = 1; i <= numberOfPages; i++) {
       range.push(i);
     }
   } else {
-    const left = Math.max(2, currentPage.value - PAGE_AROUND_CURRENT);
+    if (window.innerWidth >= 768) {
+      pageAroundCurrent = 1;
+    } else {
+      pageAroundCurrent = 0;
+    }
+
+    const left = Math.max(2, currentPage.value - pageAroundCurrent);
     const right = Math.min(
       numberOfPages - 1,
-      currentPage.value + PAGE_AROUND_CURRENT
+      currentPage.value + pageAroundCurrent
     );
 
     range.push(1);
@@ -132,7 +157,7 @@ onUnmounted(() => {
           display: none;
         }
 
-        &:hover {
+        &:hover:not(.current) {
           background-color: var(--beige-500);
           color: var(--white);
           svg {
