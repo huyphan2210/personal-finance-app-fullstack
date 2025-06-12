@@ -11,7 +11,7 @@ transactions_ns = Namespace(f"{TRANSACTIONS}", description="Get Transactions con
 get_transaction_query_parser = reqparse.RequestParser()
 get_transaction_query_parser.add_argument("page", type=int, default=1)
 get_transaction_query_parser.add_argument("search", type=str, default="")
-get_transaction_query_parser.add_argument("category", type=Category, default="")
+get_transaction_query_parser.add_argument("category", type=str, default="")
 get_transaction_query_parser.add_argument("sortBy", type=str, default="")
 
 
