@@ -58,11 +58,11 @@
 <script lang="ts" setup>
 import { type IDropdown } from "./dropdown.modal";
 
-const { mobileIcon, options, label, onSelection, forField } =
+const { preSelectedOption, mobileIcon, options, label, onSelection, forField } =
   defineProps<IDropdown>();
 const dropdownWrapperRef = ref<HTMLDivElement>();
 const optionListRef = ref<HTMLUListElement>();
-const currentOption = ref<string>(options[0] || "");
+const currentOption = ref<string>(preSelectedOption || options[0] || "");
 
 const handleDropdown = (e: MouseEvent) => {
   if (optionListRef.value?.contains(e.srcElement as Node)) {

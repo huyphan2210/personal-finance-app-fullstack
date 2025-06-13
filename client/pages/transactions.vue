@@ -14,6 +14,7 @@
           type="search"
           name="Search Transactions"
           placeholder="Search Transactions"
+          :value="formValues.searchString"
           @input="handleSearchString"
         />
         <button type="button">
@@ -32,6 +33,7 @@
           :options="filter.options"
           :on-selection="filter.onSelection"
           :for-field="filter.forField"
+          :pre-selected-option="filter.preSelectedOption"
         />
       </div>
     </fieldset>
@@ -42,6 +44,7 @@
       }"
     />
     <transactions-table-nav
+      :pre-selected-page="formValues.page"
       :number-of-pages="pageNumber"
       :setPage="setCurrentPage"
     />
@@ -61,6 +64,30 @@ import type {
 import { getTransactions } from "~/services/transaction.service";
 import { AxiosError } from "axios";
 
+const sortOptions = [
+  "Latest",
+  "Oldest",
+  "A to Z",
+  "Z to A",
+  "Highest",
+  "Lowest",
+];
+const categoryOptions = [
+  "All Transactions",
+  ...Object.values(EnumTransactionCategory),
+];
+
+const router = useRouter();
+const route = useRoute();
+const {
+  search,
+  sortBy,
+  category,
+  page,
+}: { search?: string; sortBy?: string; category?: string; page?: string } =
+  route.query;
+
+const pageInteger = parseInt(page || "1");
 const errorStore = useErrorStore();
 const form = ref<HTMLFormElement>();
 const searchTimeout = ref<number>(0);
@@ -68,16 +95,12 @@ const transactionItems = ref<ITransactionItem[]>([]);
 const isLoading = ref<boolean>(true);
 const pageNumber = ref<number>(1);
 const formValues = reactive<ITransactionSearchForm>({
-  searchString: undefined,
-  sortBy: "Lastest",
-  category: undefined,
-  page: 1,
+  searchString: search,
+  sortBy: sortOptions.find((option) => option === sortBy) ?? sortOptions[0],
+  category:
+    categoryOptions.find((option) => option === category) ?? categoryOptions[0],
+  page: isNaN(pageInteger) || pageInteger <= 0 ? 1 : pageInteger,
 });
-
-const setCurrentPage = (page: number) => {
-  formValues.page = page;
-  searchTransactions();
-};
 
 const handleFilter = (field: FormFieldTypes, value?: string) => {
   switch (field) {
@@ -98,18 +121,25 @@ const filters: IDropdown[] = [
   {
     mobileIcon: sortIcon,
     label: "Sort by",
-    options: ["Latest", "Oldest", "A to Z", "Z to A", "Highest", "Lowest"],
+    options: sortOptions,
     onSelection: handleFilter,
     forField: "sortBy",
+    preSelectedOption: formValues.sortBy,
   },
   {
     mobileIcon: categoryIcon,
     label: "Category",
-    options: ["All Transactions", ...Object.values(EnumTransactionCategory)],
+    options: categoryOptions,
     onSelection: handleFilter,
     forField: "category",
+    preSelectedOption: formValues.category,
   },
 ];
+
+const setCurrentPage = (page: number) => {
+  formValues.page = page;
+  searchTransactions();
+};
 
 onBeforeMount(() => searchTransactions());
 
@@ -132,6 +162,15 @@ const searchTransactions = async (event?: Event) => {
       formValues.category,
       formValues.sortBy
     );
+
+    router.push({
+      query: {
+        page: formValues.page,
+        search: formValues.searchString,
+        sortBy: formValues.sortBy,
+        category: formValues.category,
+      },
+    });
 
     transactionItems.value = transactionsContent.transactions.map(
       (transaction) => ({
@@ -169,6 +208,7 @@ const searchTransactions = async (event?: Event) => {
   background-color: var(--white);
   border-radius: 0.75rem;
   padding: 1.5rem 1.25rem;
+  max-width: calc(100vw - 5.5rem);
   &_filter {
     display: flex;
     justify-content: space-between;

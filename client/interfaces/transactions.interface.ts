@@ -21,6 +21,7 @@ export interface ITransactionsTable {
 }
 
 export interface ITransactionsNavigation {
+  preSelectedPage?: number;
   numberOfPages: number;
   setPage: (page: number) => void
 }

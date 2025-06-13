@@ -64,8 +64,9 @@
 <script lang="ts" setup>
 import type { ITransactionsNavigation } from "~/interfaces/transactions.interface";
 
-const { numberOfPages, setPage } = defineProps<ITransactionsNavigation>();
-const currentPage = ref<number>(1);
+const { numberOfPages, preSelectedPage, setPage } =
+  defineProps<ITransactionsNavigation>();
+const currentPage = ref<number>(preSelectedPage ?? 1);
 const pagination = ref<(number | string)[]>([1]);
 let pageAroundCurrent = 0;
 
@@ -117,10 +118,7 @@ const handlePagination = (): void => {
 
   pagination.value = range;
 };
-watch(
-  () => numberOfPages,
-  () => handlePagination()
-);
+watch([() => numberOfPages, () => preSelectedPage], handlePagination);
 
 window.addEventListener("resize", handlePagination);
 
@@ -130,6 +128,7 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .transactions_pagination {
+  overflow-x: auto;
   margin-top: auto;
   &_list {
     display: flex;
