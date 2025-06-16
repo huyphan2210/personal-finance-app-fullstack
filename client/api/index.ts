@@ -213,7 +213,7 @@ export interface Budget {
   /**  */
   maximum: number;
 
-  /** One of: ['Entertaiment', 'Bills', 'Dining Out', 'Personal Care', 'General'] */
+  /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General'] */
   category: EnumBudgetCategory;
 }
 
@@ -225,7 +225,7 @@ export interface Transaction {
   /**  */
   user: string;
 
-  /** One of: ['Entertaiment', 'Bills', 'Dining Out', 'Personal Care', 'General'] */
+  /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General'] */
   category: EnumTransactionCategory;
 
   /**  */
@@ -265,14 +265,14 @@ export interface Pots {
   pots: Pot[];
 }
 export enum EnumBudgetCategory {
-  'Entertaiment' = 'Entertaiment',
+  'Entertainment' = 'Entertainment',
   'Bills' = 'Bills',
   'Dining Out' = 'Dining Out',
   'Personal Care' = 'Personal Care',
   'General' = 'General'
 }
 export enum EnumTransactionCategory {
-  'Entertaiment' = 'Entertaiment',
+  'Entertainment' = 'Entertainment',
   'Bills' = 'Bills',
   'Dining Out' = 'Dining Out',
   'Personal Care' = 'Personal Care',

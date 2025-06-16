@@ -201,10 +201,10 @@
                 },
                 "category": {
                     "type": "string",
-                    "description": "One of: ['Entertaiment', 'Bills', 'Dining Out', 'Personal Care', 'General']",
-                    "example": "Entertaiment",
+                    "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General']",
+                    "example": "Entertainment",
                     "enum": [
-                        "Entertaiment",
+                        "Entertainment",
                         "Bills",
                         "Dining Out",
                         "Personal Care",
@@ -232,10 +232,10 @@
                 },
                 "category": {
                     "type": "string",
-                    "description": "One of: ['Entertaiment', 'Bills', 'Dining Out', 'Personal Care', 'General']",
-                    "example": "Entertaiment",
+                    "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General']",
+                    "example": "Entertainment",
                     "enum": [
-                        "Entertaiment",
+                        "Entertainment",
                         "Bills",
                         "Dining Out",
                         "Personal Care",
