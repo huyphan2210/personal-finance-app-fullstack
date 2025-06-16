@@ -9,6 +9,9 @@ black = "*"
 pydantic = "*"
 flask-restx = "*"
 flask-cors = "*"
+sqlalchemy = "*"
+psycopg2-binary = "*"
+flask-sqlalchemy = "*"
 
 [dev-packages]
 
