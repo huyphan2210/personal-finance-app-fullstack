@@ -27,8 +27,6 @@ class Transactions(Resource):
         search = queries["search"]
         category = queries["category"]
         sortBy = queries["sortBy"]
-        if category in Category.__members__:
-            category = Category[category]
 
         transactions = get_transactions(page, search, category, sortBy)
 
