@@ -97,8 +97,7 @@ const pageNumber = ref<number>(1);
 const formValues = reactive<ITransactionSearchForm>({
   searchString: search,
   sortBy: sortOptions.find((option) => option === sortBy) ?? sortOptions[0],
-  category:
-    categoryOptions.find((option) => option === category) ?? categoryOptions[0],
+  category: categoryOptions.find((option) => option === category),
   page: isNaN(pageInteger) || pageInteger <= 0 ? 1 : pageInteger,
 });
 
