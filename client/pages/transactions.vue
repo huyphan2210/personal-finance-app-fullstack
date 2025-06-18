@@ -34,6 +34,9 @@
           :on-selection="filter.onSelection"
           :for-field="filter.forField"
           :pre-selected-option="filter.preSelectedOption"
+          :class="{
+            'category-dropdown': filter.forField === 'category',
+          }"
         />
       </div>
     </fieldset>
@@ -104,6 +107,7 @@ const formValues = reactive<ITransactionSearchForm>({
 const handleFilter = (field: FormFieldTypes, value?: string) => {
   switch (field) {
     case "category":
+      formValues.page = 1;
       if (value === "All Transactions") {
         value = undefined;
       }
@@ -146,6 +150,7 @@ const handleSearchString = (event: Event) => {
   clearTimeout(searchTimeout.value);
   const value = (event.currentTarget as HTMLInputElement).value || undefined;
   formValues.searchString = value;
+  formValues.page = 1;
   searchTimeout.value = setTimeout(() => {
     searchTransactions();
   }, 300);
@@ -182,7 +187,7 @@ const searchTransactions = async (event?: Event) => {
     );
 
     pageNumber.value = transactionsContent.numberOfPages;
-
+    formValues.page = transactionsContent.currentPage;
     window.scroll({
       top: 0,
       behavior: "smooth",
@@ -207,7 +212,6 @@ const searchTransactions = async (event?: Event) => {
   background-color: var(--white);
   border-radius: 0.75rem;
   padding: 1.5rem 1.25rem;
-  max-width: calc(100vw - 5.5rem);
   &_filter {
     display: flex;
     justify-content: space-between;

@@ -201,14 +201,19 @@
                 },
                 "category": {
                     "type": "string",
-                    "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General']",
+                    "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']",
                     "example": "Entertainment",
                     "enum": [
                         "Entertainment",
                         "Bills",
                         "Dining Out",
                         "Personal Care",
-                        "General"
+                        "General",
+                        "Groceries",
+                        "Transportation",
+                        "Lifestyle",
+                        "Education",
+                        "Shopping"
                     ]
                 }
             },
@@ -232,14 +237,19 @@
                 },
                 "category": {
                     "type": "string",
-                    "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General']",
+                    "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']",
                     "example": "Entertainment",
                     "enum": [
                         "Entertainment",
                         "Bills",
                         "Dining Out",
                         "Personal Care",
-                        "General"
+                        "General",
+                        "Groceries",
+                        "Transportation",
+                        "Lifestyle",
+                        "Education",
+                        "Shopping"
                     ]
                 },
                 "date": {
@@ -275,6 +285,7 @@
         },
         "TransactionsContent": {
             "required": [
+                "currentPage",
                 "numberOfPages",
                 "transactions"
             ],
@@ -287,6 +298,9 @@
                     }
                 },
                 "numberOfPages": {
+                    "type": "integer"
+                },
+                "currentPage": {
                     "type": "integer"
                 }
             },

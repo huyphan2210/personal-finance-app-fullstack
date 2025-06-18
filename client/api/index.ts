@@ -213,7 +213,7 @@ export interface Budget {
   /**  */
   maximum: number;
 
-  /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General'] */
+  /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping'] */
   category: EnumBudgetCategory;
 }
 
@@ -225,7 +225,7 @@ export interface Transaction {
   /**  */
   user: string;
 
-  /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General'] */
+  /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping'] */
   category: EnumTransactionCategory;
 
   /**  */
@@ -257,6 +257,9 @@ export interface TransactionsContent {
 
   /**  */
   numberOfPages: number;
+
+  /**  */
+  currentPage: number;
 }
 
 /** Pots */
@@ -269,12 +272,22 @@ export enum EnumBudgetCategory {
   'Bills' = 'Bills',
   'Dining Out' = 'Dining Out',
   'Personal Care' = 'Personal Care',
-  'General' = 'General'
+  'General' = 'General',
+  'Groceries' = 'Groceries',
+  'Transportation' = 'Transportation',
+  'Lifestyle' = 'Lifestyle',
+  'Education' = 'Education',
+  'Shopping' = 'Shopping'
 }
 export enum EnumTransactionCategory {
   'Entertainment' = 'Entertainment',
   'Bills' = 'Bills',
   'Dining Out' = 'Dining Out',
   'Personal Care' = 'Personal Care',
-  'General' = 'General'
+  'General' = 'General',
+  'Groceries' = 'Groceries',
+  'Transportation' = 'Transportation',
+  'Lifestyle' = 'Lifestyle',
+  'Education' = 'Education',
+  'Shopping' = 'Shopping'
 }

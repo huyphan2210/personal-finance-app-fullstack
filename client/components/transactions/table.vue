@@ -1,5 +1,10 @@
 <template>
-  <table class="transactions_table">
+  <table
+    :class="{
+      transactions_table: true,
+      'no-data': data.length === 0,
+    }"
+  >
     <colgroup>
       <col style="width: 50%" />
       <col style="width: 20%" />
@@ -69,8 +74,23 @@ const transformDate = (dateString: string) => {
   &_table {
     margin-bottom: 1.5rem;
 
-    &.is-loading {
+    &.is-loading,
+    &.no-data {
       flex: 1;
+    }
+
+    &.no-data {
+      tbody {
+        position: relative;
+        &::before {
+          content: "No Data";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          @include text-preset-4-bold;
+        }
+      }
     }
 
     colgroup {

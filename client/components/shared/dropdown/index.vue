@@ -226,6 +226,17 @@ onMounted(() => {
         display: none;
       }
     }
+
+    &.category-dropdown {
+      .dropdown-wrapper {
+        &_button {
+          &_content {
+            justify-content: space-between;
+            min-width: 8rem;
+          }
+        }
+      }
+    }
   }
 }
 </style>

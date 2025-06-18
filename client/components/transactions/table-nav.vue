@@ -81,6 +81,11 @@ const setCurrentPage = (page: number) => {
 
 const handlePagination = (): void => {
   const range: (number | string)[] = [];
+  if (numberOfPages === 0) {
+    pagination.value = range;
+    return;
+  }
+
   if (window.innerWidth >= 768 && numberOfPages <= 10) {
     pageAroundCurrent = 2;
     for (let i = 1; i <= numberOfPages; i++) {
@@ -119,6 +124,14 @@ const handlePagination = (): void => {
   pagination.value = range;
 };
 watch([() => numberOfPages, () => preSelectedPage], handlePagination);
+watch(
+  () => preSelectedPage,
+  (value) => {
+    if (value) {
+      currentPage.value = value;
+    }
+  }
+);
 
 window.addEventListener("resize", handlePagination);
 
