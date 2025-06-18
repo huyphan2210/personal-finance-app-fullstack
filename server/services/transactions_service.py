@@ -52,89 +52,6 @@ def get_transactions(page: int, search_string: str, category: str, sort_by: str)
         TRANSACTIONS_PER_PAGE
     ).offset(page - 1)
 
-    # transactions = [
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793082/emma-richardson_b0zi3o.jpg",
-    #         user="Emma Richardson",
-    #         category=Category.General,
-    #         date=datetime.fromisoformat("2024-08-19T14:23:11+00:00"),
-    #         amount=75.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793083/savory-bites-bistro_ha4gab.jpg",
-    #         user="Savory Bites Bistro",
-    #         category=Category.DiningOut,
-    #         date=datetime.fromisoformat("2024-08-19T20:23:11+00:00"),
-    #         amount=-55.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793082/emma-richardson_b0zi3o.jpg",
-    #         user="Emma Richardson",
-    #         category=Category.General,
-    #         date=datetime.fromisoformat("2024-08-19T14:23:11+00:00"),
-    #         amount=75.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793083/savory-bites-bistro_ha4gab.jpg",
-    #         user="Savory Bites Bistro",
-    #         category=Category.DiningOut,
-    #         date=datetime.fromisoformat("2024-08-19T20:23:11+00:00"),
-    #         amount=-55.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793082/emma-richardson_b0zi3o.jpg",
-    #         user="Emma Richardson",
-    #         category=Category.General,
-    #         date=datetime.fromisoformat("2024-08-19T14:23:11+00:00"),
-    #         amount=75.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793083/savory-bites-bistro_ha4gab.jpg",
-    #         user="Savory Bites Bistro",
-    #         category=Category.DiningOut,
-    #         date=datetime.fromisoformat("2024-08-19T20:23:11+00:00"),
-    #         amount=-55.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793082/emma-richardson_b0zi3o.jpg",
-    #         user="Emma Richardson",
-    #         category=Category.General,
-    #         date=datetime.fromisoformat("2024-08-19T14:23:11+00:00"),
-    #         amount=75.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793083/savory-bites-bistro_ha4gab.jpg",
-    #         user="Savory Bites Bistro",
-    #         category=Category.DiningOut,
-    #         date=datetime.fromisoformat("2024-08-19T20:23:11+00:00"),
-    #         amount=-55.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793082/emma-richardson_b0zi3o.jpg",
-    #         user="Emma Richardson",
-    #         category=Category.General,
-    #         date=datetime.fromisoformat("2024-08-19T14:23:11+00:00"),
-    #         amount=75.5,
-    #         recurring=False,
-    #     ),
-    #     Transaction(
-    #         avatarUrl="https://res.cloudinary.com/dejteftxn/image/upload/v1747793083/savory-bites-bistro_ha4gab.jpg",
-    #         user="Savory Bites Bistro",
-    #         category=Category.DiningOut,
-    #         date=datetime.fromisoformat("2024-08-19T20:23:11+00:00"),
-    #         amount=-55.5,
-    #         recurring=False,
-    #     ),
-    # ]
-
     totalRows = transaction_query.count()
     numberOfPages = totalRows // TRANSACTIONS_PER_PAGE
     if totalRows % TRANSACTIONS_PER_PAGE > 0:
@@ -153,6 +70,7 @@ def get_transactions(page: int, search_string: str, category: str, sort_by: str)
             for transaction in transactions
         ],
         numberOfPages=numberOfPages,
+        currentPage=page,
     )
 
 
@@ -164,7 +82,7 @@ def validate_get_transactions(
         raise BadRequestError("Page number must be positive.")
 
     # Validate category
-    if category and category not in Category.__members__:
+    if category and category not in Category.__members__.values():
         raise BadRequestError(f"Category {category} doesn't exist. ")
 
     # Validate search string

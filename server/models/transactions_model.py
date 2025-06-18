@@ -15,3 +15,4 @@ class Transaction(BaseModel):
 class TransactionsContent(BaseModel):
     transactions: list[Transaction]
     numberOfPages: int
+    currentPage: int

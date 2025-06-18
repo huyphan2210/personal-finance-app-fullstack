@@ -7,3 +7,8 @@ class Category(str, Enum):
     DiningOut = "Dining Out"
     PersonalCare = "Personal Care"
     General = "General"
+    Groceries = "Groceries"
+    Transportation = "Transportation"
+    Lifestyle = "Lifestyle"
+    Education = "Education"
+    Shopping = "Shopping"
