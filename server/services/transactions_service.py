@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from sqlalchemy import desc
+from sqlalchemy import String, cast, desc, or_
 from exceptions import BadRequestError, NotFoundError
 
 from models.transactions_model import Transaction, TransactionsContent
@@ -11,6 +11,15 @@ IMAGE_HOSTING_URI = os.getenv(
     "IMAGE_HOSTING_URI", "https://res.cloudinary.com/dejteftxn/image/upload/"
 )
 TRANSACTIONS_PER_PAGE = 10
+
+SORT_OPTIONS = {
+    "Latest": desc(TransactionSchema.date),
+    "Oldest": TransactionSchema.date,
+    "A to Z": TransactionSchema.user,
+    "Z to A": desc(TransactionSchema.user),
+    "Highest": desc(TransactionSchema.amount),
+    "Lowest": TransactionSchema.amount,
+}
 
 
 def get_overview_transactions():
@@ -35,26 +44,16 @@ def get_overview_transactions():
 
 def get_transactions(page: int, search_string: str, category: str, sort_by: str):
     validate_get_transactions(page, search_string, category, sort_by)
-    transaction_query = TransactionSchema.query
 
-    if search_string:
-        search = f"%{search_string}%"
-        transaction_query = transaction_query.filter(
-            TransactionSchema.user.ilike(search)
-        )
-
-    if category:
-        transaction_query = transaction_query.filter(
-            TransactionSchema.category == category
-        )
+    transaction_query = transform_transaction_query(search_string, category, sort_by)
 
     transactions: list[TransactionSchema] = transaction_query.limit(
         TRANSACTIONS_PER_PAGE
-    ).offset(page - 1)
+    ).offset((page - 1) * TRANSACTIONS_PER_PAGE)
 
     totalRows = transaction_query.count()
     numberOfPages = totalRows // TRANSACTIONS_PER_PAGE
-    if totalRows % TRANSACTIONS_PER_PAGE > 0:
+    if totalRows > TRANSACTIONS_PER_PAGE and totalRows % TRANSACTIONS_PER_PAGE > 0:
         numberOfPages += 1
 
     return TransactionsContent(
@@ -92,12 +91,37 @@ def validate_get_transactions(
         raise BadRequestError("Your search is too long.")
 
     # Validate sortBy
-    if sort_by not in [
-        "Latest",
-        "Oldest",
-        "A to Z",
-        "Z to A",
-        "Highest",
-        "Lowest",
-    ]:
+    if sort_by not in SORT_OPTIONS.keys():
         raise BadRequestError("Sort is not approriate.")
+
+
+def transform_transaction_query(search_string: str, category: str, sort_by: str):
+    transaction_query = TransactionSchema.query
+
+    if search_string:
+        search = f"%{search_string}%"
+        try:
+            search_amount = f"%{int(search_string)}%"
+        except ValueError:
+            try:
+                search_amount = f"%{float(search_string)}%"
+            except ValueError:
+                search_amount = ""
+
+        transaction_query = transaction_query.filter(
+            or_(
+                TransactionSchema.user.ilike(search),
+                cast(TransactionSchema.amount, String).ilike(search_amount),
+            )
+        )
+
+    if category:
+        transaction_query = transaction_query.filter(
+            TransactionSchema.category == category
+        )
+
+    sort_clause = SORT_OPTIONS.get(sort_by)
+    if sort_clause is not None:
+        transaction_query = transaction_query.order_by(sort_clause)
+
+    return transaction_query

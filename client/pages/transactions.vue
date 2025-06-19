@@ -13,7 +13,7 @@
           aria-label="Search fields for Transactions"
           type="search"
           name="Search Transactions"
-          placeholder="Search Transactions"
+          placeholder="Search by Name or Amount"
           :value="formValues.searchString"
           @input="handleSearchString"
         />
