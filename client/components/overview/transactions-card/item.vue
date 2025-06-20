@@ -19,6 +19,7 @@ const { avatarUrl, amount, user, date } = defineProps<Transaction>();
 const enUSFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
+  signDisplay: "always",
 });
 
 const transactionDate = new Date(date);

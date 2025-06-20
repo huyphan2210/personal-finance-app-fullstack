@@ -175,7 +175,7 @@ export interface OverviewContent {
   pots: Pot[];
 
   /**  */
-  budgets: Budget[];
+  budgets: BudgetOverviewContent;
 
   /**  */
   transactions: Transaction[];
@@ -208,6 +208,18 @@ export interface Pot {
   total: number;
 }
 
+/** BudgetOverviewContent */
+export interface BudgetOverviewContent {
+  /**  */
+  totalSpent: number;
+
+  /**  */
+  totalMaximum: number;
+
+  /**  */
+  representBudgets: Budget[];
+}
+
 /** Budget */
 export interface Budget {
   /**  */
@@ -215,6 +227,9 @@ export interface Budget {
 
   /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping'] */
   category: EnumBudgetCategory;
+
+  /** One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac'] */
+  colorTheme: EnumBudgetColorTheme;
 }
 
 /** Transaction */
@@ -278,6 +293,12 @@ export enum EnumBudgetCategory {
   'Lifestyle' = 'Lifestyle',
   'Education' = 'Education',
   'Shopping' = 'Shopping'
+}
+export enum EnumBudgetColorTheme {
+  '#82c9d7' = '#82c9d7',
+  '#277c78' = '#277c78',
+  '#626070' = '#626070',
+  '#f2cdac' = '#f2cdac'
 }
 export enum EnumTransactionCategory {
   'Entertainment' = 'Entertainment',

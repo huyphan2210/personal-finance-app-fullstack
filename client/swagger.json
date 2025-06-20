@@ -133,11 +133,7 @@
                     }
                 },
                 "budgets": {
-                    "type": "array",
-                    "description": "",
-                    "items": {
-                        "$ref": "#/definitions/Budget"
-                    }
+                    "$ref": "#/definitions/BudgetOverviewContent"
                 },
                 "transactions": {
                     "type": "array",
@@ -190,9 +186,33 @@
             },
             "type": "object"
         },
+        "BudgetOverviewContent": {
+            "required": [
+                "representBudgets",
+                "totalMaximum",
+                "totalSpent"
+            ],
+            "properties": {
+                "totalSpent": {
+                    "type": "number"
+                },
+                "totalMaximum": {
+                    "type": "number"
+                },
+                "representBudgets": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                        "$ref": "#/definitions/Budget"
+                    }
+                }
+            },
+            "type": "object"
+        },
         "Budget": {
             "required": [
                 "category",
+                "colorTheme",
                 "maximum"
             ],
             "properties": {
@@ -214,6 +234,17 @@
                         "Lifestyle",
                         "Education",
                         "Shopping"
+                    ]
+                },
+                "colorTheme": {
+                    "type": "string",
+                    "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac']",
+                    "example": "#82c9d7",
+                    "enum": [
+                        "#82c9d7",
+                        "#277c78",
+                        "#626070",
+                        "#f2cdac"
                     ]
                 }
             },

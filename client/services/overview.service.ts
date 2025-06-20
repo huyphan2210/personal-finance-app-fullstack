@@ -31,8 +31,6 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
       }
     ).total;
 
-    const budgets = overviewContent.budgets;
-
     const overviewPageContent: IOverviewPageContent = {
       summaryCardsContent: [
         {
@@ -60,8 +58,9 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
         potItems: [...overviewContent.pots].slice(0, 4),
       },
       budgetsCardContent: {
-        spentBudget: 338,
-        budgetItems: budgets,
+        spentBudget: overviewContent.budgets.totalSpent,
+        totalBudget: overviewContent.budgets.totalMaximum,
+        budgetItems: overviewContent.budgets.representBudgets,
       },
       transactionsCardContent: {
         transactions: overviewContent.transactions,

@@ -10,17 +10,7 @@
         class="overview_content--budgets_content_chart"
         :overlay-number="budgetsCardContent?.spentBudget || 0"
         :data="chartData"
-        :total-number="
-          budgetsCardContent?.budgetItems.reduce(
-            (prev, next) => ({
-              maximum: prev.maximum + next.maximum,
-              category: EnumBudgetCategory.Bills,
-            }),
-            {
-              maximum: 0,
-            }
-          ).maximum || 0
-        "
+        :total-number="budgetsCardContent?.totalBudget || 0"
       />
       <ul class="overview_content--budgets_content_list">
         <overview-card-item
@@ -28,6 +18,7 @@
           v-for="(item, index) in budgetsCardContent?.budgetItems"
           :label="item.category"
           :content="item.maximum.toFixed(2)"
+          :color-theme="item.colorTheme"
           :class="{
             'border-green': index % 4 === 0,
             'border-cyan': index % 4 === 1,
@@ -42,9 +33,7 @@
 
 <script lang="ts" setup>
 import type { ChartData } from "chart.js";
-import { Color } from "~/types/color";
 import type { IOverviewBudgetsCard } from "./budgets-card.model";
-import { EnumBudgetCategory } from "~/api";
 
 const { budgetsCardContent } = defineProps<IOverviewBudgetsCard>();
 
@@ -53,7 +42,8 @@ chartData.value = {
   datasets: [
     {
       data: budgetsCardContent?.budgetItems.map((item) => item.maximum) || [],
-      backgroundColor: [Color.Green, Color.Cyan, Color.Yellow, Color.Navy],
+      backgroundColor:
+        budgetsCardContent?.budgetItems.map((item) => item.colorTheme) || [],
       hoverOffset: 4,
     },
   ],
