@@ -1,19 +1,11 @@
-import uuid
 from datetime import datetime
-from sqlalchemy import UUID
 from database import db
+from schemas.base_schema import BaseSchema
 
 
-class Transaction(db.Model):
+class Transaction(db.Model, BaseSchema):
     __tablename__ = "transactions"
 
-    id = db.Column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        default=uuid.uuid4,
-        unique=True,
-        nullable=False,
-    )
     avatar_url = db.Column(db.String, nullable=True)
     user = db.Column(db.String, nullable=False)
     category = db.Column(db.String, nullable=False)
