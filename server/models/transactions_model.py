@@ -1,5 +1,5 @@
 from datetime import datetime
-from models.category_model import Category
+from enums.category_enum import Category
 from models.base_model import BaseModel
 
 

@@ -1,10 +1,10 @@
 import os
-from datetime import datetime
 from sqlalchemy import String, cast, desc, or_
-from exceptions import BadRequestError, NotFoundError
+from sqlalchemy.orm import Query
+from exceptions import BadRequestError
 
 from models.transactions_model import Transaction, TransactionsContent
-from models.category_model import Category
+from enums.category_enum import Category
 from schemas.transactions_schema import Transaction as TransactionSchema
 
 IMAGE_HOSTING_URI = os.getenv(
@@ -96,8 +96,18 @@ def validate_get_transactions(
 
 
 def transform_transaction_query(search_string: str, category: str, sort_by: str):
-    transaction_query = TransactionSchema.query
+    transaction_query = TransactionSchema.query.filter_by(is_deleted=False)
+    for filter_fn in [
+        lambda query: filter_transactions_by_search(query, search_string),
+        lambda query: filter_transactions_by_category(query, category),
+        lambda query: filter_transactions_with_sort_by(query, sort_by),
+    ]:
+        transaction_query = filter_fn(transaction_query)
 
+    return transaction_query
+
+
+def filter_transactions_by_search(transaction_query: Query, search_string: str):
     if search_string:
         search = f"%{search_string}%"
         try:
@@ -115,11 +125,19 @@ def transform_transaction_query(search_string: str, category: str, sort_by: str)
             )
         )
 
+    return transaction_query
+
+
+def filter_transactions_by_category(transaction_query: Query, category: str):
     if category:
         transaction_query = transaction_query.filter(
             TransactionSchema.category == category
         )
 
+    return transaction_query
+
+
+def filter_transactions_with_sort_by(transaction_query: Query, sort_by: str):
     sort_clause = SORT_OPTIONS.get(sort_by)
     if sort_clause is not None:
         transaction_query = transaction_query.order_by(sort_clause)

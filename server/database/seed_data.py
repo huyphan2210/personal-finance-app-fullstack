@@ -1,7 +1,9 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
-from models.category_model import Category
+from enums.category_enum import Category
+from enums.color_enum import Color
+from schemas.budgets_schema import Budget
 from schemas.transactions_schema import Transaction
 
 
@@ -403,8 +405,41 @@ def seed_transaction_data(db: SQLAlchemy):
                 ),
             ]
         )
-        db.session.commit()
+
+
+def seed_budgets_data(db: SQLAlchemy):
+    if not Budget.query.first():
+        db.session.add_all(
+            [
+                Budget(
+                    category=Category.Bills,
+                    spent=250,
+                    maximum=1000,
+                    color_theme=Color.Cyan,
+                ),
+                Budget(
+                    category=Category.DiningOut,
+                    spent=67,
+                    maximum=75,
+                    color_theme=Color.Yellow,
+                ),
+                Budget(
+                    category=Category.PersonalCare,
+                    spent=65,
+                    maximum=100,
+                    color_theme=Color.Navy,
+                ),
+                Budget(
+                    category=Category.Entertainment,
+                    spent=25,
+                    maximum=50,
+                    color_theme=Color.Green,
+                ),
+            ]
+        )
 
 
 def seed_data(db: SQLAlchemy):
     seed_transaction_data(db)
+    seed_budgets_data(db)
+    db.session.commit()

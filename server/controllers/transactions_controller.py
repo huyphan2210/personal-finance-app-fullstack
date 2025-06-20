@@ -1,7 +1,6 @@
-from flask import jsonify, request
+from flask import jsonify
 from flask_restx import Namespace, Resource, reqparse
 
-from models.category_model import Category
 from services.transactions_service import get_transactions
 from models.transactions_model import TransactionsContent as TransactionsModel
 

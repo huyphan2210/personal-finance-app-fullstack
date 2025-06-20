@@ -1,7 +1,15 @@
+from enums.color_enum import Color
 from models.base_model import BaseModel
-from models.category_model import Category
+from enums.category_enum import Category
 
 
 class Budget(BaseModel):
     maximum: float
     category: Category
+    colorTheme: Color
+
+
+class BudgetOverviewContent(BaseModel):
+    totalSpent: float
+    totalMaximum: float
+    representBudgets: list[Budget]
