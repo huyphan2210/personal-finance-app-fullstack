@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from enums.category_enum import Category
 from enums.color_enum import Color
-from schemas.budgets_schema import Budget
-from schemas.transactions_schema import Transaction
+from schemas.budget_schema import Budget
+from schemas.transaction_schema import Transaction
 
 
 def seed_transaction_data(db: SQLAlchemy):

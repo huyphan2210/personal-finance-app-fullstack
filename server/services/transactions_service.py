@@ -5,7 +5,7 @@ from exceptions import BadRequestError
 
 from models.transactions_model import Transaction, TransactionsContent
 from enums.category_enum import Category
-from schemas.transactions_schema import Transaction as TransactionSchema
+from schemas.transaction_schema import Transaction as TransactionSchema
 
 IMAGE_HOSTING_URI = os.getenv(
     "IMAGE_HOSTING_URI", "https://res.cloudinary.com/dejteftxn/image/upload/"

@@ -2,7 +2,7 @@ from sqlalchemy import func
 from database import db
 from enums.color_enum import Color
 from models.budgets_model import Budget, BudgetOverviewContent
-from schemas.budgets_schema import Budget as BudgetSchema
+from schemas.budget_schema import Budget as BudgetSchema
 
 
 def get_overview_budgets():
