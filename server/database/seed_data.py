@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from enums.category_enum import Category
 from enums.color_enum import Color
 from schemas.budget_schema import Budget
+from schemas.pot_schema import Pot
 from schemas.transaction_schema import Transaction
 
 
@@ -439,7 +440,23 @@ def seed_budgets_data(db: SQLAlchemy):
         )
 
 
+def seed_pots_data(db: SQLAlchemy):
+    if not Pot.query.first():
+        db.session.add_all(
+            [
+                Pot(name="Savings", target=2000, total=159, color_theme=Color.Green),
+                Pot(name="Gift", target=150, total=110, color_theme=Color.Cyan),
+                Pot(
+                    name="Concert Ticket", target=150, total=110, color_theme=Color.Navy
+                ),
+                Pot(name="New Laptop", target=1000, total=10, color_theme=Color.Yellow),
+                Pot(name="Holiday", target=1440, total=531, color_theme=Color.Purple),
+            ]
+        )
+
+
 def seed_data(db: SQLAlchemy):
     seed_transaction_data(db)
     seed_budgets_data(db)
+    seed_pots_data(db)
     db.session.commit()

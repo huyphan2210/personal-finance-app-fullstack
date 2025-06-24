@@ -20,15 +20,10 @@
       <ul class="overview_content--pots_wrapper_items">
         <overview-card-item
           class="pot-item"
-          v-for="(potItem, index) in potsCardContent?.potItems"
+          v-for="potItem in potsCardContent?.potItems"
           :label="potItem.name"
           :content="potItem.total.toString()"
-          :class="{
-            'border-green': index % 4 === 0,
-            'border-cyan': index % 4 === 1,
-            'border-navy': index % 4 === 2,
-            'border-yellow': index % 4 === 3,
-          }"
+          :color-theme="potItem.colorTheme"
         />
       </ul>
     </div>

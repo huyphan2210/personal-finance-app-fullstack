@@ -15,16 +15,10 @@
       <ul class="overview_content--budgets_content_list">
         <overview-card-item
           class="budget-item"
-          v-for="(item, index) in budgetsCardContent?.budgetItems"
+          v-for="item in budgetsCardContent?.budgetItems"
           :label="item.category"
           :content="item.maximum.toFixed(2)"
           :color-theme="item.colorTheme"
-          :class="{
-            'border-green': index % 4 === 0,
-            'border-cyan': index % 4 === 1,
-            'border-yellow': index % 4 === 2,
-            'border-navy': index % 4 === 3,
-          }"
         />
       </ul>
     </div>

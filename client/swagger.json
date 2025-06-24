@@ -1,364 +1,416 @@
 {
-    "swagger": "2.0",
-    "basePath": "/api",
-    "paths": {
-        "/overview": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "schema": {
-                            "$ref": "#/definitions/OverviewContent"
-                        }
-                    }
-                },
-                "description": "Get the overview data",
-                "operationId": "get_overview",
-                "tags": [
-                    "overview"
-                ]
-            }
+  "basePath": "/api",
+  "consumes": [
+    "application/json"
+  ],
+  "definitions": {
+    "Balance": {
+      "properties": {
+        "current": {
+          "type": "number"
         },
-        "/pots": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "schema": {
-                            "$ref": "#/definitions/Pots"
-                        }
-                    }
-                },
-                "operationId": "get_pots",
-                "parameters": [
-                    {
-                        "name": "X-Fields",
-                        "in": "header",
-                        "type": "string",
-                        "format": "mask",
-                        "description": "An optional fields mask"
-                    }
-                ],
-                "tags": [
-                    "pots"
-                ]
-            }
+        "expenses": {
+          "type": "number"
         },
-        "/transactions": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "schema": {
-                            "$ref": "#/definitions/TransactionsContent"
-                        }
-                    }
-                },
-                "description": "Get the transactions data",
-                "operationId": "get_transactions",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "type": "integer",
-                        "default": 1
-                    },
-                    {
-                        "name": "search",
-                        "in": "query",
-                        "type": "string",
-                        "default": ""
-                    },
-                    {
-                        "name": "category",
-                        "in": "query",
-                        "type": "string",
-                        "default": ""
-                    },
-                    {
-                        "name": "sortBy",
-                        "in": "query",
-                        "type": "string",
-                        "default": ""
-                    }
-                ],
-                "tags": [
-                    "transactions"
-                ]
-            }
+        "income": {
+          "type": "number"
         }
+      },
+      "required": [
+        "current",
+        "expenses",
+        "income"
+      ],
+      "type": "object"
     },
-    "info": {
-        "title": "My API",
-        "version": "1.0"
+    "Budget": {
+      "properties": {
+        "category": {
+          "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']",
+          "enum": [
+            "Entertainment",
+            "Bills",
+            "Dining Out",
+            "Personal Care",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ],
+          "example": "Entertainment",
+          "type": "string",
+          "x-enum-varnames": [
+            "Entertainment",
+            "Bills",
+            "DiningOut",
+            "PersonalCare",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ]
+        },
+        "colorTheme": {
+          "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']",
+          "enum": [
+            "#82c9d7",
+            "#277c78",
+            "#626070",
+            "#f2cdac",
+            "#826CB0"
+          ],
+          "example": "#82c9d7",
+          "type": "string",
+          "x-enum-varnames": [
+            "Cyan",
+            "Green",
+            "Navy",
+            "Yellow",
+            "Purple"
+          ]
+        },
+        "maximum": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "category",
+        "colorTheme",
+        "maximum"
+      ],
+      "type": "object"
     },
-    "produces": [
-        "application/json"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "tags": [
-        {
-            "name": "overview",
-            "description": "Get summary of Overview"
+    "BudgetOverviewContent": {
+      "properties": {
+        "representBudgets": {
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/Budget"
+          },
+          "type": "array"
         },
-        {
-            "name": "transactions",
-            "description": "Get Transactions content"
+        "totalMaximum": {
+          "type": "number"
         },
-        {
-            "name": "pots",
-            "description": "Get Pots content"
+        "totalSpent": {
+          "type": "number"
         }
-    ],
-    "definitions": {
-        "OverviewContent": {
-            "required": [
-                "balance",
-                "budgets",
-                "pots",
-                "recurringBillsSummary",
-                "transactions"
-            ],
-            "properties": {
-                "balance": {
-                    "$ref": "#/definitions/Balance"
-                },
-                "pots": {
-                    "type": "array",
-                    "description": "",
-                    "items": {
-                        "$ref": "#/definitions/Pot"
-                    }
-                },
-                "budgets": {
-                    "$ref": "#/definitions/BudgetOverviewContent"
-                },
-                "transactions": {
-                    "type": "array",
-                    "description": "",
-                    "items": {
-                        "$ref": "#/definitions/Transaction"
-                    }
-                },
-                "recurringBillsSummary": {
-                    "$ref": "#/definitions/RecurringBillsSummary"
-                }
-            },
-            "type": "object"
-        },
-        "Balance": {
-            "required": [
-                "current",
-                "expenses",
-                "income"
-            ],
-            "properties": {
-                "current": {
-                    "type": "number"
-                },
-                "income": {
-                    "type": "number"
-                },
-                "expenses": {
-                    "type": "number"
-                }
-            },
-            "type": "object"
-        },
-        "Pot": {
-            "required": [
-                "name",
-                "target",
-                "total"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "target": {
-                    "type": "number"
-                },
-                "total": {
-                    "type": "number"
-                }
-            },
-            "type": "object"
-        },
-        "BudgetOverviewContent": {
-            "required": [
-                "representBudgets",
-                "totalMaximum",
-                "totalSpent"
-            ],
-            "properties": {
-                "totalSpent": {
-                    "type": "number"
-                },
-                "totalMaximum": {
-                    "type": "number"
-                },
-                "representBudgets": {
-                    "type": "array",
-                    "description": "",
-                    "items": {
-                        "$ref": "#/definitions/Budget"
-                    }
-                }
-            },
-            "type": "object"
-        },
-        "Budget": {
-            "required": [
-                "category",
-                "colorTheme",
-                "maximum"
-            ],
-            "properties": {
-                "maximum": {
-                    "type": "number"
-                },
-                "category": {
-                    "type": "string",
-                    "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']",
-                    "example": "Entertainment",
-                    "enum": [
-                        "Entertainment",
-                        "Bills",
-                        "Dining Out",
-                        "Personal Care",
-                        "General",
-                        "Groceries",
-                        "Transportation",
-                        "Lifestyle",
-                        "Education",
-                        "Shopping"
-                    ]
-                },
-                "colorTheme": {
-                    "type": "string",
-                    "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac']",
-                    "example": "#82c9d7",
-                    "enum": [
-                        "#82c9d7",
-                        "#277c78",
-                        "#626070",
-                        "#f2cdac"
-                    ]
-                }
-            },
-            "type": "object"
-        },
-        "Transaction": {
-            "required": [
-                "amount",
-                "avatarUrl",
-                "category",
-                "date",
-                "recurring",
-                "user"
-            ],
-            "properties": {
-                "avatarUrl": {
-                    "type": "string"
-                },
-                "user": {
-                    "type": "string"
-                },
-                "category": {
-                    "type": "string",
-                    "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']",
-                    "example": "Entertainment",
-                    "enum": [
-                        "Entertainment",
-                        "Bills",
-                        "Dining Out",
-                        "Personal Care",
-                        "General",
-                        "Groceries",
-                        "Transportation",
-                        "Lifestyle",
-                        "Education",
-                        "Shopping"
-                    ]
-                },
-                "date": {
-                    "type": "string"
-                },
-                "amount": {
-                    "type": "number"
-                },
-                "recurring": {
-                    "type": "boolean"
-                }
-            },
-            "type": "object"
-        },
-        "RecurringBillsSummary": {
-            "required": [
-                "dueSoonAmount",
-                "paidAmount",
-                "totalUpcomingAmount"
-            ],
-            "properties": {
-                "paidAmount": {
-                    "type": "number"
-                },
-                "totalUpcomingAmount": {
-                    "type": "number"
-                },
-                "dueSoonAmount": {
-                    "type": "number"
-                }
-            },
-            "type": "object"
-        },
-        "TransactionsContent": {
-            "required": [
-                "currentPage",
-                "numberOfPages",
-                "transactions"
-            ],
-            "properties": {
-                "transactions": {
-                    "type": "array",
-                    "description": "",
-                    "items": {
-                        "$ref": "#/definitions/Transaction"
-                    }
-                },
-                "numberOfPages": {
-                    "type": "integer"
-                },
-                "currentPage": {
-                    "type": "integer"
-                }
-            },
-            "type": "object"
-        },
-        "Pots": {
-            "required": [
-                "pots"
-            ],
-            "properties": {
-                "pots": {
-                    "type": "array",
-                    "description": "",
-                    "items": {
-                        "$ref": "#/definitions/Pot"
-                    }
-                }
-            },
-            "type": "object"
-        }
+      },
+      "required": [
+        "representBudgets",
+        "totalMaximum",
+        "totalSpent"
+      ],
+      "type": "object"
     },
-    "responses": {
-        "ParseError": {
-            "description": "When a mask can't be parsed"
+    "OverviewContent": {
+      "properties": {
+        "balance": {
+          "$ref": "#/definitions/Balance"
         },
-        "MaskError": {
-            "description": "When any error occurs on mask"
+        "budgets": {
+          "$ref": "#/definitions/BudgetOverviewContent"
+        },
+        "pots": {
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/Pot"
+          },
+          "type": "array"
+        },
+        "recurringBillsSummary": {
+          "$ref": "#/definitions/RecurringBillsSummary"
+        },
+        "transactions": {
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          },
+          "type": "array"
         }
+      },
+      "required": [
+        "balance",
+        "budgets",
+        "pots",
+        "recurringBillsSummary",
+        "transactions"
+      ],
+      "type": "object"
+    },
+    "Pot": {
+      "properties": {
+        "colorTheme": {
+          "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']",
+          "enum": [
+            "#82c9d7",
+            "#277c78",
+            "#626070",
+            "#f2cdac",
+            "#826CB0"
+          ],
+          "example": "#82c9d7",
+          "type": "string",
+          "x-enum-varnames": [
+            "Cyan",
+            "Green",
+            "Navy",
+            "Yellow",
+            "Purple"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "target": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "colorTheme",
+        "name",
+        "target",
+        "total"
+      ],
+      "type": "object"
+    },
+    "Pots": {
+      "properties": {
+        "pots": {
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/Pot"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "pots"
+      ],
+      "type": "object"
+    },
+    "RecurringBillsSummary": {
+      "properties": {
+        "dueSoonAmount": {
+          "type": "number"
+        },
+        "paidAmount": {
+          "type": "number"
+        },
+        "totalUpcomingAmount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "dueSoonAmount",
+        "paidAmount",
+        "totalUpcomingAmount"
+      ],
+      "type": "object"
+    },
+    "Transaction": {
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "avatarUrl": {
+          "type": "string"
+        },
+        "category": {
+          "description": "One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']",
+          "enum": [
+            "Entertainment",
+            "Bills",
+            "Dining Out",
+            "Personal Care",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ],
+          "example": "Entertainment",
+          "type": "string",
+          "x-enum-varnames": [
+            "Entertainment",
+            "Bills",
+            "DiningOut",
+            "PersonalCare",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ]
+        },
+        "date": {
+          "type": "string"
+        },
+        "recurring": {
+          "type": "boolean"
+        },
+        "user": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "avatarUrl",
+        "category",
+        "date",
+        "recurring",
+        "user"
+      ],
+      "type": "object"
+    },
+    "TransactionsContent": {
+      "properties": {
+        "currentPage": {
+          "type": "integer"
+        },
+        "numberOfPages": {
+          "type": "integer"
+        },
+        "transactions": {
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "currentPage",
+        "numberOfPages",
+        "transactions"
+      ],
+      "type": "object"
     }
+  },
+  "info": {
+    "title": "My API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/overview": {
+      "get": {
+        "description": "Get the overview data",
+        "operationId": "get_overview",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/OverviewContent"
+            }
+          }
+        },
+        "tags": [
+          "overview"
+        ]
+      }
+    },
+    "/pots": {
+      "get": {
+        "operationId": "get_pots",
+        "parameters": [
+          {
+            "description": "An optional fields mask",
+            "format": "mask",
+            "in": "header",
+            "name": "X-Fields",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Pots"
+            }
+          }
+        },
+        "tags": [
+          "pots"
+        ]
+      }
+    },
+    "/transactions": {
+      "get": {
+        "description": "Get the transactions data",
+        "operationId": "get_transactions",
+        "parameters": [
+          {
+            "default": 1,
+            "in": "query",
+            "name": "page",
+            "type": "integer"
+          },
+          {
+            "default": "",
+            "in": "query",
+            "name": "search",
+            "type": "string"
+          },
+          {
+            "default": "",
+            "in": "query",
+            "name": "category",
+            "type": "string"
+          },
+          {
+            "default": "",
+            "in": "query",
+            "name": "sortBy",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TransactionsContent"
+            }
+          }
+        },
+        "tags": [
+          "transactions"
+        ]
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "responses": {
+    "MaskError": {
+      "description": "When any error occurs on mask"
+    },
+    "ParseError": {
+      "description": "When a mask can't be parsed"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "description": "Get summary of Overview",
+      "name": "overview"
+    },
+    {
+      "description": "Get Transactions content",
+      "name": "transactions"
+    },
+    {
+      "description": "Get Pots content",
+      "name": "pots"
+    }
+  ]
 }

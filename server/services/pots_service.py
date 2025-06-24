@@ -1,12 +1,16 @@
-from models.pots_model import Pot, Pots
+from schemas.pot_schema import Pot as PotSchema
+from models.pots_model import Pot
 
 
-def get_pots():
-    pots: list[Pot] = [
-        Pot(name="Savings", target=2000, total=159),
-        Pot(name="Gift", target=150, total=110),
-        Pot(name="Concert Ticket", target=150, total=110),
-        Pot(name="New Laptop", target=1000, total=10),
-        Pot(name="Holiday", target=1440, total=531),
+def get_overview_pots():
+    pots = PotSchema.query.filter_by(is_deleted=False).limit(4)
+
+    return [
+        Pot(
+            name=pot.name,
+            target=pot.target,
+            total=pot.total,
+            colorTheme=pot.color_theme,
+        )
+        for pot in pots
     ]
-    return pots

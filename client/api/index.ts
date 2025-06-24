@@ -166,38 +166,65 @@ export class TransactionsService {
   }
 }
 
-/** OverviewContent */
-export interface OverviewContent {
-  /**  */
-  balance: Balance;
-
-  /**  */
-  pots: Pot[];
-
-  /**  */
-  budgets: BudgetOverviewContent;
-
-  /**  */
-  transactions: Transaction[];
-
-  /**  */
-  recurringBillsSummary: RecurringBillsSummary;
-}
-
 /** Balance */
 export interface Balance {
   /**  */
   current: number;
 
   /**  */
-  income: number;
+  expenses: number;
 
   /**  */
-  expenses: number;
+  income: number;
+}
+
+/** Budget */
+export interface Budget {
+  /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping'] */
+  category: EnumBudgetCategory;
+
+  /** One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0'] */
+  colorTheme: EnumBudgetColorTheme;
+
+  /**  */
+  maximum: number;
+}
+
+/** BudgetOverviewContent */
+export interface BudgetOverviewContent {
+  /**  */
+  representBudgets: Budget[];
+
+  /**  */
+  totalMaximum: number;
+
+  /**  */
+  totalSpent: number;
+}
+
+/** OverviewContent */
+export interface OverviewContent {
+  /**  */
+  balance: Balance;
+
+  /**  */
+  budgets: BudgetOverviewContent;
+
+  /**  */
+  pots: Pot[];
+
+  /**  */
+  recurringBillsSummary: RecurringBillsSummary;
+
+  /**  */
+  transactions: Transaction[];
 }
 
 /** Pot */
 export interface Pot {
+  /** One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0'] */
+  colorTheme: EnumPotColorTheme;
+
   /**  */
   name: string;
 
@@ -208,37 +235,31 @@ export interface Pot {
   total: number;
 }
 
-/** BudgetOverviewContent */
-export interface BudgetOverviewContent {
+/** Pots */
+export interface Pots {
   /**  */
-  totalSpent: number;
-
-  /**  */
-  totalMaximum: number;
-
-  /**  */
-  representBudgets: Budget[];
+  pots: Pot[];
 }
 
-/** Budget */
-export interface Budget {
+/** RecurringBillsSummary */
+export interface RecurringBillsSummary {
   /**  */
-  maximum: number;
+  dueSoonAmount: number;
 
-  /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping'] */
-  category: EnumBudgetCategory;
+  /**  */
+  paidAmount: number;
 
-  /** One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac'] */
-  colorTheme: EnumBudgetColorTheme;
+  /**  */
+  totalUpcomingAmount: number;
 }
 
 /** Transaction */
 export interface Transaction {
   /**  */
-  avatarUrl: string;
+  amount: number;
 
   /**  */
-  user: string;
+  avatarUrl: string;
 
   /** One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping'] */
   category: EnumTransactionCategory;
@@ -247,40 +268,22 @@ export interface Transaction {
   date: string;
 
   /**  */
-  amount: number;
-
-  /**  */
   recurring: boolean;
-}
-
-/** RecurringBillsSummary */
-export interface RecurringBillsSummary {
-  /**  */
-  paidAmount: number;
 
   /**  */
-  totalUpcomingAmount: number;
-
-  /**  */
-  dueSoonAmount: number;
+  user: string;
 }
 
 /** TransactionsContent */
 export interface TransactionsContent {
   /**  */
-  transactions: Transaction[];
+  currentPage: number;
 
   /**  */
   numberOfPages: number;
 
   /**  */
-  currentPage: number;
-}
-
-/** Pots */
-export interface Pots {
-  /**  */
-  pots: Pot[];
+  transactions: Transaction[];
 }
 export enum EnumBudgetCategory {
   'Entertainment' = 'Entertainment',
@@ -298,7 +301,15 @@ export enum EnumBudgetColorTheme {
   '#82c9d7' = '#82c9d7',
   '#277c78' = '#277c78',
   '#626070' = '#626070',
-  '#f2cdac' = '#f2cdac'
+  '#f2cdac' = '#f2cdac',
+  '#826CB0' = '#826CB0'
+}
+export enum EnumPotColorTheme {
+  '#82c9d7' = '#82c9d7',
+  '#277c78' = '#277c78',
+  '#626070' = '#626070',
+  '#f2cdac' = '#f2cdac',
+  '#826CB0' = '#826CB0'
 }
 export enum EnumTransactionCategory {
   'Entertainment' = 'Entertainment',

@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import type { ICardItem } from "./card-item.model";
 
-const { label, content } = defineProps<ICardItem>();
+const { label, content, colorTheme } = defineProps<ICardItem>();
 </script>
 
 <style lang="scss" scoped>
