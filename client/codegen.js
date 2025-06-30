@@ -1,12 +1,12 @@
-import { readFileSync } from "fs";
-import { codegen } from "swagger-axios-codegen";
+import { generateApi } from "swagger-typescript-api";
+import path from "path";
 
-const swaggerDocument = JSON.parse(
-  readFileSync("./swagger.json", "utf-8")
-);
-
-codegen({
-  methodNameMode: "operationId",
-  source: swaggerDocument,
-  outputDir: "./api",
+generateApi({
+  output: path.resolve("./api"),
+  input: path.resolve("./swagger.json"),
+  modular: true,
+  extractEnums: true,
+  generateUnionEnums: false,
+}).then(() => {
+  console.log("✅ API client generated!");
 });

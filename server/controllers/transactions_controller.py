@@ -4,7 +4,7 @@ from flask_restx import Namespace, Resource, reqparse
 from services.transactions_service import get_transactions
 from models.transactions_model import TransactionsContent as TransactionsModel
 
-TRANSACTIONS = "transactions"
+TRANSACTIONS = "transactions-api"
 transactions_ns = Namespace(f"{TRANSACTIONS}", description="Get Transactions content")
 
 get_transaction_query_parser = reqparse.RequestParser()
@@ -14,7 +14,7 @@ get_transaction_query_parser.add_argument("category", type=str, default="")
 get_transaction_query_parser.add_argument("sortBy", type=str, default="")
 
 
-class Transactions(Resource):
+class TransactionsApi(Resource):
     @transactions_ns.expect(get_transaction_query_parser)
     @transactions_ns.doc(description="Get the transactions data")
     @transactions_ns.response(
@@ -32,4 +32,4 @@ class Transactions(Resource):
         return jsonify(transactions.model_dump())
 
 
-transactions_ns.add_resource(Transactions, "")
+transactions_ns.add_resource(TransactionsApi, "")

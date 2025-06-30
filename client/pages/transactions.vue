@@ -58,14 +58,16 @@
 import type { IDropdown } from "~/components/shared/dropdown/dropdown.modal";
 import sortIcon from "../assets/images/sort.svg";
 import categoryIcon from "../assets/images/category.svg";
-import { EnumTransactionCategory } from "~/api";
 import type {
   FormFieldTypes,
   ITransactionItem,
   ITransactionSearchForm,
 } from "~/interfaces/transactions.interface";
 import { getTransactions } from "~/services/transaction.service";
-import { AxiosError } from "axios";
+import {
+  TransactionCategoryEnum,
+  type Transaction,
+} from "~/api/data-contracts";
 
 const sortOptions = [
   "Latest",
@@ -77,7 +79,7 @@ const sortOptions = [
 ];
 const categoryOptions = [
   "All Transactions",
-  ...Object.values(EnumTransactionCategory),
+  ...Object.values(TransactionCategoryEnum),
 ];
 
 const router = useRouter();
@@ -177,7 +179,7 @@ const searchTransactions = async (event?: Event) => {
     });
 
     transactionItems.value = transactionsContent.transactions.map(
-      (transaction) => ({
+      (transaction: Transaction) => ({
         name: transaction.user,
         avatarUrl: transaction.avatarUrl,
         category: transaction.category,
@@ -193,7 +195,7 @@ const searchTransactions = async (event?: Event) => {
       behavior: "smooth",
     });
   } catch (error) {
-    if (error instanceof AxiosError) {
+    if (error instanceof Error) {
       errorStore.setErrorMessage(error.message);
     } else {
       errorStore.setDefaultErrorMessage();

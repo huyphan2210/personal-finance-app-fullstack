@@ -4,11 +4,11 @@ from flask_restx import Namespace, Resource
 from services.overview_service import get_overview
 from models.overview_model import OverviewContent
 
-OVERVIEW = "overview"
+OVERVIEW = "overview-api"
 overview_ns = Namespace(f"{OVERVIEW}", description="Get summary of Overview")
 
 
-class Overview(Resource):
+class OverviewApi(Resource):
     @overview_ns.doc(description="Get the overview data")
     @overview_ns.response(
         200, "Success", model=OverviewContent.get_api_model(overview_ns)
@@ -18,4 +18,4 @@ class Overview(Resource):
         return jsonify(overview_content.model_dump())
 
 
-overview_ns.add_resource(Overview, "")
+overview_ns.add_resource(OverviewApi, "")

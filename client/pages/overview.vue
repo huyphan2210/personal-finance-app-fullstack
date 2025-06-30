@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { AxiosError } from "axios";
 import {
   getSummaryContent,
   type IOverviewPageContent,
@@ -53,7 +52,7 @@ onBeforeMount(async () => {
   try {
     overviewContent.value = await getSummaryContent();
   } catch (error) {
-    if (error instanceof AxiosError) {
+    if (error instanceof Error) {
       errorStore.setErrorMessage(error.message);
     } else {
       errorStore.setDefaultErrorMessage();

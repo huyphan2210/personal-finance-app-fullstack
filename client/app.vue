@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import Sidebar from "./components/sidebar/index.vue";
 import { Page, usePageStore } from "./stores/pages.store";
-import axios from "axios";
-import { serviceOptions } from "~/api";
 
 const authenticationRoutes = [Page.Login, Page.Signup];
 
@@ -15,15 +13,6 @@ watch(
     pageStore.setCurrentPage(newPath as Page);
   }
 );
-
-const config = useRuntimeConfig();
-serviceOptions.axios = axios.create({
-  baseURL: config.public.apiBase,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
 </script>
 
 <template>

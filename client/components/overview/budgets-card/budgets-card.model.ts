@@ -1,4 +1,4 @@
-import type { Budget } from "~/api";
+import type { Budget } from "~/api/data-contracts";
 
 export interface IOverviewBudgetsCard {
   budgetsCardContent?: {

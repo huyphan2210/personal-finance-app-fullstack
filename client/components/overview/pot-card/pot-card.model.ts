@@ -1,4 +1,4 @@
-import type { Pot } from "~/api";
+import { type Pot } from "~/api/data-contracts";
 
 export interface IOverviewPotCard {
   potsCardContent?: {

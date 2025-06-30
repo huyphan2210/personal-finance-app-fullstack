@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Transaction } from "~/api";
+import type { Transaction } from "~/api/data-contracts";
 
 const { avatarUrl, amount, user, date } = defineProps<Transaction>();
 

@@ -1,6 +1,6 @@
-export enum Color {
-  Cyan = "#82c9d7",
-  Green = "#277c78",
-  Navy = "#626070",
-  Yellow = "#f2cdac",
-}
+import type {
+  BudgetColorThemeEnum,
+  PotColorThemeEnum,
+} from "~/api/data-contracts";
+
+export type Color = PotColorThemeEnum | BudgetColorThemeEnum;

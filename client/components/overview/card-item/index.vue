@@ -1,5 +1,5 @@
 <template>
-  <li class="card-item">
+  <li ref="cardItem" class="card-item">
     <small>{{ label }}</small>
     <span>${{ content }}</span>
   </li>
@@ -7,8 +7,21 @@
 
 <script lang="ts" setup>
 import type { ICardItem } from "./card-item.model";
+import { BudgetColorThemeEnum } from "~/api/data-contracts";
 
 const { label, content, colorTheme } = defineProps<ICardItem>();
+const cardItem = ref<HTMLLIElement>();
+const colorObject = Object.fromEntries(
+  Object.entries(BudgetColorThemeEnum).map(([key, value]) => [key, value])
+);
+
+onMounted(() => {
+  if (colorObject[colorTheme]) {
+    cardItem.value?.classList.add(
+      `border-${colorObject[colorTheme].toLowerCase()}`
+    );
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -64,6 +77,12 @@ const { label, content, colorTheme } = defineProps<ICardItem>();
   &.border-yellow {
     &::before {
       background-color: var(--yellow);
+    }
+  }
+
+  &.border-purple {
+    &::before {
+      background-color: var(--purple);
     }
   }
 }

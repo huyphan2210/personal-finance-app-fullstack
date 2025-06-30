@@ -1,9 +1,10 @@
-import { OverviewService } from "~/api";
 import type { IOverviewBudgetsCard } from "~/components/overview/budgets-card/budgets-card.model";
 import type { IOverviewPotCard } from "~/components/overview/pot-card/pot-card.model";
 import type { IOverviewRecurringBillsCard } from "~/components/overview/recurring-bills-card/recurring-bills-card.model";
 import type { IOverviewSummaryCard } from "~/components/overview/summary-card/summary-card.model";
 import type { IOverviewTransactionsCard } from "~/components/overview/transactions-card/transactions-card.model";
+import { type OverviewContent } from "~/api/data-contracts";
+import { handleResponse, overviewApi } from "./base.service";
 
 export interface IOverviewPageContent
   extends IOverviewPotCard,
@@ -15,7 +16,10 @@ export interface IOverviewPageContent
 
 export const getSummaryContent: () => Promise<IOverviewPageContent> =
   async () => {
-    const overviewContent = await OverviewService.getOverview();
+    const overviewContent = await handleResponse<OverviewContent>(
+      overviewApi.getOverviewApi
+    );
+
     const enUSFormatter = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",

@@ -1,4 +1,4 @@
-import type { Transaction } from "~/api";
+import type { Transaction } from "~/api/data-contracts";
 
 export interface IOverviewTransactionsCard {
   transactionsCardContent?: {
