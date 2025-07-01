@@ -10,11 +10,11 @@
  * ---------------------------------------------------------------
  */
 
-import { type TransactionsContent } from "./data-contracts";
-import { HttpClient, type RequestParams } from "./http-client";
+import { TransactionsContent } from "./data-contracts";
+import { HttpClient, RequestParams } from "./http-client";
 
 export class TransactionsApi<
-  SecurityDataType = unknown
+  SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
    * @description Get the transactions data
@@ -34,7 +34,7 @@ export class TransactionsApi<
       /** @default "" */
       sortBy?: string;
     },
-    params: RequestParams = {}
+    params: RequestParams = {},
   ) =>
     this.request<TransactionsContent, any>({
       path: `/transactions-api`,

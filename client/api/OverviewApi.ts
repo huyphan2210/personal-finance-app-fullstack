@@ -10,8 +10,8 @@
  * ---------------------------------------------------------------
  */
 
-import { type OverviewContent } from "./data-contracts";
-import { HttpClient, type RequestParams } from "./http-client";
+import { OverviewContent } from "./data-contracts";
+import { HttpClient, RequestParams } from "./http-client";
 
 export class OverviewApi<
   SecurityDataType = unknown

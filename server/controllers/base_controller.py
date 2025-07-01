@@ -15,18 +15,18 @@ api.add_namespace(transactions_ns)
 api.add_namespace(pots_ns)
 
 
-# @api.documentation
-# def custom_spec_for_enum():
-#     # from flask import jsonify
+@api.documentation
+def custom_spec_for_enum():
+    # from flask import jsonify
 
-#     spec = api.__schema__
+    spec = api.__schema__
 
-#     # Look for the schema that has your enum
-#     for definition in spec.get("definitions", {}).values():
-#         for props in definition.get("properties", {}).values():
-#             if props.get("enum") == [e.value for e in Color]:
-#                 props["x-enum-varnames"] = list(Color.__members__.keys())
-#             if props.get("enum") == [e.value for e in Category]:
-#                 props["x-enum-varnames"] = list(Category.__members__.keys())
+    # Look for the schema that has your enum
+    for definition in spec.get("definitions", {}).values():
+        for props in definition.get("properties", {}).values():
+            if props.get("enum") == [e.value for e in Color]:
+                props["x-enum-varnames"] = list(Color.__members__.keys())
+            if props.get("enum") == [e.value for e in Category]:
+                props["x-enum-varnames"] = list(Category.__members__.keys())
 
-#     return spec
+    return spec

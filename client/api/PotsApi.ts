@@ -10,11 +10,11 @@
  * ---------------------------------------------------------------
  */
 
-import { type Pots } from "./data-contracts";
-import { HttpClient, type RequestParams } from "./http-client";
+import { Pots } from "./data-contracts";
+import { HttpClient, RequestParams } from "./http-client";
 
 export class PotsApi<
-  SecurityDataType = unknown
+  SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
    * No description

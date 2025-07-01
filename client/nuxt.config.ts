@@ -26,4 +26,7 @@ export default defineNuxtConfig({
       apiBase: "http://127.0.0.1:5000/api",
     },
   },
+  typescript: {
+    tsConfig: "./tsconfig.app.json",
+  },
 });

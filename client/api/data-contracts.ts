@@ -10,39 +10,13 @@
  * ---------------------------------------------------------------
  */
 
-export interface OverviewContent {
-  balance: Balance;
-  pots: Pot[];
-  budgets: BudgetOverviewContent;
-  transactions: Transaction[];
-  recurringBillsSummary: RecurringBillsSummary;
-}
-
 export interface Balance {
   current: number;
-  income: number;
   expenses: number;
-}
-
-export interface Pot {
-  name: string;
-  target: number;
-  total: number;
-  /**
-   * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']
-   * @example "#82c9d7"
-   */
-  colorTheme: PotColorThemeEnum;
-}
-
-export interface BudgetOverviewContent {
-  totalSpent: number;
-  totalMaximum: number;
-  representBudgets: Budget[];
+  income: number;
 }
 
 export interface Budget {
-  maximum: number;
   /**
    * One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']
    * @example "Entertainment"
@@ -53,47 +27,61 @@ export interface Budget {
    * @example "#82c9d7"
    */
   colorTheme: BudgetColorThemeEnum;
+  maximum: number;
 }
 
-export interface Transaction {
-  avatarUrl: string;
-  user: string;
-  /**
-   * One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']
-   * @example "Entertainment"
-   */
-  category: TransactionCategoryEnum;
-  date: string;
-  amount: number;
-  recurring: boolean;
+export interface BudgetOverviewContent {
+  representBudgets: Budget[];
+  totalMaximum: number;
+  totalSpent: number;
 }
 
-export interface RecurringBillsSummary {
-  paidAmount: number;
-  totalUpcomingAmount: number;
-  dueSoonAmount: number;
-}
-
-export interface TransactionsContent {
+export interface OverviewContent {
+  balance: Balance;
+  budgets: BudgetOverviewContent;
+  pots: Pot[];
+  recurringBillsSummary: RecurringBillsSummary;
   transactions: Transaction[];
-  numberOfPages: number;
-  currentPage: number;
+}
+
+export interface Pot {
+  /**
+   * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']
+   * @example "#82c9d7"
+   */
+  colorTheme: PotColorThemeEnum;
+  name: string;
+  target: number;
+  total: number;
 }
 
 export interface Pots {
   pots: Pot[];
 }
 
-/**
- * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']
- * @example "#82c9d7"
- */
-export enum PotColorThemeEnum {
-  Value82C9D7 = "#82c9d7",
-  Value277C78 = "#277c78",
-  Value626070 = "#626070",
-  ValueF2Cdac = "#f2cdac",
-  Value826CB0 = "#826CB0",
+export interface RecurringBillsSummary {
+  dueSoonAmount: number;
+  paidAmount: number;
+  totalUpcomingAmount: number;
+}
+
+export interface Transaction {
+  amount: number;
+  avatarUrl: string;
+  /**
+   * One of: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care', 'General', 'Groceries', 'Transportation', 'Lifestyle', 'Education', 'Shopping']
+   * @example "Entertainment"
+   */
+  category: TransactionCategoryEnum;
+  date: string;
+  recurring: boolean;
+  user: string;
+}
+
+export interface TransactionsContent {
+  currentPage: number;
+  numberOfPages: number;
+  transactions: Transaction[];
 }
 
 /**
@@ -118,11 +106,23 @@ export enum BudgetCategoryEnum {
  * @example "#82c9d7"
  */
 export enum BudgetColorThemeEnum {
-  Value82C9D7 = "#82c9d7",
-  Value277C78 = "#277c78",
-  Value626070 = "#626070",
-  ValueF2Cdac = "#f2cdac",
-  Value826CB0 = "#826CB0",
+  Cyan = "#82c9d7",
+  Green = "#277c78",
+  Navy = "#626070",
+  Yellow = "#f2cdac",
+  Purple = "#826CB0",
+}
+
+/**
+ * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']
+ * @example "#82c9d7"
+ */
+export enum PotColorThemeEnum {
+  Cyan = "#82c9d7",
+  Green = "#277c78",
+  Navy = "#626070",
+  Yellow = "#f2cdac",
+  Purple = "#826CB0",
 }
 
 /**
