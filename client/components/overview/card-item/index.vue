@@ -12,7 +12,7 @@ import { BudgetColorThemeEnum } from "~/api/data-contracts";
 const { label, content, colorTheme } = defineProps<ICardItem>();
 const cardItem = ref<HTMLLIElement>();
 const colorObject = Object.fromEntries(
-  Object.entries(BudgetColorThemeEnum).map(([key, value]) => [key, value])
+  Object.entries(BudgetColorThemeEnum).map(([key, value]) => [value, key])
 );
 
 onMounted(() => {
