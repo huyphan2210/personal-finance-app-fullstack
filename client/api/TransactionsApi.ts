@@ -10,8 +10,8 @@
  * ---------------------------------------------------------------
  */
 
-import { TransactionsContent } from "./data-contracts";
-import { HttpClient, RequestParams } from "./http-client";
+import type { TransactionsContent } from "./data-contracts";
+import { HttpClient, type RequestParams } from "./http-client";
 
 export class TransactionsApi<
   SecurityDataType = unknown,

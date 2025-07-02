@@ -10,11 +10,11 @@
  * ---------------------------------------------------------------
  */
 
-import { OverviewContent } from "./data-contracts";
-import { HttpClient, RequestParams } from "./http-client";
+import type { OverviewContent } from "./data-contracts";
+import { HttpClient, type RequestParams } from "./http-client";
 
 export class OverviewApi<
-  SecurityDataType = unknown
+  SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
    * @description Get the overview data
