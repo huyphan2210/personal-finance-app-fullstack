@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev && tsx scripts/patch-nuxt-tsconfig.ts",
-    "postdev": "tsx scripts/patch-nuxt-tsconfig.ts",
+    "generate-api": "npx swagger-typescript-api generate -p ./swagger.json -o ./api -t ./swagger-templates/modular --modular --extract-enums --no-generate-union-enums",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
