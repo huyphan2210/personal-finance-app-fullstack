@@ -30,7 +30,7 @@ export interface Budget {
   maximum: number;
 }
 
-export interface BudgetOverviewContent {
+export interface BudgetContent {
   representBudgets: Budget[];
   totalMaximum: number;
   totalSpent: number;
@@ -38,7 +38,7 @@ export interface BudgetOverviewContent {
 
 export interface OverviewContent {
   balance: Balance;
-  budgets: BudgetOverviewContent;
+  budgets: BudgetContent;
   pots: Pot[];
   recurringBillsSummary: RecurringBillsSummary;
   transactions: Transaction[];

@@ -84,7 +84,7 @@
       ],
       "type": "object"
     },
-    "BudgetOverviewContent": {
+    "BudgetContent": {
       "properties": {
         "representBudgets": {
           "description": "",
@@ -113,7 +113,7 @@
           "$ref": "#/definitions/Balance"
         },
         "budgets": {
-          "$ref": "#/definitions/BudgetOverviewContent"
+          "$ref": "#/definitions/BudgetContent"
         },
         "pots": {
           "description": "",
@@ -301,6 +301,31 @@
     "version": "1.0"
   },
   "paths": {
+    "/budgets-api": {
+      "get": {
+        "operationId": "get_budgets_api",
+        "parameters": [
+          {
+            "description": "An optional fields mask",
+            "format": "mask",
+            "in": "header",
+            "name": "X-Fields",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/BudgetContent"
+            }
+          }
+        },
+        "tags": [
+          "budgets-api"
+        ]
+      }
+    },
     "/overview-api": {
       "get": {
         "description": "Get the overview data",
@@ -403,6 +428,10 @@
     {
       "description": "Get summary of Overview",
       "name": "overview-api"
+    },
+    {
+      "description": "Get Budgets content",
+      "name": "budgets-api"
     },
     {
       "description": "Get Transactions content",
