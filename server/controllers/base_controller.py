@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask_restx import Api
 
 from controllers.overview_controller import overview_ns
+from controllers.budgets_controller import budgets_ns
 from controllers.transactions_controller import transactions_ns
 from controllers.pots_controller import pots_ns
 from enums.category_enum import Category
@@ -11,6 +12,7 @@ api_bp = Blueprint("api", __name__, url_prefix="/api")
 api = Api(api_bp, title="My API", version="1.0")
 
 api.add_namespace(overview_ns)
+api.add_namespace(budgets_ns)
 api.add_namespace(transactions_ns)
 api.add_namespace(pots_ns)
 

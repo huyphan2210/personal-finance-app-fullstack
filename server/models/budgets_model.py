@@ -9,7 +9,7 @@ class Budget(BaseModel):
     colorTheme: Color
 
 
-class BudgetOverviewContent(BaseModel):
+class BudgetContent(BaseModel):
     totalSpent: float
     totalMaximum: float
     representBudgets: list[Budget]
