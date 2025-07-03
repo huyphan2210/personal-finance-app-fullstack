@@ -1,0 +1,9 @@
+@mixin card-spacing-style {
+  background-color: var(--white);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.75rem;
+
+  @media screen and (min-width: 48rem) {
+    padding: 2rem;
+  }
+}

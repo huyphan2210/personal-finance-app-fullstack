@@ -16,6 +16,7 @@ export default defineNuxtConfig({
             @use "@/assets/styles/modal" as *;
             @use "@/assets/styles/form" as *;
             @use "@/assets/styles/animations" as *;
+            @use "@/assets/styles/utilities" as *;
           `,
         },
       },
