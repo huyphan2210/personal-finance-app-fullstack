@@ -2,10 +2,15 @@ import { type HttpResponse, type RequestParams } from "~/api/http-client";
 import { OverviewApi } from "~/api/OverviewApi";
 import { TransactionsApi } from "~/api/TransactionsApi";
 import { PotsApi } from "~/api/PotsApi";
+import { BudgetsApi } from "~/api/BudgetsApi";
 
 const config = useRuntimeConfig();
 
 export const overviewApi = new OverviewApi({
+  baseUrl: config.public.apiBase,
+});
+
+export const budgetApi = new BudgetsApi({
   baseUrl: config.public.apiBase,
 });
 

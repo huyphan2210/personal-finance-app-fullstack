@@ -1,8 +1,8 @@
-import type { EnumTransactionCategory } from "~/api";
+import type { TransactionCategoryEnum } from "~/api/data-contracts";
 
 export type FormFieldTypes = 'sortBy' | 'category';
 export interface ITransactionItem {
-  category: EnumTransactionCategory;
+  category: TransactionCategoryEnum;
   transactionDate: string;
   amount: number;
   name: string;

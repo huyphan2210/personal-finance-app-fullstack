@@ -95,7 +95,7 @@ const {
 const pageInteger = parseInt(page || "1");
 const errorStore = useErrorStore();
 const form = ref<HTMLFormElement>();
-const searchTimeout = ref<number>(0);
+const searchTimeout = ref<NodeJS.Timeout>();
 const transactionItems = ref<ITransactionItem[]>([]);
 const isLoading = ref<boolean>(true);
 const pageNumber = ref<number>(1);
