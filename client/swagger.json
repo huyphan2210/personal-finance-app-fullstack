@@ -75,12 +75,16 @@
         },
         "maximum": {
           "type": "number"
+        },
+        "spent": {
+          "type": "number"
         }
       },
       "required": [
         "category",
         "colorTheme",
-        "maximum"
+        "maximum",
+        "spent"
       ],
       "type": "object"
     },
@@ -303,16 +307,8 @@
   "paths": {
     "/budgets-api": {
       "get": {
+        "description": "Get the budgets data",
         "operationId": "get_budgets_api",
-        "parameters": [
-          {
-            "description": "An optional fields mask",
-            "format": "mask",
-            "in": "header",
-            "name": "X-Fields",
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",

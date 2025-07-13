@@ -5,6 +5,7 @@ from enums.category_enum import Category
 
 class Budget(BaseModel):
     maximum: float
+    spent: float
     category: Category
     colorTheme: Color
 

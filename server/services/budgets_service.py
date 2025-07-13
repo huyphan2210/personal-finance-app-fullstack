@@ -31,6 +31,7 @@ def get_overview_budgets():
                     if budget.color_theme in Color.__members__.values()
                     else "#000"
                 ),
+                spent=budget.spent
             )
             for budget in representBudgets
         ],
@@ -61,6 +62,7 @@ def get_budgets():
                     if budget.color_theme in Color.__members__.values()
                     else "#000"
                 ),
+                spent=budget.spent
             )
             for budget in representBudgets
         ],

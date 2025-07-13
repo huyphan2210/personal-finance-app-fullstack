@@ -17,7 +17,7 @@ export class BudgetsApi<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * No description
+   * @description Get the budgets data
    *
    * @tags budgets-api
    * @name GetBudgetsApi
