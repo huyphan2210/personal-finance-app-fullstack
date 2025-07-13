@@ -29,3 +29,8 @@ export const handleResponse = async <T = any>(
   const json = await response.json();
   return json;
 };
+
+export const enUSFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
