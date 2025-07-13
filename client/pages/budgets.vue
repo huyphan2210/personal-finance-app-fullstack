@@ -5,7 +5,12 @@
       + Add New Budget
     </button>
   </hgroup>
-  <section class="budgets_content">
+  <section
+    :class="{
+      budgets_content: true,
+      'is-loading': !budgets,
+    }"
+  >
     <section class="budgets_content_spending-summary">
       <shared-doughnut-chart
         v-if="chartData"
@@ -14,15 +19,28 @@
         :data="chartData"
         :total-number="budgets?.totalMaximum || 0"
       />
+      <h2 class="budgets_content_spending-summary_heading">Spending Summary</h2>
+      <ul class="budgets_content_spending-summary_list">
+        <budgets-spending-summary-item
+          v-for="budget in budgets?.representBudgets"
+          class="budgets_content_spending-summary_list_item"
+          :color-theme="budget.colorTheme"
+          :category="budget.category"
+          :maximum-with-currency="budget.maximumWithCurrency"
+          :spent-with-currency="budget.spentWithCurrency"
+          :maximum="budget.maximum"
+          :spent="budget.spent"
+        />
+      </ul>
     </section>
   </section>
 </template>
 
 <script setup lang="ts">
 import type { ChartData } from "chart.js";
-import { type BudgetContent } from "~/api/data-contracts";
+import type { IBudgetContent } from "~/interfaces/budgets.interface";
 import { getBudgets } from "~/services/budgets.service";
-const budgets = ref<BudgetContent>();
+const budgets = ref<IBudgetContent>();
 const chartData = ref<ChartData>();
 getBudgets().then((response) => {
   budgets.value = response;
@@ -44,6 +62,7 @@ getBudgets().then((response) => {
   &_heading {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     &_button {
       &--add-new {
         padding: 1rem;
@@ -57,12 +76,32 @@ getBudgets().then((response) => {
   &_content {
     flex: 1;
     &_spending-summary {
-      background-color: var(--white);
-      border-radius: 0.75rem;
+      @include card-spacing-style;
+      &_heading {
+        @include text-preset-2;
+        margin-bottom: 1.5rem;
+      }
+
+      &_list {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        &_item {
+          padding-bottom: 1rem;
+          border-bottom: solid 1px var(--grey-100);
+          &:last-child {
+            padding-bottom: 0;
+            border: none;
+          }
+        }
+      }
 
       &_chart {
         max-width: 15rem;
         margin-inline: auto;
+        padding-block: 1.25rem;
+        margin-bottom: 2rem;
       }
     }
   }
