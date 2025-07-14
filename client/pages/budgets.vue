@@ -37,6 +37,18 @@
         </ul>
       </div>
     </section>
+    <ul class="budgets_content_budgets-detail-list">
+      <li
+        v-for="budget in budgets?.representBudgets"
+        class="budgets_content_budgets-detail-list_item"
+      >
+        <budgets-content-card
+          :heading="budget.category"
+          :color-theme="budget.colorTheme"
+          :dropdown-options="[]"
+        />
+      </li>
+    </ul>
   </section>
 </template>
 
@@ -62,6 +74,8 @@ getBudgets().then((response) => {
 </script>
 
 <style lang="scss" scoped>
+$gap: 1.5rem;
+
 .budgets {
   &_heading {
     display: flex;
@@ -77,8 +91,12 @@ getBudgets().then((response) => {
       }
     }
   }
+
   &_content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $gap;
     &_spending-summary {
       @include card-spacing-style;
       &_wrapper {
@@ -111,6 +129,13 @@ getBudgets().then((response) => {
         margin-bottom: 2rem;
       }
     }
+
+    &_budgets-detail-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: $gap;
+    }
   }
 }
 
@@ -135,7 +160,6 @@ getBudgets().then((response) => {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       grid-template-rows: repeat(4, min-content);
-      gap: 1.5rem;
 
       &_spending-summary {
         display: unset;

@@ -1,6 +1,16 @@
-import type { Color } from "chart.js";
+import type {
+  BudgetColorThemeEnum,
+  PotColorThemeEnum,
+} from "~/api/data-contracts";
 
 export interface IContentCard {
   heading: string;
-  colorTheme: Color;
+  colorTheme: BudgetColorThemeEnum | PotColorThemeEnum;
+  dropdownOptions: IDropdownOption[];
+}
+
+export interface IDropdownOption {
+  content: string;
+  contentColor: string;
+  onClick: () => void;
 }
