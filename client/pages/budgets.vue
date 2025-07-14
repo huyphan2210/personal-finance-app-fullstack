@@ -19,19 +19,23 @@
         :data="chartData"
         :total-number="budgets?.totalMaximum || 0"
       />
-      <h2 class="budgets_content_spending-summary_heading">Spending Summary</h2>
-      <ul class="budgets_content_spending-summary_list">
-        <budgets-spending-summary-item
-          v-for="budget in budgets?.representBudgets"
-          class="budgets_content_spending-summary_list_item"
-          :color-theme="budget.colorTheme"
-          :category="budget.category"
-          :maximum-with-currency="budget.maximumWithCurrency"
-          :spent-with-currency="budget.spentWithCurrency"
-          :maximum="budget.maximum"
-          :spent="budget.spent"
-        />
-      </ul>
+      <div class="budgets_content_spending-summary_wrapper">
+        <h2 class="budgets_content_spending-summary_heading">
+          Spending Summary
+        </h2>
+        <ul class="budgets_content_spending-summary_list">
+          <budgets-spending-summary-item
+            v-for="budget in budgets?.representBudgets"
+            class="budgets_content_spending-summary_list_item"
+            :color-theme="budget.colorTheme"
+            :category="budget.category"
+            :maximum-with-currency="budget.maximumWithCurrency"
+            :spent-with-currency="budget.spentWithCurrency"
+            :maximum="budget.maximum"
+            :spent="budget.spent"
+          />
+        </ul>
+      </div>
     </section>
   </section>
 </template>
@@ -77,6 +81,9 @@ getBudgets().then((response) => {
     flex: 1;
     &_spending-summary {
       @include card-spacing-style;
+      &_wrapper {
+        min-width: 18.5rem;
+      }
       &_heading {
         @include text-preset-2;
         margin-bottom: 1.5rem;
@@ -102,6 +109,41 @@ getBudgets().then((response) => {
         margin-inline: auto;
         padding-block: 1.25rem;
         margin-bottom: 2rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 48rem) {
+  .budgets {
+    &_content {
+      &_spending-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        &_chart {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 90rem) {
+  .budgets {
+    &_content {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(4, min-content);
+      gap: 1.5rem;
+
+      &_spending-summary {
+        display: unset;
+        grid-column: 1 / span 5;
+
+        &_chart {
+          margin-inline: auto;
+        }
       }
     }
   }
