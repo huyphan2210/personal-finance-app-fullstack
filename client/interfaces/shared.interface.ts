@@ -11,6 +11,6 @@ export interface IContentCard {
 
 export interface IDropdownOption {
   content: string;
-  contentColor: string;
+  contentColor?: string;
   onClick: () => void;
 }

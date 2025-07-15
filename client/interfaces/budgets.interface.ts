@@ -16,4 +16,5 @@ export interface IBudgetContent extends BudgetContent {
 
 export interface IBudgetContentCard extends IContentCard {
   heading: BudgetCategoryEnum;
+  budgetInfo: IBudget;
 }

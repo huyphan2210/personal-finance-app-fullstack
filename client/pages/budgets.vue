@@ -46,6 +46,7 @@
           :heading="budget.category"
           :color-theme="budget.colorTheme"
           :dropdown-options="[]"
+          :budget-info="budget"
         />
       </li>
     </ul>
@@ -83,11 +84,15 @@ $gap: 1.5rem;
     align-items: center;
     &_button {
       &--add-new {
+        @include text-preset-4-bold;
         padding: 1rem;
         border-radius: 0.5rem;
         color: var(--white);
         background-color: var(--grey-900);
-        @include text-preset-4-bold;
+
+        &:hover {
+          background-color: var(--grey-500);
+        }
       }
     }
   }

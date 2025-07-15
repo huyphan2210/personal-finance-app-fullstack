@@ -4,7 +4,10 @@
       <h2 ref="cardHeading" class="content-card_heading-wrapper_heading">
         {{ heading }}
       </h2>
-      <div class="content-card_heading-wrapper_dropdown-wrapper">
+      <div
+        ref="dropdownWrapper"
+        class="content-card_heading-wrapper_dropdown-wrapper"
+      >
         <button
           @click="openDropdownMenu"
           title="Open-Dropdown Button"
@@ -23,12 +26,24 @@
               fill="var(--grey-300)"
             />
           </svg>
-          <ul class="content-card_heading-wrapper_dropdown-wrapper_options">
-            <li v-for="option in dropdownOptions">
-              <button type="button" title="Option">{{ option.content }}</button>
-            </li>
-          </ul>
         </button>
+        <ul
+          ref="dropdownList"
+          class="content-card_heading-wrapper_dropdown-wrapper_options"
+        >
+          <li v-for="option in dropdownOptions">
+            <button
+              @click="option.onClick"
+              type="button"
+              title="Option"
+              :style="{
+                color: option.contentColor,
+              }"
+            >
+              {{ option.content }}
+            </button>
+          </li>
+        </ul>
       </div>
     </hgroup>
     <slot />
@@ -42,6 +57,8 @@ import type { IContentCard } from "~/interfaces/shared.interface";
 const { heading, colorTheme, dropdownOptions } = defineProps<IContentCard>();
 
 const cardHeading = ref<HTMLHeadingElement>();
+const dropdownWrapper = ref<HTMLDivElement>();
+const dropdownList = ref<HTMLUListElement>();
 const colorObject = Object.fromEntries(
   Object.entries(BudgetColorThemeEnum).map(([key, value]) => [value, key])
 );
@@ -52,9 +69,23 @@ onMounted(() => {
       `theme-${colorObject[colorTheme].toLowerCase()}`
     );
   }
+  document.addEventListener("click", closeDropdownMenu);
 });
 
-const openDropdownMenu = () => {};
+onUnmounted(() => document.removeEventListener("click", closeDropdownMenu));
+
+const openDropdownMenu = () => {
+  document
+    .querySelectorAll(".content-card_heading-wrapper_dropdown-wrapper_options")
+    .forEach((element) => element.classList.remove("show"));
+  dropdownList.value?.classList.add("show");
+};
+
+const closeDropdownMenu = (e: Event) => {
+  if (!dropdownWrapper.value?.contains(e.target as Node)) {
+    dropdownList.value?.classList.remove("show");
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -114,8 +145,67 @@ const openDropdownMenu = () => {};
       position: relative;
       &_button {
         display: flex;
+        &:hover {
+          svg {
+            path {
+              fill: var(--grey-900);
+            }
+          }
+        }
+      }
+      &_options {
+        display: none;
+        position: absolute;
+        list-style-type: none;
+        top: 100%;
+        right: 0;
+        background-color: var(--white);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        box-shadow: 0 0.25rem 1.5rem rgba(0, 0, 0, 0.25);
+        z-index: 1;
+
+        &.show {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          animation: show-up 0.3s ease-in-out;
+        }
+
+        li {
+          button {
+            @include text-preset-4;
+            color: var(--grey-900);
+            padding-bottom: 0.75rem;
+            border-bottom: solid 1px var(--grey-100);
+            white-space: nowrap;
+            width: 100%;
+            text-align: start;
+
+            &:hover {
+              font-weight: 700;
+            }
+          }
+
+          &:last-child {
+            button {
+              padding-bottom: 0;
+              border-bottom: none;
+            }
+          }
+        }
       }
     }
+  }
+}
+
+@keyframes show-up {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 </style>
