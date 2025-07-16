@@ -174,6 +174,11 @@ $gap: 1.5rem;
           margin-inline: auto;
         }
       }
+
+      &_budgets-detail-list {
+        grid-column: 6 / -1;
+        grid-row: 1 / -1;
+      }
     }
   }
 }
