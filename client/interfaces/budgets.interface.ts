@@ -3,7 +3,7 @@ import type {
   BudgetCategoryEnum,
   BudgetContent,
 } from "~/api/data-contracts";
-import type { IContentCard } from "./shared.interface";
+import type { IContentCard, IDropdownOption } from "./shared.interface";
 
 export interface IBudget extends Budget {
   maximumWithCurrency: string;
@@ -14,7 +14,7 @@ export interface IBudgetContent extends BudgetContent {
   representBudgets: IBudget[];
 }
 
-export interface IBudgetContentCard extends IContentCard {
-  heading: BudgetCategoryEnum;
+export interface IBudgetContentCard {
   budgetInfo: IBudget;
+  dropdownOptions: IDropdownOption[];
 }

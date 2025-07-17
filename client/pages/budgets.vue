@@ -33,6 +33,7 @@
             :spent-with-currency="budget.spentWithCurrency"
             :maximum="budget.maximum"
             :spent="budget.spent"
+            :represent-transactions="budget.representTransactions"
           />
         </ul>
       </div>
@@ -42,12 +43,7 @@
         v-for="budget in budgets?.representBudgets"
         class="budgets_content_budgets-detail-list_item"
       >
-        <budgets-content-card
-          :heading="budget.category"
-          :color-theme="budget.colorTheme"
-          :dropdown-options="[]"
-          :budget-info="budget"
-        />
+        <budgets-content-card :dropdown-options="[]" :budget-info="budget" />
       </li>
     </ul>
   </section>

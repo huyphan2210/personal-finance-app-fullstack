@@ -1,7 +1,7 @@
 <template>
   <shared-content-card
-    :heading="heading"
-    :color-theme="colorTheme"
+    :heading="budgetInfo.category"
+    :color-theme="budgetInfo.colorTheme"
     :dropdown-options="dropdownOptions.concat(defaultBudgetDropdownOptions)"
   >
     <section ref="budget" class="budget-info">
@@ -35,8 +35,7 @@ import type { IDropdownOption } from "~/interfaces/shared.interface";
 import { enUSFormatter } from "~/services/base.service";
 import { Color } from "~/types/color";
 
-const { heading, colorTheme, dropdownOptions, budgetInfo } =
-  defineProps<IBudgetContentCard>();
+const { dropdownOptions, budgetInfo } = defineProps<IBudgetContentCard>();
 
 const budget = ref<HTMLElement>();
 const openEditBudgetModal = () => {};
@@ -58,8 +57,10 @@ const colorObject = Object.fromEntries(
 );
 
 onMounted(() => {
-  if (colorObject[colorTheme]) {
-    budget.value?.classList.add(`${colorObject[colorTheme].toLowerCase()}`);
+  if (colorObject[budgetInfo.colorTheme]) {
+    budget.value?.classList.add(
+      `${colorObject[budgetInfo.colorTheme].toLowerCase()}`
+    );
   }
 });
 </script>
