@@ -76,6 +76,13 @@
         "maximum": {
           "type": "number"
         },
+        "representTransactions": {
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          },
+          "type": "array"
+        },
         "spent": {
           "type": "number"
         }
@@ -84,6 +91,7 @@
         "category",
         "colorTheme",
         "maximum",
+        "representTransactions",
         "spent"
       ],
       "type": "object"

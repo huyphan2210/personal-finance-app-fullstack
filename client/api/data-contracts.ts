@@ -28,6 +28,7 @@ export interface Budget {
    */
   colorTheme: BudgetColorThemeEnum;
   maximum: number;
+  representTransactions: Transaction[];
   spent: number;
 }
 
