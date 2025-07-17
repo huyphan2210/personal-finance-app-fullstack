@@ -23,9 +23,11 @@ SORT_OPTIONS = {
 
 
 def get_overview_transactions():
-    transactions: list[TransactionSchema] = TransactionSchema.query.order_by(
-        desc(TransactionSchema.date)
-    ).limit(5)
+    transactions: list[TransactionSchema] = (
+        TransactionSchema.query.filter_by(is_deleted=False)
+        .order_by(desc(TransactionSchema.date))
+        .limit(5)
+    )
 
     overview_transactions = [
         Transaction(
