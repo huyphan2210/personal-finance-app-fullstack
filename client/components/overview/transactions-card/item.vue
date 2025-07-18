@@ -77,6 +77,7 @@ const year = transactionDate.getUTCFullYear();
   }
 
   &_detail {
+    text-align: end;
     span {
       display: block;
       color: var(--grey-900);
