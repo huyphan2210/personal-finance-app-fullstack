@@ -22,7 +22,7 @@ const props = defineProps<{
   isModalShown: boolean;
 }>();
 
-const CLOSE_MODAL_EVENT = "close-modal";
+const CLOSE_MODAL_EVENT = "on-close-modal";
 
 const emits = defineEmits([CLOSE_MODAL_EVENT]);
 

@@ -18,3 +18,9 @@ export interface IBudgetContentCard {
   budgetInfo: IBudget;
   dropdownOptions: IDropdownOption[];
 }
+
+export interface IBudgetModal {
+  isShown: boolean;
+}
+
+export interface IBudgetAddNewModal extends IBudgetModal {}

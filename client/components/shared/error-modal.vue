@@ -2,7 +2,7 @@
   <shared-modal
     modal-heading="Error"
     :is-modal-shown="errorStore.isError"
-    v-on:close-modal="closeErrorModal"
+    v-on:on-close-modal="closeErrorModal"
   >
     {{ errorStore.message }}
   </shared-modal>
