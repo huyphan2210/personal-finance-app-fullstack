@@ -35,6 +35,7 @@ def get_overview_budgets():
                     else "#000"
                 ),
                 spent=budget.spent,
+                representTransactions=[],
             )
             for budget in representBudgets
         ],
@@ -79,8 +80,9 @@ def get_budgets():
                         TransactionSchema.query.filter(
                             TransactionSchema.is_deleted == False,
                             TransactionSchema.category == budget.category,
+                            TransactionSchema.amount < 0,
                         )
-                        .order_by(desc(TransactionSchema.created_at))
+                        .order_by(desc(TransactionSchema.date))
                         .limit(3)
                         .all()
                     )
