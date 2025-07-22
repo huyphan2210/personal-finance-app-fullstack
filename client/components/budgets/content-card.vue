@@ -76,7 +76,7 @@
 <script lang="ts" setup>
 import { BudgetColorThemeEnum } from "~/api/data-contracts";
 import { type IBudgetContentCard } from "~/interfaces/budgets.interface";
-import type { IDropdownOption } from "~/interfaces/shared.interface";
+import type { IContentCardDropdownOption } from "~/interfaces/shared.interface";
 import { enUSFormatter } from "~/services/base.service";
 import { Color } from "~/types/color";
 
@@ -96,7 +96,7 @@ const handleMouseLeave = () => {
   svgFillColorRef.value = "var(--grey-500)";
 };
 
-const defaultBudgetDropdownOptions: IDropdownOption[] = [
+const defaultBudgetDropdownOptions: IContentCardDropdownOption[] = [
   {
     content: "Edit Budget",
     onClick: openEditBudgetModal,

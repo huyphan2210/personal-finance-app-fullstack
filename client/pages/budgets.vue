@@ -1,7 +1,11 @@
 <template>
   <hgroup class="budgets_heading">
     <shared-page-heading />
-    <button class="budgets_heading_button--add-new" type="button">
+    <button
+      @click="openAddNewModal"
+      class="budgets_heading_button--add-new"
+      type="button"
+    >
       + Add New Budget
     </button>
   </hgroup>
@@ -47,14 +51,29 @@
       </li>
     </ul>
   </section>
+  <budgets-modal
+    :budget-category="budgetCategory"
+    :type="currentOpeningModal || BudgetModalTypeEnum.AddNew"
+    :is-shown="!!currentOpeningModal"
+    v-on:on-close-modal="() => (currentOpeningModal = undefined)"
+  />
 </template>
 
 <script setup lang="ts">
 import type { ChartData } from "chart.js";
-import type { IBudgetContent } from "~/interfaces/budgets.interface";
+import { BudgetCategoryEnum } from "~/api/data-contracts";
+import {
+  BudgetModalTypeEnum,
+  type IBudgetContent,
+} from "~/interfaces/budgets.interface";
 import { getBudgets } from "~/services/budgets.service";
 const budgets = ref<IBudgetContent>();
 const chartData = ref<ChartData>();
+const budgetCategory = ref<BudgetCategoryEnum>();
+const currentOpeningModal = ref<BudgetModalTypeEnum | undefined>();
+const openAddNewModal = () => {
+  currentOpeningModal.value = BudgetModalTypeEnum.AddNew;
+};
 getBudgets().then((response) => {
   budgets.value = response;
   chartData.value = {

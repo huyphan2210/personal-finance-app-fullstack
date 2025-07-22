@@ -13,7 +13,6 @@ export default defineNuxtConfig({
         scss: {
           additionalData: `
             @use "@/assets/styles/fonts" as *;
-            @use "@/assets/styles/modal" as *;
             @use "@/assets/styles/form" as *;
             @use "@/assets/styles/animations" as *;
             @use "@/assets/styles/utilities" as *;

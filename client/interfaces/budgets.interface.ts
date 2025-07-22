@@ -3,7 +3,11 @@ import type {
   BudgetCategoryEnum,
   BudgetContent,
 } from "~/api/data-contracts";
-import type { IContentCard, IDropdownOption } from "./shared.interface";
+import type {
+  IContentCard,
+  IContentCardDropdownOption,
+} from "./shared.interface";
+import type { Category } from "~/types/category";
 
 export interface IBudget extends Budget {
   maximumWithCurrency: string;
@@ -16,11 +20,17 @@ export interface IBudgetContent extends BudgetContent {
 
 export interface IBudgetContentCard {
   budgetInfo: IBudget;
-  dropdownOptions: IDropdownOption[];
+  dropdownOptions: IContentCardDropdownOption[];
+}
+
+export enum BudgetModalTypeEnum {
+  AddNew = 1,
+  Edit = 2,
+  Delete = 3,
 }
 
 export interface IBudgetModal {
   isShown: boolean;
+  type: BudgetModalTypeEnum;
+  budgetCategory?: BudgetCategoryEnum;
 }
-
-export interface IBudgetAddNewModal extends IBudgetModal {}

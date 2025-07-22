@@ -1,11 +1,10 @@
 <template>
   <shared-modal
-    modal-heading="Error"
+    heading="Error"
     :is-modal-shown="errorStore.isError"
+    :message="errorStore.message"
     v-on:on-close-modal="closeErrorModal"
-  >
-    {{ errorStore.message }}
-  </shared-modal>
+  />
 </template>
 
 <script lang="ts" setup>
