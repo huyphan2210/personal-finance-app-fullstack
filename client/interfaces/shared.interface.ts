@@ -6,11 +6,21 @@ import type {
 export interface IContentCard {
   heading: string;
   colorTheme: BudgetColorThemeEnum | PotColorThemeEnum;
-  dropdownOptions: IDropdownOption[];
+  dropdownOptions: IContentCardDropdownOption[];
 }
 
-export interface IDropdownOption {
+export interface IContentCardDropdownOption {
   content: string;
   contentColor?: string;
   onClick: () => void;
+}
+
+export enum InputEnumType {
+  Text = 1,
+  Email = 2,
+  Password = 3,
+}
+
+export interface IInput {
+  type: InputEnumType;
 }
