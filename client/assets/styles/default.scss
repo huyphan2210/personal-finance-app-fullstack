@@ -64,32 +64,6 @@ body {
         fieldset {
           border: none;
         }
-
-        label {
-          @include text-preset-5-bold;
-          color: var(--grey-500);
-          margin-bottom: 0.25rem;
-          display: block;
-        }
-
-        input {
-          display: block;
-          padding: 0.75rem 1.25rem;
-          border: solid 1px var(--beige-500);
-          border-radius: 0.5rem;
-          color: var(--grey-900);
-
-          &:hover {
-            cursor: pointer;
-          }
-
-          &:focus-visible {
-            border-color: var(--grey-900);
-            outline: none;
-          }
-
-          @include text-preset-4;
-        }
       }
     }
   }

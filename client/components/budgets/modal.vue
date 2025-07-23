@@ -6,11 +6,18 @@
     :is-modal-shown="isShown"
     v-on:on-close-modal="onCloseModal"
   >
-    <form @submit="addNewBudget"></form>
+    <form @submit="addNewBudget">
+      <shared-input-text
+        :type="InputEnumType.Number"
+        prefix="$"
+        label="Maximum Spending"
+      />
+    </form>
   </shared-modal>
 </template>
 <script lang="ts" setup>
 import { type IBudgetModal } from "~/interfaces/budgets.interface";
+import { InputEnumType } from "~/interfaces/shared.interface";
 import {
   budgetModalHeadings,
   budgetModalInstruction,

@@ -15,7 +15,7 @@
       'is-loading': !budgets,
     }"
   >
-    <section class="budgets_content_spending-summary">
+    <section v-if="budgets" class="budgets_content_spending-summary">
       <shared-doughnut-chart
         v-if="chartData"
         class="budgets_content_spending-summary_chart"

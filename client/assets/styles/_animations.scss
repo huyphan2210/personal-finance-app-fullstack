@@ -1,5 +1,5 @@
 @mixin is-loading-animation {
-  background-color: var(--grey-500);
+  background-color: var(--grey-300);
   animation-name: moving-gradient;
   animation-duration: 1s;
   animation-iteration-count: infinite;

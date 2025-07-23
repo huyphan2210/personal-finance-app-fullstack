@@ -19,8 +19,12 @@ export enum InputEnumType {
   Text = 1,
   Email = 2,
   Password = 3,
+  Number = 4,
 }
 
 export interface IInput {
+  label?: string;
+  placeholder?: string;
+  prefix?: string;
   type: InputEnumType;
 }

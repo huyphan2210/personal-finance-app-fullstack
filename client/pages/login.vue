@@ -2,26 +2,14 @@
   <form @submit="login" class="form--login">
     <SharedPageHeading />
     <fieldset>
-      <div class="form--login_field">
-        <label class="form--login_field_label" for="email">Email</label>
-        <input
-          required
-          v-model="email"
-          id="email"
-          type="email"
-          placeholder="johndoe@yopmail.com"
-        />
-      </div>
-      <div class="form--login_field">
-        <label class="form--login_field_label" for="password">Password</label>
-        <input
-          required
-          v-model="password"
-          id="password"
-          type="password"
-          placeholder="***"
-        />
-      </div>
+      <shared-input-text
+        :type="InputEnumType.Email"
+        v-on:on-value-change="setEmail"
+      />
+      <shared-input-text
+        :type="InputEnumType.Password"
+        v-on:on-value-change="setPassword"
+      />
     </fieldset>
     <button type="submit">Login</button>
     <span
@@ -32,11 +20,21 @@
 </template>
 
 <script lang="ts" setup>
+import { InputEnumType } from "~/interfaces/shared.interface";
+
 const errorStore = useErrorStore();
 const { signIn, setActive } = useSignIn();
 
 const email = ref("");
 const password = ref("");
+
+const setEmail = (value: string) => {
+  email.value = value;
+};
+
+const setPassword = (value: string) => {
+  password.value = value;
+};
 
 const login = async (e: Event) => {
   e.preventDefault();
@@ -77,15 +75,6 @@ const login = async (e: Event) => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-
-  &_field {
-    input {
-      width: calc(100% - 2.5rem - 2px);
-    }
-    &:focus-within &_label {
-      color: var(--grey-900) !important;
-    }
   }
 
   button {
