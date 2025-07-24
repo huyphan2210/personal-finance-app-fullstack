@@ -10,12 +10,15 @@
       <input
         ref="input"
         required
+        @focusin="() => field?.classList.add('focus')"
+        @focusout="() => field?.classList.remove('focus')"
         @change="(e) => emits(VALUE_CHANGE_EVENT, (e.currentTarget as HTMLInputElement).value)"
         :id="INPUT_ID"
         :type="typeRecords[type]"
         :placeholder="placeholder ?? defaultPlaceholderRecords[type]"
       />
     </div>
+    <slot></slot>
   </div>
 </template>
 <script lang="ts" setup>
@@ -25,7 +28,11 @@ import { InputEnumType, type IInput } from "~/interfaces/shared.interface";
 const VALUE_CHANGE_EVENT = "on-value-change";
 const INPUT_ID = Math.random().toString();
 
-const field = ref<HTMLDivElement>();
+interface IField extends HTMLDivElement {
+  isFocused: boolean;
+}
+
+const field = ref<IField>();
 const input = ref<HTMLInputElement>();
 const emits = defineEmits([VALUE_CHANGE_EVENT]);
 const { type, label, placeholder, prefix } = defineProps<IInput>();
@@ -41,7 +48,7 @@ const typeRecords: Record<InputEnumType, InputTypeHTMLAttribute> = {
   [InputEnumType.Text]: "text",
   [InputEnumType.Email]: "email",
   [InputEnumType.Password]: "password",
-  [InputEnumType.Number]: "text",
+  [InputEnumType.Number]: "number",
 };
 
 const defaultPlaceholderRecords: Record<InputEnumType, string> = {
@@ -50,15 +57,6 @@ const defaultPlaceholderRecords: Record<InputEnumType, string> = {
   [InputEnumType.Password]: "johndoedabest",
   [InputEnumType.Number]: "e.g. 2000",
 };
-
-watch(
-  () => document.activeElement,
-  (value) => {
-    if (value === input.value) {
-      field.value?.classList.add("focus");
-    }
-  }
-);
 </script>
 <style lang="scss" scoped>
 .field-wrapper {
@@ -71,20 +69,32 @@ watch(
     display: flex;
     align-items: center;
     gap: 0.75rem;
+
+    &_prefix {
+      @include text-preset-4;
+      color: var(--beige-500);
+    }
+
     input {
       @include text-preset-4;
       border: none;
       outline: none;
       color: var(--grey-900);
       width: 100%;
-    }
-    &:focus-within {
-      outline: solid 1px var(--grey-900);
+      &::placeholder {
+        color: var(--beige-500);
+      }
     }
   }
+
   &.focus {
-    &_label {
-      color: var(--grey-900);
+    .field-wrapper {
+      &_label {
+        color: var(--grey-900);
+      }
+      &_input-wrapper {
+        outline: solid 1px var(--grey-900);
+      }
     }
   }
 }

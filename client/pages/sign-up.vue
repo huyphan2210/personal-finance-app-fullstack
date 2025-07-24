@@ -2,40 +2,24 @@
   <form @submit="createAccount" class="form--signup">
     <SharedPageHeading />
     <fieldset>
-      <div class="form--signup_field">
-        <label class="form--signup_field_label" for="name">Name</label>
-        <input
-          required
-          v-model="name"
-          id="name"
-          type="text"
-          placeholder="John Doe"
-        />
-      </div>
-      <div class="form--signup_field">
-        <label class="form--signup_field_label" for="email">Email</label>
-        <input
-          required
-          v-model="email"
-          id="email"
-          type="email"
-          placeholder="johndoe@yopmail.com"
-        />
-      </div>
-      <div class="form--signup_field">
-        <label class="form--signup_field_label" for="password">Password</label>
-        <input
-          required
-          v-model="password"
-          minlength="8"
-          id="password"
-          type="password"
-          placeholder="********"
-        />
+      <shared-input-text
+        label="Name"
+        :type="InputEnumType.Text"
+        v-on:on-value-change="setName"
+      />
+      <shared-input-text
+        :type="InputEnumType.Email"
+        v-on:on-value-change="setEmail"
+      />
+      <shared-input-text
+        label="Create Password"
+        :type="InputEnumType.Password"
+        v-on:on-value-change="setPassword"
+      >
         <small class="form--signup_field_tip"
           >Passwords must be at least 8 characters</small
-        >
-      </div>
+        ></shared-input-text
+      >
     </fieldset>
     <button type="submit">Create Account</button>
     <span
@@ -46,12 +30,25 @@
 </template>
 
 <script lang="ts" setup>
+import { InputEnumType } from "~/interfaces/shared.interface";
 const errorStore = useErrorStore();
 const { signUp, setActive } = useSignUp();
 
 const name = ref("");
 const email = ref("");
 const password = ref("");
+
+const setName = (value: string) => {
+  name.value = value;
+};
+
+const setEmail = (value: string) => {
+  email.value = value;
+};
+
+const setPassword = (value: string) => {
+  password.value = value;
+};
 
 const createAccount = async (e: Event) => {
   e.preventDefault();
@@ -97,13 +94,6 @@ const createAccount = async (e: Event) => {
   }
 
   &_field {
-    input {
-      width: calc(100% - 2.5rem - 2px);
-    }
-    &:focus-within &_label {
-      color: var(--grey-900) !important;
-    }
-
     &_tip {
       display: block;
       text-align: right;
