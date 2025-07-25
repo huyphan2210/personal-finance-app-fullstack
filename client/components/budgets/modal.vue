@@ -16,6 +16,7 @@
   </shared-modal>
 </template>
 <script lang="ts" setup>
+import { BudgetCategoryEnum, BudgetColorThemeEnum } from "~/api/data-contracts";
 import { type IBudgetModal } from "~/interfaces/budgets.interface";
 import { InputEnumType } from "~/interfaces/shared.interface";
 import {
@@ -26,9 +27,17 @@ import {
 const CLOSE_BUDGET_MODAL_EVENT = "on-close-modal";
 const { isShown, type, budgetCategory } = defineProps<IBudgetModal>();
 const emits = defineEmits([CLOSE_BUDGET_MODAL_EVENT]);
+
+const form = ref<{
+  category: BudgetCategoryEnum;
+  maximumSpend: number;
+  theme: BudgetColorThemeEnum;
+}>();
+
 const onCloseModal = (isClosed: boolean) => {
   emits(CLOSE_BUDGET_MODAL_EVENT, isClosed);
 };
+
 const addNewBudget = (e: Event) => {
   e.preventDefault();
 };

@@ -7,16 +7,12 @@
     @submit="searchTransactions"
   >
     <fieldset class="transactions_filter">
-      <div class="transactions_filter_search-field-wrapper">
-        <input
-          class="search-input"
-          aria-label="Search fields for Transactions"
-          type="search"
-          name="Search Transactions"
-          placeholder="Search by Name or Amount"
-          :value="formValues.searchString"
-          @input="handleSearchString"
-        />
+      <shared-input-text
+        class="transactions_filter_search-field-wrapper"
+        :type="InputEnumType.Search"
+        :custom-input-handler="handleSearchString"
+        placeholder="Search by Name or Amount"
+      >
         <button type="button">
           <img
             src="../assets/images/search.svg"
@@ -24,7 +20,7 @@
             alt="Search Icon"
           />
         </button>
-      </div>
+      </shared-input-text>
       <div class="transactions_filter_dropdowns">
         <shared-dropdown
           v-for="filter in filters"
@@ -68,6 +64,7 @@ import {
   TransactionCategoryEnum,
   type Transaction,
 } from "~/api/data-contracts";
+import { InputEnumType } from "~/interfaces/shared.interface";
 
 const sortOptions = [
   "Latest",
@@ -148,9 +145,9 @@ const setCurrentPage = (page: number) => {
 
 onBeforeMount(() => searchTransactions());
 
-const handleSearchString = (event: Event) => {
+const handleSearchString = (event?: Event) => {
   clearTimeout(searchTimeout.value);
-  const value = (event.currentTarget as HTMLInputElement).value || undefined;
+  const value = (event?.currentTarget as HTMLInputElement)?.value || undefined;
   formValues.searchString = value;
   formValues.page = 1;
   searchTimeout.value = setTimeout(() => {

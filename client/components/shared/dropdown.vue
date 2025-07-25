@@ -56,7 +56,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { type IDropdown } from "./dropdown.modal";
+import { type IDropdown } from "~/interfaces/shared.interface";
 
 const { preSelectedOption, mobileIcon, options, label, onSelection, forField } =
   defineProps<IDropdown>();

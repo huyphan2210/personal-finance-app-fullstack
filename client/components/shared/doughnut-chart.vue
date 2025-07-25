@@ -1,7 +1,9 @@
 <template>
   <div class="doughnut-chart_wrapper">
     <canvas ref="chartRef"></canvas>
-    <span>${{ overlayNumber }} <small>of ${{ totalNumber }} limit</small> </span>
+    <span
+      >${{ overlayNumber }} <small>of ${{ totalNumber }} limit</small>
+    </span>
   </div>
 </template>
 <script lang="ts" setup>
@@ -13,7 +15,7 @@ import {
   DoughnutController,
   type ChartConfiguration,
 } from "chart.js";
-import { type IDoughnutChart } from "./dougnut-chart.model";
+import { type IDoughnutChart } from "~/interfaces/shared.interface";
 
 Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 

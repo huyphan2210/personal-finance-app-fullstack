@@ -1,18 +1,24 @@
 <template>
   <div ref="field" class="field-wrapper">
-    <label class="field-wrapper_label" :for="INPUT_ID">{{
-      label ?? defaultLabelRecords[type]
-    }}</label>
+    <label
+      v-if="label ?? defaultLabelRecords[type]"
+      class="field-wrapper_label"
+      :for="INPUT_ID"
+    >
+      {{ label ?? defaultLabelRecords[type] }}
+    </label>
     <div class="field-wrapper_input-wrapper">
-      <span class="field-wrapper_input-wrapper_prefix" v-if="prefix">{{
-        prefix
-      }}</span>
+      <span class="field-wrapper_input-wrapper_prefix" v-if="prefix">
+        {{ prefix }}
+      </span>
       <input
         ref="input"
         required
+        @input="customInputHandler"
         @focusin="() => field?.classList.add('focus')"
         @focusout="() => field?.classList.remove('focus')"
         @change="(e) => emits(VALUE_CHANGE_EVENT, (e.currentTarget as HTMLInputElement).value)"
+        min="0"
         :id="INPUT_ID"
         :type="typeRecords[type]"
         :placeholder="placeholder ?? defaultPlaceholderRecords[type]"
@@ -35,13 +41,15 @@ interface IField extends HTMLDivElement {
 const field = ref<IField>();
 const input = ref<HTMLInputElement>();
 const emits = defineEmits([VALUE_CHANGE_EVENT]);
-const { type, label, placeholder, prefix } = defineProps<IInput>();
+const { type, label, placeholder, prefix, customInputHandler } =
+  defineProps<IInput>();
 
-const defaultLabelRecords: Record<InputEnumType, InputTypeHTMLAttribute> = {
+const defaultLabelRecords: Record<InputEnumType, string> = {
   [InputEnumType.Text]: "Text",
   [InputEnumType.Email]: "Email",
   [InputEnumType.Password]: "Password",
   [InputEnumType.Number]: "Number",
+  [InputEnumType.Search]: "",
 };
 
 const typeRecords: Record<InputEnumType, InputTypeHTMLAttribute> = {
@@ -49,6 +57,7 @@ const typeRecords: Record<InputEnumType, InputTypeHTMLAttribute> = {
   [InputEnumType.Email]: "email",
   [InputEnumType.Password]: "password",
   [InputEnumType.Number]: "number",
+  [InputEnumType.Search]: "search",
 };
 
 const defaultPlaceholderRecords: Record<InputEnumType, string> = {
@@ -56,6 +65,7 @@ const defaultPlaceholderRecords: Record<InputEnumType, string> = {
   [InputEnumType.Email]: "johndoe@yopmail.com",
   [InputEnumType.Password]: "johndoedabest",
   [InputEnumType.Number]: "e.g. 2000",
+  [InputEnumType.Search]: "Type somthing...",
 };
 </script>
 <style lang="scss" scoped>
@@ -83,6 +93,15 @@ const defaultPlaceholderRecords: Record<InputEnumType, string> = {
       width: 100%;
       &::placeholder {
         color: var(--beige-500);
+      }
+
+      &[type="search"] {
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+          display: none;
+        }
       }
     }
   }

@@ -16,10 +16,10 @@
         :type="InputEnumType.Password"
         v-on:on-value-change="setPassword"
       >
-        <small class="form--signup_field_tip"
-          >Passwords must be at least 8 characters</small
-        ></shared-input-text
-      >
+        <small class="form--signup_field_tip">
+          Passwords must be at least 8 characters
+        </small>
+      </shared-input-text>
     </fieldset>
     <button type="submit">Create Account</button>
     <span
