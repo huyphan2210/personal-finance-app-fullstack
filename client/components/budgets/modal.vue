@@ -7,7 +7,14 @@
     v-on:on-close-modal="onCloseModal"
   >
     <form @submit="addNewBudget">
-      <shared-input-text
+      <shared-modal-dropdown
+        :settings="{
+          type: ModalDropdownEnumType.Text,
+          options: Object.values(BudgetCategoryEnum),
+        }"
+        label="Color Tag"
+      />
+      <shared-input
         :type="InputEnumType.Number"
         prefix="$"
         label="Maximum Spending"
@@ -16,6 +23,7 @@
   </shared-modal>
 </template>
 <script lang="ts" setup>
+import { ModalDropdownEnumType } from "~/interfaces/shared.interface";
 import { BudgetCategoryEnum, BudgetColorThemeEnum } from "~/api/data-contracts";
 import { type IBudgetModal } from "~/interfaces/budgets.interface";
 import { InputEnumType } from "~/interfaces/shared.interface";

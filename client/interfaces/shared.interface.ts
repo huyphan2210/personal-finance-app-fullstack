@@ -40,6 +40,11 @@ export enum InputEnumType {
   Search = 5,
 }
 
+export enum ModalDropdownEnumType {
+  Color = 1,
+  Text = 2,
+}
+
 export interface IInput {
   label?: string;
   placeholder?: string;
@@ -47,3 +52,19 @@ export interface IInput {
   type: InputEnumType;
   customInputHandler?: (e?: Event) => void;
 }
+
+export interface IModalTextDropdownSettings {
+  type: ModalDropdownEnumType.Text;
+  options: string[];
+}
+
+export interface IModalColorDropdownSettings {
+  type: ModalDropdownEnumType.Color;
+}
+
+export interface IModalDropdown {
+  label?: string;
+  settings: IModalColorDropdownSettings | IModalTextDropdownSettings;
+}
+
+export interface IModalDropdownItem {}

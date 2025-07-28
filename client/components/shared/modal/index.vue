@@ -4,7 +4,7 @@
       <h2>{{ heading }}</h2>
       <button @click="handleCloseButton" type="button">
         <img
-          src="../../assets/images/close-button.svg"
+          src="../../../assets/images/close-button.svg"
           loading="lazy"
           alt="Close Button"
         />
