@@ -7,7 +7,7 @@
     @submit="searchTransactions"
   >
     <fieldset class="transactions_filter">
-      <shared-input-text
+      <shared-input
         class="transactions_filter_search-field-wrapper"
         :type="InputEnumType.Search"
         :custom-input-handler="handleSearchString"
@@ -20,7 +20,7 @@
             alt="Search Icon"
           />
         </button>
-      </shared-input-text>
+      </shared-input>
       <div class="transactions_filter_dropdowns">
         <shared-dropdown
           v-for="filter in filters"

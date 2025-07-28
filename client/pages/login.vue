@@ -2,11 +2,11 @@
   <form @submit="login" class="form--login">
     <SharedPageHeading />
     <fieldset>
-      <shared-input-text
+      <shared-input
         :type="InputEnumType.Email"
         v-on:on-value-change="setEmail"
       />
-      <shared-input-text
+      <shared-input
         :type="InputEnumType.Password"
         v-on:on-value-change="setPassword"
       />

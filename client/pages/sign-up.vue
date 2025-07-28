@@ -2,16 +2,16 @@
   <form @submit="createAccount" class="form--signup">
     <SharedPageHeading />
     <fieldset>
-      <shared-input-text
+      <shared-input
         label="Name"
         :type="InputEnumType.Text"
         v-on:on-value-change="setName"
       />
-      <shared-input-text
+      <shared-input
         :type="InputEnumType.Email"
         v-on:on-value-change="setEmail"
       />
-      <shared-input-text
+      <shared-input
         label="Create Password"
         :type="InputEnumType.Password"
         v-on:on-value-change="setPassword"
@@ -19,7 +19,7 @@
         <small class="form--signup_field_tip">
           Passwords must be at least 8 characters
         </small>
-      </shared-input-text>
+      </shared-input>
     </fieldset>
     <button type="submit">Create Account</button>
     <span
