@@ -6,18 +6,25 @@
     :is-modal-shown="isShown"
     v-on:on-close-modal="onCloseModal"
   >
-    <form @submit="addNewBudget">
+    <form class="budget-modal_form" @submit="addNewBudget">
       <shared-modal-dropdown
         :settings="{
           type: ModalDropdownEnumType.Text,
           options: Object.values(BudgetCategoryEnum),
         }"
-        label="Color Tag"
+        label="Category"
       />
       <shared-input
         :type="InputEnumType.Number"
         prefix="$"
         label="Maximum Spending"
+      />
+
+      <shared-modal-dropdown
+        :settings="{
+          type: ModalDropdownEnumType.Color,
+        }"
+        label="Color Tag"
       />
     </form>
   </shared-modal>
@@ -54,9 +61,10 @@ const addNewBudget = (e: Event) => {
 </script>
 <style lang="scss" scoped>
 .budget-modal {
-  &_instruction {
-    @include text-preset-4;
-    color: var(--grey-500);
+  &_form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 </style>

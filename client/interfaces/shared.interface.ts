@@ -67,4 +67,7 @@ export interface IModalDropdown {
   settings: IModalColorDropdownSettings | IModalTextDropdownSettings;
 }
 
-export interface IModalDropdownItem {}
+export interface IModalDropdownItem {
+  onSelect: (value: string) => void;
+  itemValue: string;
+}

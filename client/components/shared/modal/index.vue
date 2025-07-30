@@ -47,6 +47,7 @@ watch(() => props.isModalShown, handleModal);
 .modal {
   &[open] {
     display: grid;
+    overflow: visible;
     animation: show-up 0.3s ease-in-out;
     &::backdrop {
       animation: show-up-backdrop 0.3s ease-in-out;
