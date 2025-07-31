@@ -41,6 +41,14 @@ const handleModal = (isModalShown?: boolean) => {
 };
 handleModal(props.isModalShown);
 watch(() => props.isModalShown, handleModal);
+
+onMounted(() => {
+  modal.value?.addEventListener("close", handleCloseButton);
+});
+
+onUnmounted(() => {
+  modal.value?.removeEventListener("close", handleCloseButton);
+});
 </script>
 
 <style lang="scss" scoped>

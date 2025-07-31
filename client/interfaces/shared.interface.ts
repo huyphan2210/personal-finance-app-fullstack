@@ -4,6 +4,7 @@ import type {
   PotColorThemeEnum,
 } from "~/api/data-contracts";
 import type { FormFieldTypes } from "./transactions.interface";
+import type { Color } from "~/types/color";
 
 export interface IContentCard {
   heading: string;
@@ -55,11 +56,12 @@ export interface IInput {
 
 export interface IModalTextDropdownSettings {
   type: ModalDropdownEnumType.Text;
-  options: string[];
+  options: IModalDropdownItem[];
 }
 
 export interface IModalColorDropdownSettings {
   type: ModalDropdownEnumType.Color;
+  options: IModalDropdownColorItem[];
 }
 
 export interface IModalDropdown {
@@ -67,7 +69,18 @@ export interface IModalDropdown {
   settings: IModalColorDropdownSettings | IModalTextDropdownSettings;
 }
 
+export enum ModalDropdownItemStatus {
+  Ready = 1,
+  Selected = 2,
+  Used = 3,
+}
+
 export interface IModalDropdownItem {
-  onSelect: (value: string) => void;
+  onSelect?: (value: string) => void;
   itemValue: string;
+  status: ModalDropdownItemStatus;
+}
+
+export interface IModalDropdownColorItem extends IModalDropdownItem {
+  itemValue: Color;
 }

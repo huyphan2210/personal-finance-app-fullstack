@@ -23,21 +23,31 @@
           {{ selectedOption }}
         </span>
       </template>
+      <img
+        class="modal-dropdown-wrapper_button_triangle"
+        src="../../../assets/images/dropdown-triangle.svg"
+        loading="lazy"
+        alt="Dropdown Triangle"
+      />
     </button>
     <ul class="modal-dropdown-wrapper_options">
       <shared-modal-dropdown-item
-        :on-select="setSelectedOption"
-        :item-value="option"
-        v-for="option in dropdownOptions"
+        :status="option.status"
+        :on-select="option.onSelect"
+        :item-value="option.itemValue"
+        v-for="option in settings.options"
       >
         <template v-if="settings.type === ModalDropdownEnumType.Text">
-          {{ option }}
+          {{ option.itemValue }}
         </template>
         <template v-else-if="settings.type === ModalDropdownEnumType.Color">
           <span
-            :class="['modal-dropdown-item_content', option.toLocaleLowerCase()]"
+            :class="[
+              'modal-dropdown-item_content',
+              option.itemValue.toLocaleLowerCase(),
+            ]"
           >
-            {{ option }}
+            {{ option.itemValue }}
           </span>
         </template>
       </shared-modal-dropdown-item>
@@ -45,11 +55,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { BudgetColorThemeEnum } from "~/api/data-contracts";
 import {
   ModalDropdownEnumType,
   type IModalDropdown,
-  type IModalTextDropdownSettings,
 } from "~/interfaces/shared.interface";
 
 const INPUT_ID = Math.random().toString();
@@ -58,25 +66,11 @@ const { settings, label } = defineProps<IModalDropdown>();
 const dropdownWrapper = ref<HTMLDivElement>();
 
 const selectedOption = ref<string>();
-const dropdownOptions = ref<string[]>([]);
-
-const dropdownValueRecords: Record<ModalDropdownEnumType, () => void> = {
-  [ModalDropdownEnumType.Color]: () => {
-    dropdownOptions.value = Object.keys(BudgetColorThemeEnum);
-    setSelectedOption(dropdownOptions.value[0]);
-  },
-  [ModalDropdownEnumType.Text]: () => {
-    dropdownOptions.value = (settings as IModalTextDropdownSettings).options;
-    setSelectedOption(dropdownOptions.value[0]);
-  },
-};
 
 const setSelectedOption = (value: string) => {
   selectedOption.value = value;
   dropdownWrapper.value?.classList.remove("open");
 };
-
-dropdownValueRecords[settings.type]();
 
 const openDropdown = () => {
   dropdownWrapper.value?.classList.add("open");
@@ -173,6 +167,12 @@ $colors: "green", "cyan", "yellow", "navy", "purple";
 
   &.open {
     .modal-dropdown-wrapper {
+      &_button {
+        &_triangle {
+          transform: rotate(180deg);
+        }
+      }
+
       &_options {
         transform-origin: top;
         display: flex;

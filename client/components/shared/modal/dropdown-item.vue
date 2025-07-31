@@ -1,7 +1,7 @@
 <template>
   <li class="modal-dropdown-item">
     <button
-      @click="() => onSelect(itemValue)"
+      @click="() => onSelect && onSelect(itemValue)"
       class="modal-dropdown-item_button"
       type="button"
     >
