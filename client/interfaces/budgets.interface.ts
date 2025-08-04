@@ -28,5 +28,6 @@ export enum BudgetModalTypeEnum {
 export interface IBudgetModal {
   isShown: boolean;
   type: BudgetModalTypeEnum;
-  budgetCategory?: BudgetCategoryEnum;
+  targetBudgetCategory?: BudgetCategoryEnum;
+  usedBudgets: IBudget[];
 }

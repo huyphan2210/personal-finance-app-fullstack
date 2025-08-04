@@ -77,10 +77,11 @@ export enum ModalDropdownItemStatus {
 
 export interface IModalDropdownItem {
   onSelect?: (value: string) => void;
+  itemLabel: string;
   itemValue: string;
   status: ModalDropdownItemStatus;
 }
 
 export interface IModalDropdownColorItem extends IModalDropdownItem {
-  itemValue: Color;
+  itemValue: keyof typeof Color;
 }

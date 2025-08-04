@@ -33,21 +33,27 @@
     <ul class="modal-dropdown-wrapper_options">
       <shared-modal-dropdown-item
         :status="option.status"
-        :on-select="option.onSelect"
+        :on-select="(value: string) => {
+          if (option.onSelect) {
+            option.onSelect(value)
+          }
+          setSelectedOption(value)
+        }"
         :item-value="option.itemValue"
+        :item-label="option.itemLabel"
         v-for="option in settings.options"
       >
         <template v-if="settings.type === ModalDropdownEnumType.Text">
-          {{ option.itemValue }}
+          {{ option.itemLabel }}
         </template>
         <template v-else-if="settings.type === ModalDropdownEnumType.Color">
           <span
             :class="[
               'modal-dropdown-item_content',
-              option.itemValue.toLocaleLowerCase(),
+              option.itemLabel.toLocaleLowerCase(),
             ]"
           >
-            {{ option.itemValue }}
+            {{ option.itemLabel }}
           </span>
         </template>
       </shared-modal-dropdown-item>
@@ -81,6 +87,8 @@ const closeDropdown = (e: Event) => {
     dropdownWrapper.value?.classList.remove("open");
   }
 };
+
+setSelectedOption(settings.options[0].itemLabel);
 
 onMounted(() => document.addEventListener("click", closeDropdown));
 onUnmounted(() => document.removeEventListener("click", closeDropdown));
