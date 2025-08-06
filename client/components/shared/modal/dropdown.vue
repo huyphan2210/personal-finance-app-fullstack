@@ -139,6 +139,7 @@ $colors: "green", "cyan", "yellow", "navy", "purple";
     z-index: 1;
     top: calc(100% + 1rem);
     width: calc(100% - 2.5rem);
+    max-height: 17.25rem;
     list-style-type: none;
     background-color: var(--white);
     padding: 0.75rem 1.25rem;

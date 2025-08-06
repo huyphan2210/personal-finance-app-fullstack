@@ -52,10 +52,11 @@
     </ul>
   </section>
   <budgets-modal
+    v-if="budgets"
     :targetBudgetCategory="budgetCategory"
     :type="currentOpeningModal || BudgetModalTypeEnum.AddNew"
     :is-shown="!!currentOpeningModal"
-    :usedBudgets="budgets?.representBudgets ?? []"
+    :used-budgets="budgets.representBudgets"
     v-on:on-close-modal="() => (currentOpeningModal = undefined)"
   />
 </template>

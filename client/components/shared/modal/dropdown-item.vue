@@ -2,17 +2,24 @@
   <li class="modal-dropdown-item">
     <button
       @click="() => onSelect && onSelect(itemValue)"
-      class="modal-dropdown-item_button"
+      :class="{
+        'modal-dropdown-item_button': true,
+        selected: status === ModalDropdownItemStatus.Selected,
+      }"
       type="button"
+      :disabled="status === ModalDropdownItemStatus.Used"
     >
       <slot></slot>
     </button>
   </li>
 </template>
 <script lang="ts" setup>
-import type { IModalDropdownItem } from "~/interfaces/shared.interface";
+import {
+  ModalDropdownItemStatus,
+  type IModalDropdownItem,
+} from "~/interfaces/shared.interface";
 
-const { onSelect, itemValue } = defineProps<IModalDropdownItem>();
+const { onSelect, itemValue, status } = defineProps<IModalDropdownItem>();
 </script>
 <style lang="scss" scoped>
 .modal-dropdown-item {
@@ -22,7 +29,11 @@ const { onSelect, itemValue } = defineProps<IModalDropdownItem>();
   button {
     width: 100%;
     text-align: start;
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
+
   &:last-child {
     padding-bottom: 0;
     border-bottom: none;

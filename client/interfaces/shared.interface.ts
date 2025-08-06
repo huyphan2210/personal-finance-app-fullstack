@@ -70,8 +70,8 @@ export interface IModalDropdown {
 }
 
 export enum ModalDropdownItemStatus {
-  Ready = 1,
-  Selected = 2,
+  Selected = 1,
+  Ready = 2,
   Used = 3,
 }
 
