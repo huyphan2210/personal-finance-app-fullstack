@@ -63,6 +63,7 @@
 <script lang="ts" setup>
 import {
   ModalDropdownEnumType,
+  ModalDropdownItemStatus,
   type IModalDropdown,
 } from "~/interfaces/shared.interface";
 
@@ -75,6 +76,15 @@ const selectedOption = ref<string>();
 
 const setSelectedOption = (value: string) => {
   selectedOption.value = value;
+  settings.options
+    .filter((option) => option.status !== ModalDropdownItemStatus.Used)
+    .forEach((option) => {
+      if (option.itemLabel === selectedOption.value) {
+        option.status = ModalDropdownItemStatus.Selected;
+        return;
+      }
+      option.status = ModalDropdownItemStatus.Ready;
+    });
   dropdownWrapper.value?.classList.remove("open");
 };
 

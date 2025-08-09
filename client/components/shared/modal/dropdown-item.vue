@@ -27,10 +27,30 @@ const { onSelect, itemValue, status } = defineProps<IModalDropdownItem>();
   border-bottom: solid 1px var(--grey-100);
 
   button {
+    @include text-preset-4;
+    color: var(--grey-900);
     width: 100%;
     text-align: start;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &.selected {
+      &::after {
+        content: "";
+        display: inline-block;
+        width: 16px;
+        height: 17px;
+        background-image: url(../../../assets/images/selected.svg);
+      }
+    }
+
     &:disabled {
+      color: var(--grey-500);
       cursor: not-allowed;
+      &::after {
+        content: "Already Used";
+      }
     }
   }
 

@@ -6,6 +6,17 @@ import type {
 import type { FormFieldTypes } from "./transactions.interface";
 import type { Color } from "~/types/color";
 
+export enum ButtonAppearanceEnum {
+  Primary = 1,
+  Secondary = 2,
+  Danger = 3,
+}
+
+export interface IButton {
+  type: "submit" | "reset" | "button";
+  appearance: ButtonAppearanceEnum;
+}
+
 export interface IContentCard {
   heading: string;
   colorTheme: BudgetColorThemeEnum | PotColorThemeEnum;
