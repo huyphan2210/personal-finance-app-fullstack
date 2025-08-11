@@ -78,13 +78,13 @@ const openAddNewModal = () => {
 };
 
 const setBudgetsData = (budgetsData: IBudgetContent) => {
-  budgets.value = budgetsData;
+  budgets.value = { ...budgetsData };
   chartData.value = {
     datasets: [
       {
-        data: budgetsData.representBudgets.map((item) => item.maximum) || [],
+        data: budgets.value.representBudgets.map((item) => item.maximum) || [],
         backgroundColor:
-          budgetsData.representBudgets.map((item) => item.colorTheme) || [],
+          budgets.value.representBudgets.map((item) => item.colorTheme) || [],
         hoverOffset: 4,
       },
     ],

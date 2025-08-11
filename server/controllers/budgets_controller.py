@@ -1,5 +1,6 @@
 from flask import jsonify, request
 from flask_restx import Namespace, Resource, fields
+from http import HTTPStatus
 
 from enums.category_enum import Category
 from enums.color_enum import Color
@@ -29,28 +30,34 @@ create_budget_model = budgets_ns.model(
 )
 
 
-@budgets_ns.response(500, "Internal Server Error")
+@budgets_ns.response(HTTPStatus.INTERNAL_SERVER_ERROR, "Internal Server Error")
 class BudgetsApi(Resource):
     @budgets_ns.doc(description="Get the budgets data")
-    @budgets_ns.response(200, "Success", model=BudgetContent.get_api_model(budgets_ns))
+    @budgets_ns.response(
+        HTTPStatus.OK, "Success", model=BudgetContent.get_api_model(budgets_ns)
+    )
     def get(self):
         budgets = get_budgets()
         return jsonify(budgets.model_dump())
 
     @budgets_ns.doc(description="Create new budget")
     @budgets_ns.expect(create_budget_model)
-    @budgets_ns.response(201, "Created")
-    @budgets_ns.response(400, "Invalid input")
+    @budgets_ns.response(HTTPStatus.CREATED, "Created")
+    @budgets_ns.response(HTTPStatus.BAD_REQUEST, "Invalid input")
     def post(self):
         requestBody = request.get_json()
 
         try:
-            create_budget_dto = CreateBudgetDto(**requestBody)
-        except ValueError as e:
-            raise BadRequestError(str(e))
+            try:
+                create_budget_dto = CreateBudgetDto(**requestBody)
+            except ValueError as e:
+                raise BadRequestError(str(e))
 
-        create_budget(create_budget_dto)
-        return jsonify("Created", 201)
+            create_budget(create_budget_dto)
+        except BadRequestError as e:
+            return jsonify({"message": str(e)}), HTTPStatus.BAD_REQUEST
+
+        return "Created", HTTPStatus.CREATED
 
 
 budgets_ns.add_resource(BudgetsApi, "")
