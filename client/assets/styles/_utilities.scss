@@ -1,3 +1,5 @@
+$colors: "green", "cyan", "yellow", "navy", "purple", "red";
+
 @mixin card-spacing-style {
   background-color: var(--white);
   padding: 1.25rem 1.5rem;

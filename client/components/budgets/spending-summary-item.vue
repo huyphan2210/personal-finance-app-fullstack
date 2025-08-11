@@ -26,6 +26,14 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
+@mixin border-color($color) {
+  &.border-#{$color} {
+    &::before {
+      background-color: var(--#{$color});
+    }
+  }
+}
+
 li {
   display: flex;
   justify-content: space-between;
@@ -57,34 +65,8 @@ li {
     left: 0;
   }
 
-  &.border-green {
-    &::before {
-      background-color: var(--green);
-    }
-  }
-
-  &.border-cyan {
-    &::before {
-      background-color: var(--cyan);
-    }
-  }
-
-  &.border-navy {
-    &::before {
-      background-color: var(--navy);
-    }
-  }
-
-  &.border-yellow {
-    &::before {
-      background-color: var(--yellow);
-    }
-  }
-
-  &.border-purple {
-    &::before {
-      background-color: var(--purple);
-    }
+  @each $color in $colors {
+    @include border-color($color);
   }
 }
 </style>

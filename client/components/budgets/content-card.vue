@@ -122,7 +122,6 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .budget-info {
-  $colors: "green", "cyan", "yellow", "navy";
   @mixin content-color($color-name) {
     &.#{$color-name} {
       .budget-info {

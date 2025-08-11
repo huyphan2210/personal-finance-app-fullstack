@@ -98,14 +98,16 @@ const closeDropdown = (e: Event) => {
   }
 };
 
-setSelectedOption(settings.options[0].itemLabel);
+setSelectedOption(settings.options[0].itemValue);
+if (settings.options[0].onSelect) {
+  console.log(settings)
+  settings.options[0].onSelect(settings.options[0].itemValue);
+}
 
 onMounted(() => document.addEventListener("click", closeDropdown));
 onUnmounted(() => document.removeEventListener("click", closeDropdown));
 </script>
 <style lang="scss" scoped>
-$colors: "green", "cyan", "yellow", "navy", "purple";
-
 .modal-dropdown-wrapper {
   position: relative;
 

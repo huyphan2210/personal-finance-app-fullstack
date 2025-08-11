@@ -89,6 +89,13 @@ const closeDropdownMenu = (e: Event) => {
 </script>
 
 <style lang="scss" scoped>
+@mixin theme-color($color) {
+  &.theme-#{$color} {
+    &::before {
+      background-color: var(--#{$color});
+    }
+  }
+}
 .content-card {
   @include card-spacing-style;
 
@@ -109,35 +116,8 @@ const closeDropdownMenu = (e: Event) => {
         height: 1rem;
         border-radius: 50%;
       }
-
-      &.theme-green {
-        &::before {
-          background-color: var(--green);
-        }
-      }
-
-      &.theme-purple {
-        &::before {
-          background-color: var(--purple);
-        }
-      }
-
-      &.theme-cyan {
-        &::before {
-          background-color: var(--cyan);
-        }
-      }
-
-      &.theme-navy {
-        &::before {
-          background-color: var(--navy);
-        }
-      }
-
-      &.theme-yellow {
-        &::before {
-          background-color: var(--yellow);
-        }
+      @each $color in $colors {
+        @include theme-color($color);
       }
     }
 
