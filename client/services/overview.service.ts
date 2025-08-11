@@ -4,7 +4,7 @@ import type { IOverviewRecurringBillsCard } from "~/components/overview/recurrin
 import type { IOverviewSummaryCard } from "~/components/overview/summary-card/summary-card.model";
 import type { IOverviewTransactionsCard } from "~/components/overview/transactions-card/transactions-card.model";
 import { type OverviewContent } from "~/api/data-contracts";
-import { enUSFormatter, handleResponse, overviewApi } from "./base.service";
+import { enUSFormatter, handleGetResponse, overviewApi } from "./base.service";
 
 export interface IOverviewPageContent
   extends IOverviewPotCard,
@@ -16,7 +16,7 @@ export interface IOverviewPageContent
 
 export const getSummaryContent: () => Promise<IOverviewPageContent> =
   async () => {
-    const overviewContent = await handleResponse<OverviewContent>(
+    const overviewContent = await handleGetResponse<OverviewContent>(
       overviewApi.getOverviewApi
     );
 

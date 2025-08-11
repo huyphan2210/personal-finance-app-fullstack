@@ -22,7 +22,7 @@ export const potsApi = new PotsApi({
   baseUrl: config.public.apiBase,
 });
 
-export const handleResponse = async <T = any>(
+export const handleGetResponse = async <T = any>(
   responsePromise: (params?: RequestParams) => Promise<HttpResponse<T, any>>
 ): Promise<T> => {
   const response = await responsePromise();

@@ -1,5 +1,5 @@
 import type { TransactionsContent } from "~/api/data-contracts";
-import { handleResponse, transactionsApi } from "./base.service";
+import { handleGetResponse, transactionsApi } from "./base.service";
 
 export const getTransactions = async (
   page: number,
@@ -7,7 +7,7 @@ export const getTransactions = async (
   category?: string,
   sortBy?: string
 ): Promise<TransactionsContent> => {
-  const transactionsContent = await handleResponse<TransactionsContent>(() =>
+  const transactionsContent = await handleGetResponse<TransactionsContent>(() =>
     transactionsApi.getTransactionsApi({
       page: page,
       search: searchString,
