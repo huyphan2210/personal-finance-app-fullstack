@@ -16,3 +16,9 @@ class BudgetContent(BaseModel):
     totalSpent: float
     totalMaximum: float
     representBudgets: list[Budget]
+
+
+class CreateBudgetDto(BaseModel):
+    category: Category
+    colorTheme: Color
+    maximum: float

@@ -3,9 +3,10 @@ from services.transactions_service import IMAGE_HOSTING_URI
 from sqlalchemy import func, desc
 from database import db
 from enums.color_enum import Color
-from models.budgets_model import Budget, BudgetContent
+from models.budgets_model import Budget, BudgetContent, CreateBudgetDto
 from schemas.budget_schema import Budget as BudgetSchema
 from schemas.transaction_schema import Transaction as TransactionSchema
+from exceptions import BadRequestError
 
 
 def get_overview_budgets():
@@ -91,3 +92,39 @@ def get_budgets():
             for budget in representBudgets
         ],
     )
+
+
+def validate_create_budget_dto(create_budget_dto: CreateBudgetDto):
+    existingBudget = (
+        BudgetSchema.query.filter(
+            BudgetSchema.is_deleted == False,
+            BudgetSchema.category == create_budget_dto.category,
+            BudgetSchema.color_theme == create_budget_dto.colorTheme,
+        )
+        .limit(1)
+        .all()
+    )
+
+    if (
+        len(existingBudget) > 0
+        and existingBudget[0].category == create_budget_dto.category
+    ):
+        raise BadRequestError("The category existed.")
+    elif len(existingBudget) > 0 and existingBudget[0].color == create_budget_dto.color:
+        raise BadRequestError("The color has been used.")
+    
+    if (create_budget_dto.maximum <= 0):
+        raise BadRequestError("Maximum of the budget must be positive.")
+
+
+def create_budget(create_budget_dto: CreateBudgetDto):
+    validate_create_budget_dto(create_budget_dto)
+    new_budget = BudgetSchema(
+        category=create_budget_dto.category,
+        maximum=create_budget_dto.maximum,
+        color_theme=create_budget_dto.colorTheme,
+        spent=0,
+    )
+    db.session.add(new_budget)
+    db.session.commit()
+    return new_budget

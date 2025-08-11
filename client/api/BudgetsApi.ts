@@ -10,8 +10,8 @@
  * ---------------------------------------------------------------
  */
 
-import type { BudgetContent } from "./data-contracts";
-import { HttpClient, type RequestParams } from "./http-client";
+import type { BudgetContent, CreateBudget } from "./data-contracts";
+import { ContentType, HttpClient, type RequestParams } from "./http-client";
 
 export class BudgetsApi<
   SecurityDataType = unknown,
@@ -24,10 +24,25 @@ export class BudgetsApi<
    * @request GET:/budgets-api
    */
   getBudgetsApi = (params: RequestParams = {}) =>
-    this.request<BudgetContent, any>({
+    this.request<BudgetContent, void>({
       path: `/budgets-api`,
       method: "GET",
       format: "json",
+      ...params,
+    });
+  /**
+   * @description Create new budget
+   *
+   * @tags budgets-api
+   * @name PostBudgetsApi
+   * @request POST:/budgets-api
+   */
+  postBudgetsApi = (payload: CreateBudget, params: RequestParams = {}) =>
+    this.request<void, void>({
+      path: `/budgets-api`,
+      method: "POST",
+      body: payload,
+      type: ContentType.Json,
       ...params,
     });
 }

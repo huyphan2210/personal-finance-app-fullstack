@@ -7,3 +7,4 @@ class Color(str, Enum):
     Navy = "#626070"
     Yellow = "#f2cdac"
     Purple = "#826CB0"
+    Red = "#c94736"

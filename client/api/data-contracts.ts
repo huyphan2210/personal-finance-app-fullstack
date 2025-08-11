@@ -23,7 +23,7 @@ export interface Budget {
    */
   category: BudgetCategoryEnum;
   /**
-   * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']
+   * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
    * @example "#82c9d7"
    */
   colorTheme: BudgetColorThemeEnum;
@@ -38,6 +38,21 @@ export interface BudgetContent {
   totalSpent: number;
 }
 
+export interface CreateBudget {
+  /**
+   * Budget category
+   * @example "Entertainment"
+   */
+  category: CreateBudgetCategoryEnum;
+  /**
+   * Budget color theme
+   * @example "#82c9d7"
+   */
+  colorTheme: CreateBudgetColorThemeEnum;
+  /** Maximum allowed budget */
+  maximum: number;
+}
+
 export interface OverviewContent {
   balance: Balance;
   budgets: BudgetContent;
@@ -48,7 +63,7 @@ export interface OverviewContent {
 
 export interface Pot {
   /**
-   * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']
+   * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
    * @example "#82c9d7"
    */
   colorTheme: PotColorThemeEnum;
@@ -104,7 +119,7 @@ export enum BudgetCategoryEnum {
 }
 
 /**
- * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']
+ * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
  * @example "#82c9d7"
  */
 export enum BudgetColorThemeEnum {
@@ -113,10 +128,41 @@ export enum BudgetColorThemeEnum {
   Navy = "#626070",
   Yellow = "#f2cdac",
   Purple = "#826CB0",
+  Red = "#c94736",
 }
 
 /**
- * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']
+ * Budget category
+ * @example "Entertainment"
+ */
+export enum CreateBudgetCategoryEnum {
+  Entertainment = "Entertainment",
+  Bills = "Bills",
+  DiningOut = "Dining Out",
+  PersonalCare = "Personal Care",
+  General = "General",
+  Groceries = "Groceries",
+  Transportation = "Transportation",
+  Lifestyle = "Lifestyle",
+  Education = "Education",
+  Shopping = "Shopping",
+}
+
+/**
+ * Budget color theme
+ * @example "#82c9d7"
+ */
+export enum CreateBudgetColorThemeEnum {
+  Cyan = "#82c9d7",
+  Green = "#277c78",
+  Navy = "#626070",
+  Yellow = "#f2cdac",
+  Purple = "#826CB0",
+  Red = "#c94736",
+}
+
+/**
+ * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
  * @example "#82c9d7"
  */
 export enum PotColorThemeEnum {
@@ -125,6 +171,7 @@ export enum PotColorThemeEnum {
   Navy = "#626070",
   Yellow = "#f2cdac",
   Purple = "#826CB0",
+  Red = "#c94736",
 }
 
 /**

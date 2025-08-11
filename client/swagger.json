@@ -55,13 +55,14 @@
           ]
         },
         "colorTheme": {
-          "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']",
+          "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']",
           "enum": [
             "#82c9d7",
             "#277c78",
             "#626070",
             "#f2cdac",
-            "#826CB0"
+            "#826CB0",
+            "#c94736"
           ],
           "example": "#82c9d7",
           "type": "string",
@@ -70,7 +71,8 @@
             "Green",
             "Navy",
             "Yellow",
-            "Purple"
+            "Purple",
+            "Red"
           ]
         },
         "maximum": {
@@ -119,6 +121,70 @@
       ],
       "type": "object"
     },
+    "CreateBudget": {
+      "properties": {
+        "category": {
+          "description": "Budget category",
+          "enum": [
+            "Entertainment",
+            "Bills",
+            "Dining Out",
+            "Personal Care",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ],
+          "example": "Entertainment",
+          "type": "string",
+          "x-enum-varnames": [
+            "Entertainment",
+            "Bills",
+            "DiningOut",
+            "PersonalCare",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ]
+        },
+        "colorTheme": {
+          "description": "Budget color theme",
+          "enum": [
+            "#82c9d7",
+            "#277c78",
+            "#626070",
+            "#f2cdac",
+            "#826CB0",
+            "#c94736"
+          ],
+          "example": "#82c9d7",
+          "type": "string",
+          "x-enum-varnames": [
+            "Cyan",
+            "Green",
+            "Navy",
+            "Yellow",
+            "Purple",
+            "Red"
+          ]
+        },
+        "maximum": {
+          "description": "Maximum allowed budget",
+          "type": "number"
+        }
+      },
+      "required": [
+        "category",
+        "colorTheme",
+        "maximum"
+      ],
+      "type": "object"
+    },
     "OverviewContent": {
       "properties": {
         "balance": {
@@ -157,13 +223,14 @@
     "Pot": {
       "properties": {
         "colorTheme": {
-          "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0']",
+          "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']",
           "enum": [
             "#82c9d7",
             "#277c78",
             "#626070",
             "#f2cdac",
-            "#826CB0"
+            "#826CB0",
+            "#c94736"
           ],
           "example": "#82c9d7",
           "type": "string",
@@ -172,7 +239,8 @@
             "Green",
             "Navy",
             "Yellow",
-            "Purple"
+            "Purple",
+            "Red"
           ]
         },
         "name": {
@@ -323,6 +391,37 @@
             "schema": {
               "$ref": "#/definitions/BudgetContent"
             }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "budgets-api"
+        ]
+      },
+      "post": {
+        "description": "Create new budget",
+        "operationId": "post_budgets_api",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateBudget"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
