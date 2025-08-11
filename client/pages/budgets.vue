@@ -57,7 +57,7 @@
     :type="currentOpeningModal || BudgetModalTypeEnum.AddNew"
     :is-shown="!!currentOpeningModal"
     :used-budgets="budgets.representBudgets"
-    v-on:on-close-modal="() => (currentOpeningModal = undefined)"
+    v-on:on-close-modal="onCloseModal"
   />
 </template>
 
@@ -76,19 +76,28 @@ const currentOpeningModal = ref<BudgetModalTypeEnum | undefined>();
 const openAddNewModal = () => {
   currentOpeningModal.value = BudgetModalTypeEnum.AddNew;
 };
-getBudgets().then((response) => {
-  budgets.value = response;
+
+const setBudgetsData = (budgetsData: IBudgetContent) => {
+  budgets.value = budgetsData;
   chartData.value = {
     datasets: [
       {
-        data: response.representBudgets.map((item) => item.maximum) || [],
+        data: budgetsData.representBudgets.map((item) => item.maximum) || [],
         backgroundColor:
-          response.representBudgets.map((item) => item.colorTheme) || [],
+          budgetsData.representBudgets.map((item) => item.colorTheme) || [],
         hoverOffset: 4,
       },
     ],
   };
-});
+};
+getBudgets().then(setBudgetsData);
+
+const onCloseModal = (fetchData?: boolean) => {
+  currentOpeningModal.value = undefined;
+  if (fetchData) {
+    getBudgets().then(setBudgetsData);
+  }
+};
 </script>
 
 <style lang="scss" scoped>

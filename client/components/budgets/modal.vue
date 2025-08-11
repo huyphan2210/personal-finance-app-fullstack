@@ -21,15 +21,29 @@
         :settings="dropdownSettingsRecords[ModalDropdownEnumType.Color]"
         label="Color Tag"
       />
+      <shared-button
+        class="budget-modal_form_btn"
+        type="submit"
+        :appearance="ButtonAppearanceEnum.Primary"
+      >
+        Add Budget
+      </shared-button>
     </form>
   </shared-modal>
 </template>
 <script lang="ts" setup>
 import {
   ModalDropdownEnumType,
+  ButtonAppearanceEnum,
   type IModalDropdownItem,
 } from "~/interfaces/shared.interface";
-import { BudgetCategoryEnum, BudgetColorThemeEnum } from "~/api/data-contracts";
+import {
+  BudgetCategoryEnum,
+  BudgetColorThemeEnum,
+  CreateBudgetCategoryEnum,
+  CreateBudgetColorThemeEnum,
+  type CreateBudget,
+} from "~/api/data-contracts";
 import { type IBudgetModal } from "~/interfaces/budgets.interface";
 import {
   InputEnumType,
@@ -40,35 +54,36 @@ import {
 import {
   budgetModalHeadings,
   budgetModalInstruction,
+  createBudget,
 } from "~/services/budgets.service";
 import { Color } from "~/types/color";
 
 const CLOSE_BUDGET_MODAL_EVENT = "on-close-modal";
+
 const { isShown, type, targetBudgetCategory, usedBudgets } =
   defineProps<IBudgetModal>();
 const emits = defineEmits([CLOSE_BUDGET_MODAL_EVENT]);
-
-const form = ref<{
-  category: BudgetCategoryEnum;
-  maximumSpend: number;
-  theme: BudgetColorThemeEnum;
-}>({
-  category: BudgetCategoryEnum.Bills,
-  maximumSpend: 0,
-  theme: BudgetColorThemeEnum.Cyan,
+const errorStore = useErrorStore();
+const form = ref<CreateBudget>({
+  category: CreateBudgetCategoryEnum.Bills,
+  maximum: 0,
+  colorTheme: CreateBudgetColorThemeEnum.Cyan,
 });
 
-const onCloseModal = (isClosed: boolean) => {
-  emits(CLOSE_BUDGET_MODAL_EVENT, isClosed);
+const onCloseModal = (isClosed: boolean, fetchData?: boolean) => {
+  emits(CLOSE_BUDGET_MODAL_EVENT, fetchData);
 };
 
 const addNewBudget = (e: Event) => {
   e.preventDefault();
+  createBudget(form.value)
+    .then(() => onCloseModal(true, true))
+    .catch((message) => errorStore.setErrorMessage(message));
 };
 
 const setMaximumSpend = (e?: Event) => {
   if (form.value) {
-    form.value.maximumSpend = parseFloat(
+    form.value.maximum = parseFloat(
       (e?.currentTarget as HTMLInputElement).value
     );
   }
@@ -89,26 +104,27 @@ const dropdownSettingsRecords: Record<
 > = {
   [ModalDropdownEnumType.Text]: {
     type: ModalDropdownEnumType.Text,
-    options: Object.keys(BudgetCategoryEnum)
+    options: Object.keys(CreateBudgetCategoryEnum)
       .map((value) => {
-        const key = value as keyof typeof BudgetCategoryEnum;
+        const key = value as keyof typeof CreateBudgetCategoryEnum;
         const status = !usedBudgets
           .map((budget) => budget.category)
           .includes(BudgetCategoryEnum[key])
-          ? BudgetCategoryEnum[key] === form.value?.category
+          ? CreateBudgetCategoryEnum[key] === form.value?.category
             ? ModalDropdownItemStatus.Selected
             : ModalDropdownItemStatus.Ready
           : ModalDropdownItemStatus.Used;
         if (status === ModalDropdownItemStatus.Selected) {
-          form.value.category = BudgetCategoryEnum[key];
+          form.value.category = CreateBudgetCategoryEnum[key];
         }
         return {
-          itemValue: BudgetCategoryEnum[key],
-          itemLabel: BudgetCategoryEnum[key],
+          itemValue: CreateBudgetCategoryEnum[key],
+          itemLabel: CreateBudgetCategoryEnum[key],
           status,
           onSelect: (selectedCategory: string) => {
             if (form.value) {
-              form.value.category = selectedCategory as BudgetCategoryEnum;
+              form.value.category =
+                selectedCategory as CreateBudgetCategoryEnum;
             }
           },
         };
@@ -119,17 +135,17 @@ const dropdownSettingsRecords: Record<
     type: ModalDropdownEnumType.Color,
     options: Object.keys(Color)
       .map((value) => {
-        const key = value as keyof typeof BudgetColorThemeEnum;
+        const key = value as keyof typeof CreateBudgetColorThemeEnum;
         const status = !usedBudgets
           .map((budget) => budget.colorTheme)
           .includes(BudgetColorThemeEnum[key])
-          ? BudgetColorThemeEnum[key] === form.value.theme
+          ? CreateBudgetColorThemeEnum[key] === form.value.colorTheme
             ? ModalDropdownItemStatus.Selected
             : ModalDropdownItemStatus.Ready
           : ModalDropdownItemStatus.Used;
 
         if (status === ModalDropdownItemStatus.Selected) {
-          form.value.theme = BudgetColorThemeEnum[key];
+          form.value.colorTheme = CreateBudgetColorThemeEnum[key];
         }
         return {
           itemValue: key,
@@ -137,15 +153,15 @@ const dropdownSettingsRecords: Record<
           status: !usedBudgets
             .map((budget) => budget.colorTheme)
             .includes(BudgetColorThemeEnum[key])
-            ? BudgetColorThemeEnum[key] === form.value.theme
+            ? CreateBudgetColorThemeEnum[key] === form.value.colorTheme
               ? ModalDropdownItemStatus.Selected
               : ModalDropdownItemStatus.Ready
             : ModalDropdownItemStatus.Used,
           onSelect: (selectedColorKey: string) => {
             if (form.value) {
-              form.value.theme =
-                BudgetColorThemeEnum[
-                  selectedColorKey as keyof typeof BudgetColorThemeEnum
+              form.value.colorTheme =
+                CreateBudgetColorThemeEnum[
+                  selectedColorKey as keyof typeof CreateBudgetColorThemeEnum
                 ];
             }
           },
@@ -161,6 +177,9 @@ const dropdownSettingsRecords: Record<
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    &_btn {
+      margin-top: 0.25rem;
+    }
   }
 }
 </style>

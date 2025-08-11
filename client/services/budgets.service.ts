@@ -1,5 +1,9 @@
-import { BudgetCategoryEnum, type BudgetContent } from "~/api/data-contracts";
-import { budgetApi, enUSFormatter, handleResponse } from "./base.service";
+import {
+  BudgetCategoryEnum,
+  type BudgetContent,
+  type CreateBudget,
+} from "~/api/data-contracts";
+import { budgetApi, enUSFormatter, handleGetResponse } from "./base.service";
 import {
   BudgetModalTypeEnum,
   type IBudget,
@@ -7,7 +11,9 @@ import {
 } from "~/interfaces/budgets.interface";
 
 export const getBudgets = async () => {
-  const response = await handleResponse<BudgetContent>(budgetApi.getBudgetsApi);
+  const response = await handleGetResponse<BudgetContent>(
+    budgetApi.getBudgetsApi
+  );
   const budgets: IBudget[] = response.representBudgets.map(
     (budget) =>
       ({
@@ -21,6 +27,16 @@ export const getBudgets = async () => {
     representBudgets: budgets,
   };
   return budgetContent;
+};
+
+export const createBudget = async (payload: CreateBudget) => {
+  try {
+    await budgetApi.postBudgetsApi(payload);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Something wrong happened";
+    throw new Error(message);
+  }
 };
 
 export const budgetModalHeadings: Record<

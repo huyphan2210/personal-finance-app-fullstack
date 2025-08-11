@@ -15,6 +15,8 @@ export enum ButtonAppearanceEnum {
 export interface IButton {
   type: "submit" | "reset" | "button";
   appearance: ButtonAppearanceEnum;
+  isDisabled?: boolean;
+  onClick?: (e: Event) => void;
 }
 
 export interface IContentCard {
