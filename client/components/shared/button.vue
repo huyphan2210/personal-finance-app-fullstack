@@ -5,9 +5,10 @@
       primary: appearance === ButtonAppearanceEnum.Primary,
       secondary: appearance === ButtonAppearanceEnum.Secondary,
       danger: appearance === ButtonAppearanceEnum.Danger,
+      'is-loading': isLoading,
     }"
     :type="type"
-    :disabled="isDisabled"
+    :disabled="isDisabled || isLoading"
     @click="onClick"
   >
     <slot></slot>
@@ -19,13 +20,22 @@ import {
   type IButton,
 } from "~/interfaces/shared.interface";
 
-const { type, appearance, isDisabled, onClick } = defineProps<IButton>();
+const { type, appearance, isDisabled, isLoading, onClick } =
+  defineProps<IButton>();
 </script>
 <style lang="scss" scoped>
 .btn {
   @include text-preset-4-bold;
   padding: 1rem;
   border-radius: 0.5rem;
+
+  &.is-loading {
+    @include is-loading-animation;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 
   &.primary {
     color: var(--white);

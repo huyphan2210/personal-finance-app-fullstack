@@ -2,13 +2,16 @@
   <dialog class="modal" ref="modal">
     <hgroup class="modal_heading">
       <h2>{{ heading }}</h2>
-      <button @click="handleCloseButton" type="button">
-        <img
+      <shared-button
+        type="button"
+        class="modal_heading_close-btn"
+        :appearance="ButtonAppearanceEnum.Secondary"
+        :on-click="handleCloseButton"
+        ><img
           src="../../../assets/images/close-button.svg"
           loading="lazy"
           alt="Close Button"
-        />
-      </button>
+      /></shared-button>
     </hgroup>
     <p class="modal_message">{{ message }}</p>
     <slot></slot>
@@ -16,6 +19,8 @@
 </template>
 
 <script lang="ts" setup>
+import { ButtonAppearanceEnum } from "~/interfaces/shared.interface";
+
 const modal = ref<HTMLDialogElement>();
 
 const props = defineProps<{
@@ -80,10 +85,7 @@ onUnmounted(() => {
       color: var(--grey-900);
     }
 
-    button {
-      cursor: pointer;
-      border: none;
-      background: none;
+    &_close-btn {
       display: flex;
     }
   }

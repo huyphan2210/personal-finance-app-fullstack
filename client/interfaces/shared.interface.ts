@@ -16,6 +16,7 @@ export interface IButton {
   type: "submit" | "reset" | "button";
   appearance: ButtonAppearanceEnum;
   isDisabled?: boolean;
+  isLoading?: boolean;
   onClick?: (e: Event) => void;
 }
 

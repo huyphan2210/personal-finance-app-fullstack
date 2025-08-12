@@ -1,6 +1,6 @@
 <template>
   <div class="doughnut-chart_wrapper">
-    <canvas ref="chartRef"></canvas>
+    <canvas ref="canvas"></canvas>
     <span
       >${{ overlayNumber }} <small>of ${{ totalNumber }} limit</small>
     </span>
@@ -14,6 +14,7 @@ import {
   Legend,
   DoughnutController,
   type ChartConfiguration,
+  type ChartData,
 } from "chart.js";
 import { type IDoughnutChart } from "~/interfaces/shared.interface";
 
@@ -21,15 +22,27 @@ Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 
 const { data, overlayNumber, totalNumber } = defineProps<IDoughnutChart>();
 
-const chartRef = ref<HTMLCanvasElement>();
+const chart = ref<Chart>();
+const canvas = ref<HTMLCanvasElement>();
 const chartConfig: ChartConfiguration = {
   type: "doughnut",
   data,
 };
 
 onMounted(() => {
-  new Chart(chartRef.value!, chartConfig);
+  chart.value = new Chart(canvas.value!, chartConfig);
 });
+
+watch(
+  () => data,
+  (value: ChartData) => {
+    chart.value?.destroy();
+    chart.value = new Chart(canvas.value!, {
+      type: "doughnut",
+      data: value,
+    });
+  }
+);
 </script>
 <style lang="scss" scoped>
 .doughnut-chart_wrapper {

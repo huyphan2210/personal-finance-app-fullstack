@@ -1,13 +1,14 @@
 <template>
   <hgroup class="budgets_heading">
     <shared-page-heading />
-    <button
-      @click="openAddNewModal"
+    <shared-button
       class="budgets_heading_button--add-new"
       type="button"
+      :appearance="ButtonAppearanceEnum.Primary"
+      :on-click="openAddNewModal"
     >
       + Add New Budget
-    </button>
+    </shared-button>
   </hgroup>
   <section
     :class="{
@@ -29,7 +30,8 @@
         </h2>
         <ul class="budgets_content_spending-summary_list">
           <budgets-spending-summary-item
-            v-for="budget in budgets?.representBudgets"
+            v-for="(budget, index) in budgets?.representBudgets"
+            :key="budget.category + index"
             class="budgets_content_spending-summary_list_item"
             :color-theme="budget.colorTheme"
             :category="budget.category"
@@ -44,7 +46,8 @@
     </section>
     <ul class="budgets_content_budgets-detail-list">
       <li
-        v-for="budget in budgets?.representBudgets"
+        v-for="(budget, index) in budgets?.representBudgets"
+        :key="budget.category + index"
         class="budgets_content_budgets-detail-list_item"
       >
         <budgets-content-card :dropdown-options="[]" :budget-info="budget" />
@@ -68,6 +71,7 @@ import {
   BudgetModalTypeEnum,
   type IBudgetContent,
 } from "~/interfaces/budgets.interface";
+import { ButtonAppearanceEnum } from "~/interfaces/shared.interface";
 import { getBudgets } from "~/services/budgets.service";
 const budgets = ref<IBudgetContent>();
 const chartData = ref<ChartData>();
@@ -79,6 +83,7 @@ const openAddNewModal = () => {
 
 const setBudgetsData = (budgetsData: IBudgetContent) => {
   budgets.value = { ...budgetsData };
+
   chartData.value = {
     datasets: [
       {
@@ -108,19 +113,6 @@ $gap: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    &_button {
-      &--add-new {
-        @include text-preset-4-bold;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        color: var(--white);
-        background-color: var(--grey-900);
-
-        &:hover {
-          background-color: var(--grey-500);
-        }
-      }
-    }
   }
 
   &_content {
@@ -178,7 +170,8 @@ $gap: 1.5rem;
         align-items: center;
         justify-content: space-between;
         &_chart {
-          margin: 0;
+          margin-block: 0;
+          margin-inline: auto;
         }
       }
     }
@@ -195,10 +188,6 @@ $gap: 1.5rem;
       &_spending-summary {
         display: unset;
         grid-column: 1 / span 5;
-
-        &_chart {
-          margin-inline: auto;
-        }
       }
 
       &_budgets-detail-list {

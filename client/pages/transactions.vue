@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IDropdown } from "~/components/shared/dropdown/dropdown.modal";
+import { type IDropdown } from "~/interfaces/shared.interface";
 import sortIcon from "../assets/images/sort.svg";
 import categoryIcon from "../assets/images/category.svg";
 import type {

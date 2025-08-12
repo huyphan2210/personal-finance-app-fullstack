@@ -24,6 +24,7 @@
       <shared-button
         class="budget-modal_form_btn"
         type="submit"
+        :is-loading="isLoading"
         :appearance="ButtonAppearanceEnum.Primary"
       >
         Add Budget
@@ -70,15 +71,19 @@ const form = ref<CreateBudget>({
   colorTheme: CreateBudgetColorThemeEnum.Cyan,
 });
 
+const isLoading = ref<boolean>(false);
+
 const onCloseModal = (isClosed: boolean, fetchData?: boolean) => {
   emits(CLOSE_BUDGET_MODAL_EVENT, fetchData);
 };
 
 const addNewBudget = (e: Event) => {
   e.preventDefault();
+  isLoading.value = true;
   createBudget(form.value)
     .then(() => onCloseModal(true, true))
-    .catch((message) => errorStore.setErrorMessage(message));
+    .catch((message) => errorStore.setErrorMessage(message))
+    .finally(() => (isLoading.value = false));
 };
 
 const setMaximumSpend = (e?: Event) => {
