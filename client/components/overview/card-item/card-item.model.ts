@@ -1,7 +1,7 @@
-import type { Color } from "~/types/color";
+import type { BudgetColorThemeEnum } from "~/api/data-contracts";
 
 export interface ICardItem {
   label: string;
   content: string;
-  colorTheme: Color;
+  colorTheme: BudgetColorThemeEnum;
 }

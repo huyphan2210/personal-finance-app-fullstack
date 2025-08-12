@@ -25,7 +25,18 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@mixin border-color($color) {
+  &.border-#{$color} {
+    &::before {
+      background-color: var(--#{$color});
+    }
+  }
+}
 .card-item {
+  @each $color in $colors {
+    @include border-color($color);
+  }
+  
   display: block;
   position: relative;
   padding-left: 1.25rem;
@@ -54,36 +65,6 @@ onMounted(() => {
     margin-top: 0.25rem;
 
     @include text-preset-4-bold;
-  }
-
-  &.border-green {
-    &::before {
-      background-color: var(--green);
-    }
-  }
-
-  &.border-cyan {
-    &::before {
-      background-color: var(--cyan);
-    }
-  }
-
-  &.border-navy {
-    &::before {
-      background-color: var(--navy);
-    }
-  }
-
-  &.border-yellow {
-    &::before {
-      background-color: var(--yellow);
-    }
-  }
-
-  &.border-purple {
-    &::before {
-      background-color: var(--purple);
-    }
   }
 }
 </style>

@@ -34,7 +34,7 @@ export const createBudget = async (payload: CreateBudget) => {
     await budgetApi.postBudgetsApi(payload);
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Something wrong happened";
+      error instanceof Response ? await error.text() : "Something wrong happened";
     throw new Error(message);
   }
 };

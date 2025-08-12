@@ -19,10 +19,8 @@ def get_overview_budgets():
         .one()
     ]
 
-    representBudgets = (
-        BudgetSchema.query.filter_by(is_deleted=False)
-        .order_by(BudgetSchema.category)
-        .limit(4)
+    representBudgets = BudgetSchema.query.filter_by(is_deleted=False).order_by(
+        BudgetSchema.category
     )
 
     return BudgetContent(
@@ -116,7 +114,10 @@ def validate_create_budget_dto(create_budget_dto: CreateBudgetDto):
         and existingBudget[0].category == create_budget_dto.category
     ):
         raise BadRequestError("The category existed.")
-    elif len(existingBudget) > 0 and existingBudget[0].color == create_budget_dto.color:
+    elif (
+        len(existingBudget) > 0
+        and existingBudget[0].color_theme == create_budget_dto.colorTheme
+    ):
         raise BadRequestError("The color has been used.")
 
     if create_budget_dto.maximum <= 0:

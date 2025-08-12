@@ -55,7 +55,7 @@ class BudgetsApi(Resource):
 
             create_budget(create_budget_dto)
         except BadRequestError as e:
-            return jsonify({"message": str(e)}), HTTPStatus.BAD_REQUEST
+            return e.args[0], HTTPStatus.BAD_REQUEST
 
         return "Created", HTTPStatus.CREATED
 
