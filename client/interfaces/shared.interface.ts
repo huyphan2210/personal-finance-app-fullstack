@@ -62,6 +62,7 @@ export enum ModalDropdownEnumType {
 
 export interface IInput {
   label?: string;
+  value?: string;
   placeholder?: string;
   prefix?: string;
   type: InputEnumType;

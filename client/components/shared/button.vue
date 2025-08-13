@@ -35,6 +35,7 @@ const { type, appearance, isDisabled, isLoading, onClick } =
 
   &:disabled {
     cursor: not-allowed;
+    background-color: var(--grey-300) !important;
   }
 
   &.primary {

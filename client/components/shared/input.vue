@@ -14,6 +14,7 @@
       <input
         ref="input"
         required
+        :value="value"
         @input="customInputHandler"
         @focusin="() => field?.classList.add('focus')"
         @focusout="() => field?.classList.remove('focus')"
@@ -41,7 +42,7 @@ interface IField extends HTMLDivElement {
 const field = ref<IField>();
 const input = ref<HTMLInputElement>();
 const emits = defineEmits([VALUE_CHANGE_EVENT]);
-const { type, label, placeholder, prefix, customInputHandler } =
+const { type, label, placeholder, prefix, customInputHandler, value } =
   defineProps<IInput>();
 
 const defaultLabelRecords: Record<InputEnumType, string> = {

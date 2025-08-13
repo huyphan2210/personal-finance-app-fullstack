@@ -8,17 +8,18 @@
   >
     <form class="budget-modal_form" @submit="addNewBudget">
       <shared-modal-dropdown
-        :settings="dropdownSettingsRecords[ModalDropdownEnumType.Text]"
+        :settings="categoryDropdownSettings"
         label="Category"
       />
       <shared-input
         :type="InputEnumType.Number"
         prefix="$"
         label="Maximum Spending"
+        :value="form.maximum.toString()"
         :custom-input-handler="setMaximumSpend"
       />
       <shared-modal-dropdown
-        :settings="dropdownSettingsRecords[ModalDropdownEnumType.Color]"
+        :settings="colorDropdownSettings"
         label="Color Tag"
       />
       <shared-button
@@ -26,6 +27,7 @@
         type="submit"
         :is-loading="isLoading"
         :appearance="ButtonAppearanceEnum.Primary"
+        :is-disabled="isButtonDisabled()"
       >
         Add Budget
       </shared-button>
@@ -57,7 +59,6 @@ import {
   budgetModalInstruction,
   createBudget,
 } from "~/services/budgets.service";
-import { Color } from "~/types/color";
 
 const CLOSE_BUDGET_MODAL_EVENT = "on-close-modal";
 
@@ -83,7 +84,9 @@ const addNewBudget = (e: Event) => {
   createBudget(form.value)
     .then(() => onCloseModal(true, true))
     .catch((message) => errorStore.setErrorMessage(message))
-    .finally(() => (isLoading.value = false));
+    .finally(() => {
+      isLoading.value = false;
+    });
 };
 
 const setMaximumSpend = (e?: Event) => {
@@ -92,6 +95,35 @@ const setMaximumSpend = (e?: Event) => {
       (e?.currentTarget as HTMLInputElement).value
     );
   }
+};
+
+const isButtonDisabled = () => {
+  if (!form.value.maximum || form.value.maximum <= 0) {
+    return true;
+  }
+
+  if (
+    categoryDropdownSettings.value.options.find(
+      (option) =>
+        option.itemValue === form.value.category &&
+        option.status === ModalDropdownItemStatus.Used
+    )
+  ) {
+    return true;
+  }
+
+  if (
+    colorDropdownSettings.value.options.find(
+      (option) =>
+        CreateBudgetColorThemeEnum[option.itemValue] ===
+          form.value.colorTheme &&
+        option.status === ModalDropdownItemStatus.Used
+    )
+  ) {
+    return true;
+  }
+
+  return false;
 };
 
 const sortItems = (
@@ -138,7 +170,7 @@ const dropdownSettingsRecords: Record<
   },
   [ModalDropdownEnumType.Color]: {
     type: ModalDropdownEnumType.Color,
-    options: Object.keys(Color)
+    options: Object.keys(CreateBudgetColorThemeEnum)
       .map((value) => {
         const key = value as keyof typeof CreateBudgetColorThemeEnum;
         const status = !usedBudgets
@@ -175,6 +207,17 @@ const dropdownSettingsRecords: Record<
       .sort(sortItems),
   },
 };
+
+const colorDropdownSettings = ref<IModalColorDropdownSettings>(
+  dropdownSettingsRecords[
+    ModalDropdownEnumType.Color
+  ] as IModalColorDropdownSettings
+);
+const categoryDropdownSettings = ref<IModalTextDropdownSettings>(
+  dropdownSettingsRecords[
+    ModalDropdownEnumType.Text
+  ] as IModalTextDropdownSettings
+);
 </script>
 <style lang="scss" scoped>
 .budget-modal {

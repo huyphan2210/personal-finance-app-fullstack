@@ -55,11 +55,11 @@
     </ul>
   </section>
   <budgets-modal
-    v-if="budgets"
+    v-if="!isFetching"
     :targetBudgetCategory="budgetCategory"
     :type="currentOpeningModal || BudgetModalTypeEnum.AddNew"
     :is-shown="!!currentOpeningModal"
-    :used-budgets="budgets.representBudgets"
+    :used-budgets="budgets?.representBudgets ?? []"
     v-on:on-close-modal="onCloseModal"
   />
 </template>
@@ -77,13 +77,13 @@ const budgets = ref<IBudgetContent>();
 const chartData = ref<ChartData>();
 const budgetCategory = ref<BudgetCategoryEnum>();
 const currentOpeningModal = ref<BudgetModalTypeEnum | undefined>();
+const isFetching = ref<boolean>(true);
 const openAddNewModal = () => {
   currentOpeningModal.value = BudgetModalTypeEnum.AddNew;
 };
 
 const setBudgetsData = (budgetsData: IBudgetContent) => {
   budgets.value = { ...budgetsData };
-
   chartData.value = {
     datasets: [
       {
@@ -95,12 +95,19 @@ const setBudgetsData = (budgetsData: IBudgetContent) => {
     ],
   };
 };
-getBudgets().then(setBudgetsData);
+getBudgets()
+  .then(setBudgetsData)
+  .finally(() => (isFetching.value = false));
 
 const onCloseModal = (fetchData?: boolean) => {
   currentOpeningModal.value = undefined;
   if (fetchData) {
-    getBudgets().then(setBudgetsData);
+    isFetching.value = true;
+    getBudgets()
+      .then(setBudgetsData)
+      .finally(() => {
+        isFetching.value = false;
+      });
   }
 };
 </script>
