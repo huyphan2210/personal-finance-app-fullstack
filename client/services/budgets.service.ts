@@ -34,7 +34,9 @@ export const createBudget = async (payload: CreateBudget) => {
     await budgetApi.postBudgetsApi(payload);
   } catch (error) {
     const message =
-      error instanceof Response ? await error.text() : "Something wrong happened";
+      error instanceof Response
+        ? await error.text()
+        : "Something wrong happened";
     throw new Error(message);
   }
 };
@@ -55,4 +57,13 @@ export const budgetModalInstruction: Record<BudgetModalTypeEnum, string> = {
     "As your budgets change, feel free to update your spending limits.",
   [BudgetModalTypeEnum.Delete]:
     "Are you sure you want to delete this budget? This action cannot be reversed, and all the data inside it will be removed forever.",
+};
+
+export const budgetModalPrimaryButtonContent: Record<
+  BudgetModalTypeEnum,
+  string
+> = {
+  [BudgetModalTypeEnum.AddNew]: "Add Budget",
+  [BudgetModalTypeEnum.Edit]: "Save Changes",
+  [BudgetModalTypeEnum.Delete]: "Yes, Confirm Deletion",
 };

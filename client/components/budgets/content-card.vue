@@ -80,10 +80,11 @@ import type { IContentCardDropdownOption } from "~/interfaces/shared.interface";
 import { enUSFormatter } from "~/services/base.service";
 import { Color } from "~/types/color";
 
-const { dropdownOptions, budgetInfo } = defineProps<IBudgetContentCard>();
+const { dropdownOptions, budgetInfo, onEditModal } =
+  defineProps<IBudgetContentCard>();
 
 const budget = ref<HTMLElement>();
-const openEditBudgetModal = () => {};
+
 const openDeleteBudgetModal = () => {};
 
 const svgFillColorRef = ref("var(--grey-500)");
@@ -99,7 +100,9 @@ const handleMouseLeave = () => {
 const defaultBudgetDropdownOptions: IContentCardDropdownOption[] = [
   {
     content: "Edit Budget",
-    onClick: openEditBudgetModal,
+    onClick: () => {
+      onEditModal(budgetInfo);
+    },
   },
   {
     content: "Delete Budget",

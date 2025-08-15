@@ -82,6 +82,7 @@ export interface IModalColorDropdownSettings {
 export interface IModalDropdown {
   label?: string;
   settings: IModalColorDropdownSettings | IModalTextDropdownSettings;
+  isDisabled?: boolean;
 }
 
 export enum ModalDropdownItemStatus {

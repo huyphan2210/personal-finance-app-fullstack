@@ -50,15 +50,28 @@
         :key="budget.category + index"
         class="budgets_content_budgets-detail-list_item"
       >
-        <budgets-content-card :dropdown-options="[]" :budget-info="budget" />
+        <budgets-content-card
+          :dropdown-options="[]"
+          :budget-info="budget"
+          :on-edit-modal="openEditModal"
+        />
       </li>
     </ul>
   </section>
-  <budgets-modal
+  <budgets-add-new-modal
     v-if="!isFetching"
     :targetBudgetCategory="budgetCategory"
-    :type="currentOpeningModal || BudgetModalTypeEnum.AddNew"
-    :is-shown="!!currentOpeningModal"
+    :type="BudgetModalTypeEnum.AddNew"
+    :is-shown="currentOpeningModal === BudgetModalTypeEnum.AddNew"
+    :used-budgets="budgets?.representBudgets ?? []"
+    v-on:on-close-modal="onCloseModal"
+  />
+  <budgets-edit-modal
+    v-if="!isFetching"
+    :edit-budget-info="editBudgetInfo"
+    :targetBudgetCategory="budgetCategory"
+    :type="BudgetModalTypeEnum.Edit"
+    :is-shown="currentOpeningModal === BudgetModalTypeEnum.Edit"
     :used-budgets="budgets?.representBudgets ?? []"
     v-on:on-close-modal="onCloseModal"
   />
@@ -69,6 +82,7 @@ import type { ChartData } from "chart.js";
 import { BudgetCategoryEnum } from "~/api/data-contracts";
 import {
   BudgetModalTypeEnum,
+  type IBudget,
   type IBudgetContent,
 } from "~/interfaces/budgets.interface";
 import { ButtonAppearanceEnum } from "~/interfaces/shared.interface";
@@ -76,10 +90,16 @@ import { getBudgets } from "~/services/budgets.service";
 const budgets = ref<IBudgetContent>();
 const chartData = ref<ChartData>();
 const budgetCategory = ref<BudgetCategoryEnum>();
+const editBudgetInfo = ref<IBudget>();
 const currentOpeningModal = ref<BudgetModalTypeEnum | undefined>();
 const isFetching = ref<boolean>(true);
 const openAddNewModal = () => {
   currentOpeningModal.value = BudgetModalTypeEnum.AddNew;
+};
+
+const openEditModal = (budget: IBudget) => {
+  editBudgetInfo.value = { ...budget };
+  currentOpeningModal.value = BudgetModalTypeEnum.Edit;
 };
 
 const setBudgetsData = (budgetsData: IBudgetContent) => {
@@ -188,11 +208,14 @@ $gap: 1.5rem;
 @media screen and (min-width: 90rem) {
   .budgets {
     &_content {
+      position: relative;
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       grid-template-rows: repeat(4, min-content);
 
       &_spending-summary {
+        position: sticky;
+        top: 2rem;
         display: unset;
         grid-column: 1 / span 5;
       }

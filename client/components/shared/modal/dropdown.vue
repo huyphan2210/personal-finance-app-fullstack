@@ -8,6 +8,7 @@
       title="Open dropdown button"
       type="button"
       :id="INPUT_ID"
+      :disabled="isDisabled"
       @click="openDropdown"
     >
       <template v-if="settings.type === ModalDropdownEnumType.Text">
@@ -69,7 +70,7 @@ import {
 
 const INPUT_ID = Math.random().toString();
 
-const { settings, label } = defineProps<IModalDropdown>();
+const { settings, label, isDisabled } = defineProps<IModalDropdown>();
 const dropdownWrapper = ref<HTMLDivElement>();
 
 const selectedOption = ref<string>();
@@ -121,6 +122,11 @@ onUnmounted(() => document.removeEventListener("click", closeDropdown));
     align-items: center;
     width: 100%;
     color: var(--grey-900);
+    &:disabled {
+      background-color: var(--grey-100);
+      cursor: not-allowed;
+    }
+
     &_color {
       display: flex;
       gap: 0.75rem;

@@ -17,6 +17,7 @@ export interface IBudgetContent extends BudgetContent {
 export interface IBudgetContentCard {
   budgetInfo: IBudget;
   dropdownOptions: IContentCardDropdownOption[];
+  onEditModal: (budget: IBudget) => void;
 }
 
 export enum BudgetModalTypeEnum {
@@ -30,4 +31,8 @@ export interface IBudgetModal {
   type: BudgetModalTypeEnum;
   targetBudgetCategory?: BudgetCategoryEnum;
   usedBudgets: IBudget[];
+}
+
+export interface IBudgetEditModal extends IBudgetModal {
+  editBudgetInfo?: IBudget;
 }
