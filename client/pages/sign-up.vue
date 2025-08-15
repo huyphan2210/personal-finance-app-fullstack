@@ -21,7 +21,13 @@
         </small>
       </shared-input>
     </fieldset>
-    <button type="submit">Create Account</button>
+    <shared-button
+      type="submit"
+      :appearance="ButtonAppearanceEnum.Primary"
+      :is-loading="isLoading"
+    >
+      Create Account
+    </shared-button>
     <span
       >Already have an account?
       <NuxtLink :to="Page.Login">Login</NuxtLink></span
@@ -30,13 +36,17 @@
 </template>
 
 <script lang="ts" setup>
-import { InputEnumType } from "~/interfaces/shared.interface";
+import {
+  InputEnumType,
+  ButtonAppearanceEnum,
+} from "~/interfaces/shared.interface";
 const errorStore = useErrorStore();
 const { signUp, setActive } = useSignUp();
 
 const name = ref("");
 const email = ref("");
 const password = ref("");
+const isLoading = ref<boolean>(false);
 
 const setName = (value: string) => {
   name.value = value;
@@ -52,7 +62,7 @@ const setPassword = (value: string) => {
 
 const createAccount = async (e: Event) => {
   e.preventDefault();
-
+  isLoading.value = true;
   try {
     const result = await signUp.value?.create({
       emailAddress: email.value,
@@ -67,6 +77,8 @@ const createAccount = async (e: Event) => {
     if (err.status && err.status === 422) {
       errorStore.setErrorMessage("Your email or password is incorrect.");
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>
@@ -87,10 +99,6 @@ const createAccount = async (e: Event) => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-
-  button {
-    @include button-style;
   }
 
   &_field {

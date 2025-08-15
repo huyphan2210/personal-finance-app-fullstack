@@ -11,7 +11,13 @@
         v-on:on-value-change="setPassword"
       />
     </fieldset>
-    <button type="submit">Login</button>
+    <shared-button
+      type="submit"
+      :appearance="ButtonAppearanceEnum.Primary"
+      :is-loading="isLoading"
+    >
+      Login
+    </shared-button>
     <span
       >Need to create an account?
       <NuxtLink :to="Page.Signup">Sign Up</NuxtLink></span
@@ -20,13 +26,17 @@
 </template>
 
 <script lang="ts" setup>
-import { InputEnumType } from "~/interfaces/shared.interface";
+import {
+  ButtonAppearanceEnum,
+  InputEnumType,
+} from "~/interfaces/shared.interface";
 
 const errorStore = useErrorStore();
 const { signIn, setActive } = useSignIn();
 
 const email = ref("");
 const password = ref("");
+const isLoading = ref<boolean>(false);
 
 const setEmail = (value: string) => {
   email.value = value;
@@ -38,7 +48,7 @@ const setPassword = (value: string) => {
 
 const login = async (e: Event) => {
   e.preventDefault();
-
+  isLoading.value = true;
   try {
     const result = await signIn.value?.create({
       identifier: email.value,
@@ -55,6 +65,8 @@ const login = async (e: Event) => {
     if (err.status && err.status === 422) {
       errorStore.setErrorMessage("Your email or password is incorrect.");
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>
@@ -75,10 +87,6 @@ const login = async (e: Event) => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-
-  button {
-    @include button-style;
   }
 
   span {
