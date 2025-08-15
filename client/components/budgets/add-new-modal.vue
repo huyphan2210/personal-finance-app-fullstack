@@ -29,7 +29,7 @@
         :appearance="ButtonAppearanceEnum.Primary"
         :is-disabled="isButtonDisabled()"
       >
-        Add Budget
+        {{ budgetModalPrimaryButtonContent[type] }}
       </shared-button>
     </form>
   </shared-modal>
@@ -57,6 +57,7 @@ import {
 import {
   budgetModalHeadings,
   budgetModalInstruction,
+  budgetModalPrimaryButtonContent,
   createBudget,
 } from "~/services/budgets.service";
 
