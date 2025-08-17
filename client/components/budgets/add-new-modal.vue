@@ -1,12 +1,12 @@
 <template>
   <shared-modal
-    :heading="budgetModalHeadings[type](targetBudgetCategory)"
+    :heading="budgetModalHeadings[type]()"
     :message="budgetModalInstruction[type]"
-    class="budget-modal"
+    class="budget-modal--add-new"
     :is-modal-shown="isShown"
     v-on:on-close-modal="onCloseModal"
   >
-    <form class="budget-modal_form" @submit="addNewBudget">
+    <form class="budget-modal--add-new_form" @submit="addNewBudget">
       <shared-modal-dropdown
         :settings="categoryDropdownSettings"
         label="Category"
@@ -23,7 +23,7 @@
         label="Color Tag"
       />
       <shared-button
-        class="budget-modal_form_btn"
+        class="budget-modal--add-new_form_btn"
         type="submit"
         :is-loading="isLoading"
         :appearance="ButtonAppearanceEnum.Primary"
@@ -63,8 +63,7 @@ import {
 
 const CLOSE_BUDGET_MODAL_EVENT = "on-close-modal";
 
-const { isShown, type, targetBudgetCategory, usedBudgets } =
-  defineProps<IBudgetModal>();
+const { isShown, type, usedBudgets } = defineProps<IBudgetModal>();
 const emits = defineEmits([CLOSE_BUDGET_MODAL_EVENT]);
 const errorStore = useErrorStore();
 const form = ref<CreateBudget>({
@@ -221,7 +220,7 @@ const categoryDropdownSettings = ref<IModalTextDropdownSettings>(
 );
 </script>
 <style lang="scss" scoped>
-.budget-modal {
+.budget-modal--add-new {
   &_form {
     display: flex;
     flex-direction: column;

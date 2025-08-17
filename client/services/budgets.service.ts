@@ -2,6 +2,8 @@ import {
   BudgetCategoryEnum,
   type BudgetContent,
   type CreateBudget,
+  type DeleteBudget,
+  type UpdateBudget,
 } from "~/api/data-contracts";
 import { budgetApi, enUSFormatter, handleGetResponse } from "./base.service";
 import {
@@ -34,9 +36,27 @@ export const createBudget = async (payload: CreateBudget) => {
     await budgetApi.postBudgetsApi(payload);
   } catch (error) {
     const message =
-      error instanceof Response
-        ? await error.text()
-        : "Something wrong happened";
+      error instanceof Response ? await error.text() : DEFAULT_ERROR_MESSAGE;
+    throw new Error(message);
+  }
+};
+
+export const updateBudget = async (payload: UpdateBudget) => {
+  try {
+    await budgetApi.patchBudgetsApi(payload);
+  } catch (error) {
+    const message =
+      error instanceof Response ? await error.text() : DEFAULT_ERROR_MESSAGE;
+    throw new Error(message);
+  }
+};
+
+export const deleteBudget = async (payload: DeleteBudget) => {
+  try {
+    await budgetApi.deleteBudgetsApi(payload);
+  } catch (error) {
+    const message =
+      error instanceof Response ? await error.text() : DEFAULT_ERROR_MESSAGE;
     throw new Error(message);
   }
 };

@@ -54,13 +54,13 @@
           :dropdown-options="[]"
           :budget-info="budget"
           :on-edit-modal="openEditModal"
+          :on-delete-modal="openDeleteModal"
         />
       </li>
     </ul>
   </section>
   <budgets-add-new-modal
     v-if="!isFetching"
-    :targetBudgetCategory="budgetCategory"
     :type="BudgetModalTypeEnum.AddNew"
     :is-shown="currentOpeningModal === BudgetModalTypeEnum.AddNew"
     :used-budgets="budgets?.representBudgets ?? []"
@@ -68,10 +68,17 @@
   />
   <budgets-edit-modal
     v-if="!isFetching"
-    :edit-budget-info="editBudgetInfo"
-    :targetBudgetCategory="budgetCategory"
+    :edit-budget-info="targetBudgetInfo"
     :type="BudgetModalTypeEnum.Edit"
     :is-shown="currentOpeningModal === BudgetModalTypeEnum.Edit"
+    :used-budgets="budgets?.representBudgets ?? []"
+    v-on:on-close-modal="onCloseModal"
+  />
+  <budgets-delete-modal
+    v-if="!isFetching"
+    :delete-budget-info="targetBudgetInfo"
+    :type="BudgetModalTypeEnum.Delete"
+    :is-shown="currentOpeningModal === BudgetModalTypeEnum.Delete"
     :used-budgets="budgets?.representBudgets ?? []"
     v-on:on-close-modal="onCloseModal"
   />
@@ -79,7 +86,6 @@
 
 <script setup lang="ts">
 import type { ChartData } from "chart.js";
-import { BudgetCategoryEnum } from "~/api/data-contracts";
 import {
   BudgetModalTypeEnum,
   type IBudget,
@@ -89,8 +95,7 @@ import { ButtonAppearanceEnum } from "~/interfaces/shared.interface";
 import { getBudgets } from "~/services/budgets.service";
 const budgets = ref<IBudgetContent>();
 const chartData = ref<ChartData>();
-const budgetCategory = ref<BudgetCategoryEnum>();
-const editBudgetInfo = ref<IBudget>();
+const targetBudgetInfo = ref<IBudget>();
 const currentOpeningModal = ref<BudgetModalTypeEnum | undefined>();
 const isFetching = ref<boolean>(true);
 const openAddNewModal = () => {
@@ -98,8 +103,13 @@ const openAddNewModal = () => {
 };
 
 const openEditModal = (budget: IBudget) => {
-  editBudgetInfo.value = { ...budget };
+  targetBudgetInfo.value = { ...budget };
   currentOpeningModal.value = BudgetModalTypeEnum.Edit;
+};
+
+const openDeleteModal = (budget: IBudget) => {
+  targetBudgetInfo.value = { ...budget };
+  currentOpeningModal.value = BudgetModalTypeEnum.Delete;
 };
 
 const setBudgetsData = (budgetsData: IBudgetContent) => {
@@ -121,6 +131,7 @@ getBudgets()
 
 const onCloseModal = (fetchData?: boolean) => {
   currentOpeningModal.value = undefined;
+  targetBudgetInfo.value = undefined;
   if (fetchData) {
     isFetching.value = true;
     getBudgets()

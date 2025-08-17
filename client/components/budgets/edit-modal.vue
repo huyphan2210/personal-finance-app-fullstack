@@ -1,12 +1,12 @@
 <template>
   <shared-modal
-    :heading="budgetModalHeadings[type](targetBudgetCategory)"
+    :heading="budgetModalHeadings[type](editBudgetInfo?.category)"
     :message="budgetModalInstruction[type]"
-    class="budget-modal"
+    class="budget-modal--edit"
     :is-modal-shown="isShown"
     v-on:on-close-modal="onCloseModal"
   >
-    <form class="budget-modal_form" @submit="addNewBudget">
+    <form class="budget-modal--edit_form" @submit="editBudget">
       <shared-modal-dropdown
         :key="form.category"
         :settings="categoryDropdownSettings"
@@ -27,7 +27,7 @@
         label="Color Tag"
       />
       <shared-button
-        class="budget-modal_form_btn"
+        class="budget-modal--edit_form_btn"
         type="submit"
         :is-loading="isLoading"
         :appearance="ButtonAppearanceEnum.Primary"
@@ -44,9 +44,9 @@ import {
   ButtonAppearanceEnum,
 } from "~/interfaces/shared.interface";
 import {
-  CreateBudgetCategoryEnum,
-  CreateBudgetColorThemeEnum,
-  type CreateBudget,
+  UpdateBudgetCategoryEnum,
+  UpdateBudgetColorThemeEnum,
+  type UpdateBudget,
 } from "~/api/data-contracts";
 import { type IBudgetEditModal } from "~/interfaces/budgets.interface";
 import {
@@ -59,22 +59,23 @@ import {
   budgetModalHeadings,
   budgetModalInstruction,
   budgetModalPrimaryButtonContent,
-  createBudget,
+  updateBudget,
 } from "~/services/budgets.service";
 
 const CLOSE_BUDGET_MODAL_EVENT = "on-close-modal";
 
-const { isShown, type, targetBudgetCategory, editBudgetInfo } =
-  defineProps<IBudgetEditModal>();
+const { isShown, type, editBudgetInfo } = defineProps<IBudgetEditModal>();
 const emits = defineEmits([CLOSE_BUDGET_MODAL_EVENT]);
 const errorStore = useErrorStore();
-const form = ref<CreateBudget>({
+const form = ref<UpdateBudget>({
   category: (editBudgetInfo?.category ||
-    CreateBudgetCategoryEnum.Bills) as CreateBudgetCategoryEnum,
+    UpdateBudgetCategoryEnum.Bills) as UpdateBudgetCategoryEnum,
   maximum: editBudgetInfo?.maximum || 0,
   colorTheme: (editBudgetInfo?.colorTheme ||
-    CreateBudgetColorThemeEnum.Cyan) as CreateBudgetColorThemeEnum,
+    UpdateBudgetColorThemeEnum.Cyan) as UpdateBudgetColorThemeEnum,
 });
+
+let originalFormValue = { ...form.value };
 
 const isLoading = ref<boolean>(false);
 
@@ -82,15 +83,17 @@ const onCloseModal = (isClosed: boolean, fetchData?: boolean) => {
   emits(CLOSE_BUDGET_MODAL_EVENT, fetchData);
 };
 
-const addNewBudget = (e: Event) => {
+const editBudget = (e: Event) => {
   e.preventDefault();
   isLoading.value = true;
-  // createBudget(form.value)
-  //   .then(() => onCloseModal(true, true))
-  //   .catch((message) => errorStore.setErrorMessage(message))
-  //   .finally(() => {
-  //     isLoading.value = false;
-  //   });
+  updateBudget(form.value)
+    .then(() => {
+      onCloseModal(true, true);
+    })
+    .catch((message) => errorStore.setErrorMessage(message))
+    .finally(() => {
+      isLoading.value = false;
+    });
 };
 
 const setMaximumSpend = (e?: Event) => {
@@ -102,6 +105,10 @@ const setMaximumSpend = (e?: Event) => {
 };
 
 const isButtonDisabled = () => {
+  if (JSON.stringify(form.value) === JSON.stringify(originalFormValue)) {
+    return true;
+  }
+
   if (!form.value.maximum || form.value.maximum <= 0) {
     return true;
   }
@@ -119,12 +126,12 @@ const dropdownSettingsRecords: Record<
       {
         itemValue: form.value.category,
         itemLabel:
-          Object.keys(CreateBudgetCategoryEnum).find(
+          Object.keys(UpdateBudgetCategoryEnum).find(
             (key) =>
-              CreateBudgetCategoryEnum[
-                key as keyof typeof CreateBudgetCategoryEnum
+              UpdateBudgetCategoryEnum[
+                key as keyof typeof UpdateBudgetCategoryEnum
               ] === form.value.category
-          ) ?? Object.keys(CreateBudgetCategoryEnum)[0],
+          ) ?? Object.keys(UpdateBudgetCategoryEnum)[0],
         status: ModalDropdownItemStatus.Selected,
         onSelect: () => {},
       },
@@ -134,17 +141,17 @@ const dropdownSettingsRecords: Record<
     type: ModalDropdownEnumType.Color,
     options: [
       {
-        itemValue: (Object.keys(CreateBudgetColorThemeEnum).find(
+        itemValue: (Object.keys(UpdateBudgetColorThemeEnum).find(
           (key) =>
-            CreateBudgetColorThemeEnum[
-              key as keyof typeof CreateBudgetColorThemeEnum
+            UpdateBudgetColorThemeEnum[
+              key as keyof typeof UpdateBudgetColorThemeEnum
             ] === form.value.colorTheme
-        ) || "Cyan") as keyof typeof CreateBudgetColorThemeEnum,
+        ) || "Cyan") as keyof typeof UpdateBudgetColorThemeEnum,
         itemLabel:
-          Object.keys(CreateBudgetColorThemeEnum).find(
+          Object.keys(UpdateBudgetColorThemeEnum).find(
             (key) =>
-              CreateBudgetColorThemeEnum[
-                key as keyof typeof CreateBudgetColorThemeEnum
+              UpdateBudgetColorThemeEnum[
+                key as keyof typeof UpdateBudgetColorThemeEnum
               ] === form.value.colorTheme
           ) || "Cyan",
         status: ModalDropdownItemStatus.Selected,
@@ -168,11 +175,12 @@ const categoryDropdownSettings = ref<IModalTextDropdownSettings>(
 const reassignValuesToForm = () => {
   form.value = {
     category: (editBudgetInfo?.category ||
-      CreateBudgetCategoryEnum.Bills) as CreateBudgetCategoryEnum,
+      UpdateBudgetCategoryEnum.Bills) as UpdateBudgetCategoryEnum,
     maximum: editBudgetInfo?.maximum || 0,
     colorTheme: (editBudgetInfo?.colorTheme ||
-      CreateBudgetColorThemeEnum.Cyan) as CreateBudgetColorThemeEnum,
+      UpdateBudgetColorThemeEnum.Cyan) as UpdateBudgetColorThemeEnum,
   };
+  originalFormValue = { ...form.value };
   colorDropdownSettings.value = dropdownSettingsRecords[
     ModalDropdownEnumType.Color
   ]() as IModalColorDropdownSettings;
@@ -184,7 +192,7 @@ const reassignValuesToForm = () => {
 watch(() => editBudgetInfo, reassignValuesToForm);
 </script>
 <style lang="scss" scoped>
-.budget-modal {
+.budget-modal--edit {
   &_form {
     display: flex;
     flex-direction: column;

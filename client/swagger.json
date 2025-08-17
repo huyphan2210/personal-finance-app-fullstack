@@ -185,6 +185,70 @@
       ],
       "type": "object"
     },
+    "DeleteBudget": {
+      "properties": {
+        "category": {
+          "description": "Budget category",
+          "enum": [
+            "Entertainment",
+            "Bills",
+            "Dining Out",
+            "Personal Care",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ],
+          "example": "Entertainment",
+          "type": "string",
+          "x-enum-varnames": [
+            "Entertainment",
+            "Bills",
+            "DiningOut",
+            "PersonalCare",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ]
+        },
+        "colorTheme": {
+          "description": "Budget color theme",
+          "enum": [
+            "#82c9d7",
+            "#277c78",
+            "#626070",
+            "#f2cdac",
+            "#826CB0",
+            "#c94736"
+          ],
+          "example": "#82c9d7",
+          "type": "string",
+          "x-enum-varnames": [
+            "Cyan",
+            "Green",
+            "Navy",
+            "Yellow",
+            "Purple",
+            "Red"
+          ]
+        },
+        "maximum": {
+          "description": "Maximum allowed budget",
+          "type": "number"
+        }
+      },
+      "required": [
+        "category",
+        "colorTheme",
+        "maximum"
+      ],
+      "type": "object"
+    },
     "OverviewContent": {
       "properties": {
         "balance": {
@@ -374,6 +438,70 @@
         "transactions"
       ],
       "type": "object"
+    },
+    "UpdateBudget": {
+      "properties": {
+        "category": {
+          "description": "Budget category",
+          "enum": [
+            "Entertainment",
+            "Bills",
+            "Dining Out",
+            "Personal Care",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ],
+          "example": "Entertainment",
+          "type": "string",
+          "x-enum-varnames": [
+            "Entertainment",
+            "Bills",
+            "DiningOut",
+            "PersonalCare",
+            "General",
+            "Groceries",
+            "Transportation",
+            "Lifestyle",
+            "Education",
+            "Shopping"
+          ]
+        },
+        "colorTheme": {
+          "description": "Budget color theme",
+          "enum": [
+            "#82c9d7",
+            "#277c78",
+            "#626070",
+            "#f2cdac",
+            "#826CB0",
+            "#c94736"
+          ],
+          "example": "#82c9d7",
+          "type": "string",
+          "x-enum-varnames": [
+            "Cyan",
+            "Green",
+            "Navy",
+            "Yellow",
+            "Purple",
+            "Red"
+          ]
+        },
+        "maximum": {
+          "description": "Maximum allowed budget",
+          "type": "number"
+        }
+      },
+      "required": [
+        "category",
+        "colorTheme",
+        "maximum"
+      ],
+      "type": "object"
     }
   },
   "info": {
@@ -382,6 +510,37 @@
   },
   "paths": {
     "/budgets-api": {
+      "delete": {
+        "description": "Delete budget",
+        "operationId": "delete_budgets_api",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteBudget"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "400": {
+            "description": "Invalid Request Body"
+          },
+          "404": {
+            "description": "Budget Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "budgets-api"
+        ]
+      },
       "get": {
         "description": "Get the budgets data",
         "operationId": "get_budgets_api",
@@ -391,6 +550,37 @@
             "schema": {
               "$ref": "#/definitions/BudgetContent"
             }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "budgets-api"
+        ]
+      },
+      "patch": {
+        "description": "Edit budget",
+        "operationId": "patch_budgets_api",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateBudget"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          },
+          "400": {
+            "description": "Invalid Request Body"
+          },
+          "404": {
+            "description": "Budget Not Found"
           },
           "500": {
             "description": "Internal Server Error"

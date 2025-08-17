@@ -53,6 +53,21 @@ export interface CreateBudget {
   maximum: number;
 }
 
+export interface DeleteBudget {
+  /**
+   * Budget category
+   * @example "Entertainment"
+   */
+  category: DeleteBudgetCategoryEnum;
+  /**
+   * Budget color theme
+   * @example "#82c9d7"
+   */
+  colorTheme: DeleteBudgetColorThemeEnum;
+  /** Maximum allowed budget */
+  maximum: number;
+}
+
 export interface OverviewContent {
   balance: Balance;
   budgets: BudgetContent;
@@ -99,6 +114,21 @@ export interface TransactionsContent {
   currentPage: number;
   numberOfPages: number;
   transactions: Transaction[];
+}
+
+export interface UpdateBudget {
+  /**
+   * Budget category
+   * @example "Entertainment"
+   */
+  category: UpdateBudgetCategoryEnum;
+  /**
+   * Budget color theme
+   * @example "#82c9d7"
+   */
+  colorTheme: UpdateBudgetColorThemeEnum;
+  /** Maximum allowed budget */
+  maximum: number;
 }
 
 /**
@@ -162,6 +192,36 @@ export enum CreateBudgetColorThemeEnum {
 }
 
 /**
+ * Budget category
+ * @example "Entertainment"
+ */
+export enum DeleteBudgetCategoryEnum {
+  Entertainment = "Entertainment",
+  Bills = "Bills",
+  DiningOut = "Dining Out",
+  PersonalCare = "Personal Care",
+  General = "General",
+  Groceries = "Groceries",
+  Transportation = "Transportation",
+  Lifestyle = "Lifestyle",
+  Education = "Education",
+  Shopping = "Shopping",
+}
+
+/**
+ * Budget color theme
+ * @example "#82c9d7"
+ */
+export enum DeleteBudgetColorThemeEnum {
+  Cyan = "#82c9d7",
+  Green = "#277c78",
+  Navy = "#626070",
+  Yellow = "#f2cdac",
+  Purple = "#826CB0",
+  Red = "#c94736",
+}
+
+/**
  * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
  * @example "#82c9d7"
  */
@@ -189,4 +249,34 @@ export enum TransactionCategoryEnum {
   Lifestyle = "Lifestyle",
   Education = "Education",
   Shopping = "Shopping",
+}
+
+/**
+ * Budget category
+ * @example "Entertainment"
+ */
+export enum UpdateBudgetCategoryEnum {
+  Entertainment = "Entertainment",
+  Bills = "Bills",
+  DiningOut = "Dining Out",
+  PersonalCare = "Personal Care",
+  General = "General",
+  Groceries = "Groceries",
+  Transportation = "Transportation",
+  Lifestyle = "Lifestyle",
+  Education = "Education",
+  Shopping = "Shopping",
+}
+
+/**
+ * Budget color theme
+ * @example "#82c9d7"
+ */
+export enum UpdateBudgetColorThemeEnum {
+  Cyan = "#82c9d7",
+  Green = "#277c78",
+  Navy = "#626070",
+  Yellow = "#f2cdac",
+  Purple = "#826CB0",
+  Red = "#c94736",
 }

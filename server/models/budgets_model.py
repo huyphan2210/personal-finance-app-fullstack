@@ -22,3 +22,15 @@ class CreateBudgetDto(BaseModel):
     category: Category
     colorTheme: Color
     maximum: float
+
+
+class UpdateBudgetDto(BaseModel):
+    category: Category
+    colorTheme: Color
+    maximum: float
+
+
+class DeleteBudgetDto(BaseModel):
+    category: Category
+    colorTheme: Color
+    maximum: float
