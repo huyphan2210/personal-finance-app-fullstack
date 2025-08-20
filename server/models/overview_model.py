@@ -1,5 +1,5 @@
 from models.base_model import BaseModel
-from models.pots_model import Pot
+from models.pots_model import Pot, PotOverview
 from models.budgets_model import Budget, BudgetContent
 from models.transactions_model import Transaction
 from models.recurring_bills_model import RecurringBillsSummary
@@ -13,7 +13,7 @@ class Balance(BaseModel):
 
 class OverviewContent(BaseModel):
     balance: Balance
-    pots: list[Pot]
+    pots: PotOverview
     budgets: BudgetContent
     transactions: list[Transaction]
     recurringBillsSummary: RecurringBillsSummary

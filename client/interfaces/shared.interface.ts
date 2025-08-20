@@ -66,6 +66,7 @@ export interface IInput {
   placeholder?: string;
   prefix?: string;
   type: InputEnumType;
+  maxLength?: number;
   customInputHandler?: (e?: Event) => void;
 }
 

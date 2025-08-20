@@ -1,8 +1,4 @@
-import type {
-  Budget,
-  BudgetCategoryEnum,
-  BudgetContent,
-} from "~/api/data-contracts";
+import type { Budget, BudgetContent } from "~/api/data-contracts";
 import type { IContentCardDropdownOption } from "./shared.interface";
 
 export interface IBudget extends Budget {

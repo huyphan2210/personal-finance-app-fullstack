@@ -13,7 +13,7 @@
   <section
     :class="{
       budgets_content: true,
-      'is-loading': !budgets,
+      'is-loading': isFetching,
     }"
   >
     <section v-if="budgets" class="budgets_content_spending-summary">
@@ -93,6 +93,7 @@ import {
 } from "~/interfaces/budgets.interface";
 import { ButtonAppearanceEnum } from "~/interfaces/shared.interface";
 import { getBudgets } from "~/services/budgets.service";
+const errorStore = useErrorStore();
 const budgets = ref<IBudgetContent>();
 const chartData = ref<ChartData>();
 const targetBudgetInfo = ref<IBudget>();
@@ -127,6 +128,7 @@ const setBudgetsData = (budgetsData: IBudgetContent) => {
 };
 getBudgets()
   .then(setBudgetsData)
+  .catch((message) => errorStore.setErrorMessage(message))
   .finally(() => (isFetching.value = false));
 
 const onCloseModal = (fetchData?: boolean) => {
@@ -136,6 +138,7 @@ const onCloseModal = (fetchData?: boolean) => {
     isFetching.value = true;
     getBudgets()
       .then(setBudgetsData)
+      .catch((message) => errorStore.setErrorMessage(message))
       .finally(() => {
         isFetching.value = false;
       });

@@ -71,7 +71,7 @@ export interface DeleteBudget {
 export interface OverviewContent {
   balance: Balance;
   budgets: BudgetContent;
-  pots: Pot[];
+  pots: PotOverview;
   recurringBillsSummary: RecurringBillsSummary;
   transactions: Transaction[];
 }
@@ -85,6 +85,11 @@ export interface Pot {
   name: string;
   target: number;
   total: number;
+}
+
+export interface PotOverview {
+  pots: Pot[];
+  totalSaved: number;
 }
 
 export interface Pots {

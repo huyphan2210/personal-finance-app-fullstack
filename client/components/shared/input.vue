@@ -20,6 +20,7 @@
         @focusout="() => field?.classList.remove('focus')"
         @change="(e) => emits(VALUE_CHANGE_EVENT, (e.currentTarget as HTMLInputElement).value)"
         min="0"
+        :maxlength="maxLength"
         :id="INPUT_ID"
         :type="typeRecords[type]"
         :placeholder="placeholder ?? defaultPlaceholderRecords[type]"
@@ -42,8 +43,15 @@ interface IField extends HTMLDivElement {
 const field = ref<IField>();
 const input = ref<HTMLInputElement>();
 const emits = defineEmits([VALUE_CHANGE_EVENT]);
-const { type, label, placeholder, prefix, customInputHandler, value } =
-  defineProps<IInput>();
+const {
+  type,
+  label,
+  placeholder,
+  prefix,
+  customInputHandler,
+  value,
+  maxLength,
+} = defineProps<IInput>();
 
 const defaultLabelRecords: Record<InputEnumType, string> = {
   [InputEnumType.Text]: "Text",

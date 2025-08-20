@@ -258,11 +258,7 @@
           "$ref": "#/definitions/BudgetContent"
         },
         "pots": {
-          "description": "",
-          "items": {
-            "$ref": "#/definitions/Pot"
-          },
-          "type": "array"
+          "$ref": "#/definitions/PotOverview"
         },
         "recurringBillsSummary": {
           "$ref": "#/definitions/RecurringBillsSummary"
@@ -322,6 +318,25 @@
         "name",
         "target",
         "total"
+      ],
+      "type": "object"
+    },
+    "PotOverview": {
+      "properties": {
+        "pots": {
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/Pot"
+          },
+          "type": "array"
+        },
+        "totalSaved": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "pots",
+        "totalSaved"
       ],
       "type": "object"
     },

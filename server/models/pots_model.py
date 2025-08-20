@@ -11,3 +11,8 @@ class Pot(BaseModel):
 
 class Pots(BaseModel):
     pots: list[Pot]
+
+
+class PotOverview(BaseModel):
+    pots: list[Pot]
+    totalSaved: float

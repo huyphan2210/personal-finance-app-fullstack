@@ -20,16 +20,6 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
       overviewApi.getOverviewApi
     );
 
-    const potsTotalSaved = overviewContent.pots.reduce(
-      (prev, current) => ({
-        target: 0,
-        total: prev.total + current.total,
-      }),
-      {
-        total: 0,
-      }
-    ).total;
-
     const overviewPageContent: IOverviewPageContent = {
       summaryCardsContent: [
         {
@@ -53,8 +43,8 @@ export const getSummaryContent: () => Promise<IOverviewPageContent> =
         },
       ],
       potsCardContent: {
-        totalSaved: potsTotalSaved,
-        potItems: [...overviewContent.pots].slice(0, 4),
+        totalSaved: overviewContent.pots.totalSaved,
+        potItems: overviewContent.pots.pots,
       },
       budgetsCardContent: {
         spentBudget: overviewContent.budgets.totalSpent,
