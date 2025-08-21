@@ -9,20 +9,32 @@
 }
 
 :root {
-  // Colors
+  // Primary Colors
+  --army: #7f9161;
+  --blue: #3f82b2;
+  --brown: #93674f;
+  --cyan: #82c9d7;
+  --gold: #cab361;
+  --green: #277c78;
+  --grey: #97a0ac;
+  --magenta: #934f6f;
+  --navy: #626070;
+  --orange: #be6c49;
+  --pink: #af81ba;
+  --purple: #826cb0;
+  --red: #c94736;
+  --turquois: #597c7c;
+  --yellow: #f2cdac;
+
+  // Secondary Colors
   --beige-100: #f8f4f0;
   --beige-500: #98908b;
-  --cyan: #82c9d7;
-  --green: #277c78;
-  --navy: #626070;
+
   --grey-100: #f2f2f2;
   --grey-300: #b3b3b3;
   --grey-500: #696868;
   --grey-900: #201f24;
-  --purple: #826cb0;
-  --red: #c94736;
   --white: #fff;
-  --yellow: #f2cdac;
 }
 
 body {

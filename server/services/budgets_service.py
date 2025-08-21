@@ -37,8 +37,8 @@ def get_overview_budgets():
                 category=budget.category,
                 maximum=budget.maximum,
                 colorTheme=(
-                    budget.color_theme
-                    if budget.color_theme in Color.__members__.values()
+                    budget.color_theme.lower()
+                    if budget.color_theme.lower() in {c.value.lower() for c in Color}
                     else "#000"
                 ),
                 spent=budget.spent,
@@ -71,8 +71,8 @@ def get_budgets():
                 category=budget.category,
                 maximum=budget.maximum,
                 colorTheme=(
-                    budget.color_theme
-                    if budget.color_theme in Color.__members__.values()
+                    budget.color_theme.lower()
+                    if budget.color_theme.lower() in {c.value.lower() for c in Color}
                     else "#000"
                 ),
                 spent=budget.spent,
@@ -108,7 +108,7 @@ def validate_budget_dto(create_budget_dto: CreateBudgetDto):
             BudgetSchema.is_deleted == False,
             or_(
                 BudgetSchema.category == create_budget_dto.category,
-                BudgetSchema.color_theme == create_budget_dto.colorTheme,
+                BudgetSchema.color_theme.lower() == create_budget_dto.colorTheme.lower(),
             ),
         )
         .limit(1)
@@ -122,7 +122,7 @@ def validate_budget_dto(create_budget_dto: CreateBudgetDto):
         raise BadRequestError("The category existed.")
     elif (
         existing_budget is not None
-        and existing_budget.color_theme == create_budget_dto.colorTheme
+        and existing_budget.color_theme.lower() == create_budget_dto.colorTheme.lower()
     ):
         raise BadRequestError("The color has been used.")
 
@@ -135,7 +135,7 @@ def create_budget(create_budget_dto: CreateBudgetDto):
     new_budget = BudgetSchema(
         category=create_budget_dto.category,
         maximum=create_budget_dto.maximum,
-        color_theme=create_budget_dto.colorTheme,
+        color_theme=create_budget_dto.colorTheme.lower(),
         spent=0,
     )
     db.session.add(new_budget)
@@ -148,7 +148,7 @@ def update_budget(update_budget_dto: UpdateBudgetDto):
         BudgetSchema.query.filter(
             BudgetSchema.is_deleted == False,
             BudgetSchema.category == update_budget_dto.category,
-            BudgetSchema.color_theme == update_budget_dto.colorTheme,
+            BudgetSchema.color_theme.lower() == update_budget_dto.colorTheme.lower(),
         )
         .limit(1)
         .one_or_none()
@@ -168,7 +168,7 @@ def delete_budget(delete_budget_dto: DeleteBudgetDto):
         BudgetSchema.query.filter(
             BudgetSchema.is_deleted == False,
             BudgetSchema.category == delete_budget_dto.category,
-            BudgetSchema.color_theme == delete_budget_dto.colorTheme,
+            BudgetSchema.color_theme.lower() == delete_budget_dto.colorTheme.lower(),
         )
         .limit(1)
         .one_or_none()

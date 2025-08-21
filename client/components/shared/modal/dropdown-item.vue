@@ -26,7 +26,7 @@ const { onSelect, itemValue, status } = defineProps<IModalDropdownItem>();
   padding-bottom: 0.75rem;
   border-bottom: solid 1px var(--grey-100);
 
-  button {
+  &_button {
     @include text-preset-4;
     color: var(--grey-900);
     width: 100%;

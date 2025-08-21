@@ -23,8 +23,8 @@ export interface Budget {
    */
   category: BudgetCategoryEnum;
   /**
-   * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
-   * @example "#82c9d7"
+   * One of: ['#7f9161', '#3f82b2', '#93674f', '#82c9d7', '#cab361', '#277c78', '#97a0ac', '#934f6f', '#626070', '#be6c49', '#af81ba', '#826cb0', '#c94736', '#597c7c', '#f2cdac']
+   * @example "#7f9161"
    */
   colorTheme: BudgetColorThemeEnum;
   maximum: number;
@@ -46,7 +46,7 @@ export interface CreateBudget {
   category: CreateBudgetCategoryEnum;
   /**
    * Budget color theme
-   * @example "#82c9d7"
+   * @example "#7f9161"
    */
   colorTheme: CreateBudgetColorThemeEnum;
   /** Maximum allowed budget */
@@ -61,7 +61,7 @@ export interface DeleteBudget {
   category: DeleteBudgetCategoryEnum;
   /**
    * Budget color theme
-   * @example "#82c9d7"
+   * @example "#7f9161"
    */
   colorTheme: DeleteBudgetColorThemeEnum;
   /** Maximum allowed budget */
@@ -78,8 +78,8 @@ export interface OverviewContent {
 
 export interface Pot {
   /**
-   * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
-   * @example "#82c9d7"
+   * One of: ['#7f9161', '#3f82b2', '#93674f', '#82c9d7', '#cab361', '#277c78', '#97a0ac', '#934f6f', '#626070', '#be6c49', '#af81ba', '#826cb0', '#c94736', '#597c7c', '#f2cdac']
+   * @example "#7f9161"
    */
   colorTheme: PotColorThemeEnum;
   name: string;
@@ -129,7 +129,7 @@ export interface UpdateBudget {
   category: UpdateBudgetCategoryEnum;
   /**
    * Budget color theme
-   * @example "#82c9d7"
+   * @example "#7f9161"
    */
   colorTheme: UpdateBudgetColorThemeEnum;
   /** Maximum allowed budget */
@@ -154,16 +154,25 @@ export enum BudgetCategoryEnum {
 }
 
 /**
- * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
- * @example "#82c9d7"
+ * One of: ['#7f9161', '#3f82b2', '#93674f', '#82c9d7', '#cab361', '#277c78', '#97a0ac', '#934f6f', '#626070', '#be6c49', '#af81ba', '#826cb0', '#c94736', '#597c7c', '#f2cdac']
+ * @example "#7f9161"
  */
 export enum BudgetColorThemeEnum {
+  Army = "#7f9161",
+  Blue = "#3f82b2",
+  Brown = "#93674f",
   Cyan = "#82c9d7",
+  Gold = "#cab361",
   Green = "#277c78",
+  Grey = "#97a0ac",
+  Magenta = "#934f6f",
   Navy = "#626070",
-  Yellow = "#f2cdac",
-  Purple = "#826CB0",
+  Orange = "#be6c49",
+  Pink = "#af81ba",
+  Purple = "#826cb0",
   Red = "#c94736",
+  Turquois = "#597c7c",
+  Yellow = "#f2cdac",
 }
 
 /**
@@ -185,15 +194,24 @@ export enum CreateBudgetCategoryEnum {
 
 /**
  * Budget color theme
- * @example "#82c9d7"
+ * @example "#7f9161"
  */
 export enum CreateBudgetColorThemeEnum {
+  Army = "#7f9161",
+  Blue = "#3f82b2",
+  Brown = "#93674f",
   Cyan = "#82c9d7",
+  Gold = "#cab361",
   Green = "#277c78",
+  Grey = "#97a0ac",
+  Magenta = "#934f6f",
   Navy = "#626070",
-  Yellow = "#f2cdac",
-  Purple = "#826CB0",
+  Orange = "#be6c49",
+  Pink = "#af81ba",
+  Purple = "#826cb0",
   Red = "#c94736",
+  Turquois = "#597c7c",
+  Yellow = "#f2cdac",
 }
 
 /**
@@ -215,28 +233,46 @@ export enum DeleteBudgetCategoryEnum {
 
 /**
  * Budget color theme
- * @example "#82c9d7"
+ * @example "#7f9161"
  */
 export enum DeleteBudgetColorThemeEnum {
+  Army = "#7f9161",
+  Blue = "#3f82b2",
+  Brown = "#93674f",
   Cyan = "#82c9d7",
+  Gold = "#cab361",
   Green = "#277c78",
+  Grey = "#97a0ac",
+  Magenta = "#934f6f",
   Navy = "#626070",
-  Yellow = "#f2cdac",
-  Purple = "#826CB0",
+  Orange = "#be6c49",
+  Pink = "#af81ba",
+  Purple = "#826cb0",
   Red = "#c94736",
+  Turquois = "#597c7c",
+  Yellow = "#f2cdac",
 }
 
 /**
- * One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']
- * @example "#82c9d7"
+ * One of: ['#7f9161', '#3f82b2', '#93674f', '#82c9d7', '#cab361', '#277c78', '#97a0ac', '#934f6f', '#626070', '#be6c49', '#af81ba', '#826cb0', '#c94736', '#597c7c', '#f2cdac']
+ * @example "#7f9161"
  */
 export enum PotColorThemeEnum {
+  Army = "#7f9161",
+  Blue = "#3f82b2",
+  Brown = "#93674f",
   Cyan = "#82c9d7",
+  Gold = "#cab361",
   Green = "#277c78",
+  Grey = "#97a0ac",
+  Magenta = "#934f6f",
   Navy = "#626070",
-  Yellow = "#f2cdac",
-  Purple = "#826CB0",
+  Orange = "#be6c49",
+  Pink = "#af81ba",
+  Purple = "#826cb0",
   Red = "#c94736",
+  Turquois = "#597c7c",
+  Yellow = "#f2cdac",
 }
 
 /**
@@ -275,13 +311,22 @@ export enum UpdateBudgetCategoryEnum {
 
 /**
  * Budget color theme
- * @example "#82c9d7"
+ * @example "#7f9161"
  */
 export enum UpdateBudgetColorThemeEnum {
+  Army = "#7f9161",
+  Blue = "#3f82b2",
+  Brown = "#93674f",
   Cyan = "#82c9d7",
+  Gold = "#cab361",
   Green = "#277c78",
+  Grey = "#97a0ac",
+  Magenta = "#934f6f",
   Navy = "#626070",
-  Yellow = "#f2cdac",
-  Purple = "#826CB0",
+  Orange = "#be6c49",
+  Pink = "#af81ba",
+  Purple = "#826cb0",
   Red = "#c94736",
+  Turquois = "#597c7c",
+  Yellow = "#f2cdac",
 }

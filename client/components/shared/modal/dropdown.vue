@@ -52,6 +52,7 @@
             :class="[
               'modal-dropdown-item_content',
               option.itemLabel.toLocaleLowerCase(),
+              option.status === ModalDropdownItemStatus.Used ? 'disabled' : '',
             ]"
           >
             {{ option.itemLabel }}
@@ -175,6 +176,12 @@ onUnmounted(() => document.removeEventListener("click", closeDropdown));
           width: 1rem;
           height: 1rem;
           border-radius: 50%;
+        }
+
+        &.disabled {
+          &::before {
+            opacity: 0.25;
+          }
         }
 
         @mixin prefix-color($color-name) {

@@ -2,7 +2,7 @@ from database import db
 from sqlalchemy import func
 
 from schemas.pot_schema import Pot as PotSchema
-from models.pots_model import Pot, PotOverview
+from models.pots_model import Pot, PotOverview, Pots
 
 
 def get_overview_pots():
@@ -28,12 +28,14 @@ def get_overview_pots():
 
 def get_pots():
     pots = PotSchema.query.filter_by(is_deleted=False).all()
-    return [
-        Pot(
-            name=pot.name,
-            target=pot.target,
-            total=pot.total,
-            colorTheme=pot.color_theme,
-        )
-        for pot in pots
-    ]
+    return Pots(
+        pots=[
+            Pot(
+                name=pot.name,
+                target=pot.target,
+                total=pot.total,
+                colorTheme=pot.color_theme,
+            )
+            for pot in pots
+        ]
+    )

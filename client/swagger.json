@@ -55,24 +55,42 @@
           ]
         },
         "colorTheme": {
-          "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']",
+          "description": "One of: ['#7f9161', '#3f82b2', '#93674f', '#82c9d7', '#cab361', '#277c78', '#97a0ac', '#934f6f', '#626070', '#be6c49', '#af81ba', '#826cb0', '#c94736', '#597c7c', '#f2cdac']",
           "enum": [
+            "#7f9161",
+            "#3f82b2",
+            "#93674f",
             "#82c9d7",
+            "#cab361",
             "#277c78",
+            "#97a0ac",
+            "#934f6f",
             "#626070",
-            "#f2cdac",
-            "#826CB0",
-            "#c94736"
+            "#be6c49",
+            "#af81ba",
+            "#826cb0",
+            "#c94736",
+            "#597c7c",
+            "#f2cdac"
           ],
-          "example": "#82c9d7",
+          "example": "#7f9161",
           "type": "string",
           "x-enum-varnames": [
+            "Army",
+            "Blue",
+            "Brown",
             "Cyan",
+            "Gold",
             "Green",
+            "Grey",
+            "Magenta",
             "Navy",
-            "Yellow",
+            "Orange",
+            "Pink",
             "Purple",
-            "Red"
+            "Red",
+            "Turquois",
+            "Yellow"
           ]
         },
         "maximum": {
@@ -155,22 +173,40 @@
         "colorTheme": {
           "description": "Budget color theme",
           "enum": [
+            "#7f9161",
+            "#3f82b2",
+            "#93674f",
             "#82c9d7",
+            "#cab361",
             "#277c78",
+            "#97a0ac",
+            "#934f6f",
             "#626070",
-            "#f2cdac",
-            "#826CB0",
-            "#c94736"
+            "#be6c49",
+            "#af81ba",
+            "#826cb0",
+            "#c94736",
+            "#597c7c",
+            "#f2cdac"
           ],
-          "example": "#82c9d7",
+          "example": "#7f9161",
           "type": "string",
           "x-enum-varnames": [
+            "Army",
+            "Blue",
+            "Brown",
             "Cyan",
+            "Gold",
             "Green",
+            "Grey",
+            "Magenta",
             "Navy",
-            "Yellow",
+            "Orange",
+            "Pink",
             "Purple",
-            "Red"
+            "Red",
+            "Turquois",
+            "Yellow"
           ]
         },
         "maximum": {
@@ -219,22 +255,40 @@
         "colorTheme": {
           "description": "Budget color theme",
           "enum": [
+            "#7f9161",
+            "#3f82b2",
+            "#93674f",
             "#82c9d7",
+            "#cab361",
             "#277c78",
+            "#97a0ac",
+            "#934f6f",
             "#626070",
-            "#f2cdac",
-            "#826CB0",
-            "#c94736"
+            "#be6c49",
+            "#af81ba",
+            "#826cb0",
+            "#c94736",
+            "#597c7c",
+            "#f2cdac"
           ],
-          "example": "#82c9d7",
+          "example": "#7f9161",
           "type": "string",
           "x-enum-varnames": [
+            "Army",
+            "Blue",
+            "Brown",
             "Cyan",
+            "Gold",
             "Green",
+            "Grey",
+            "Magenta",
             "Navy",
-            "Yellow",
+            "Orange",
+            "Pink",
             "Purple",
-            "Red"
+            "Red",
+            "Turquois",
+            "Yellow"
           ]
         },
         "maximum": {
@@ -283,24 +337,42 @@
     "Pot": {
       "properties": {
         "colorTheme": {
-          "description": "One of: ['#82c9d7', '#277c78', '#626070', '#f2cdac', '#826CB0', '#c94736']",
+          "description": "One of: ['#7f9161', '#3f82b2', '#93674f', '#82c9d7', '#cab361', '#277c78', '#97a0ac', '#934f6f', '#626070', '#be6c49', '#af81ba', '#826cb0', '#c94736', '#597c7c', '#f2cdac']",
           "enum": [
+            "#7f9161",
+            "#3f82b2",
+            "#93674f",
             "#82c9d7",
+            "#cab361",
             "#277c78",
+            "#97a0ac",
+            "#934f6f",
             "#626070",
-            "#f2cdac",
-            "#826CB0",
-            "#c94736"
+            "#be6c49",
+            "#af81ba",
+            "#826cb0",
+            "#c94736",
+            "#597c7c",
+            "#f2cdac"
           ],
-          "example": "#82c9d7",
+          "example": "#7f9161",
           "type": "string",
           "x-enum-varnames": [
+            "Army",
+            "Blue",
+            "Brown",
             "Cyan",
+            "Gold",
             "Green",
+            "Grey",
+            "Magenta",
             "Navy",
-            "Yellow",
+            "Orange",
+            "Pink",
             "Purple",
-            "Red"
+            "Red",
+            "Turquois",
+            "Yellow"
           ]
         },
         "name": {
@@ -488,22 +560,40 @@
         "colorTheme": {
           "description": "Budget color theme",
           "enum": [
+            "#7f9161",
+            "#3f82b2",
+            "#93674f",
             "#82c9d7",
+            "#cab361",
             "#277c78",
+            "#97a0ac",
+            "#934f6f",
             "#626070",
-            "#f2cdac",
-            "#826CB0",
-            "#c94736"
+            "#be6c49",
+            "#af81ba",
+            "#826cb0",
+            "#c94736",
+            "#597c7c",
+            "#f2cdac"
           ],
-          "example": "#82c9d7",
+          "example": "#7f9161",
           "type": "string",
           "x-enum-varnames": [
+            "Army",
+            "Blue",
+            "Brown",
             "Cyan",
+            "Gold",
             "Green",
+            "Grey",
+            "Magenta",
             "Navy",
-            "Yellow",
+            "Orange",
+            "Pink",
             "Purple",
-            "Red"
+            "Red",
+            "Turquois",
+            "Yellow"
           ]
         },
         "maximum": {
@@ -653,16 +743,8 @@
     },
     "/pots-api": {
       "get": {
+        "description": "Get the pots data",
         "operationId": "get_pots_api",
-        "parameters": [
-          {
-            "description": "An optional fields mask",
-            "format": "mask",
-            "in": "header",
-            "name": "X-Fields",
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",

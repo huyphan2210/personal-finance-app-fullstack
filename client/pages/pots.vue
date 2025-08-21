@@ -18,6 +18,7 @@
   >
     <li v-for="(pot, index) in pots" class="pots_list_item">
       <pots-content-card
+        :key="pot.name + index"
         :pot-info="pot"
         :dropdown-options="[]"
         :on-edit-modal="openEditModal"
@@ -76,9 +77,12 @@ getPots()
     justify-content: space-between;
     align-items: center;
   }
+
   &_list {
+    flex: 1;
     list-style-type: none;
     display: grid;
+    grid-auto-rows: min-content;
     gap: 1.5rem;
   }
 }

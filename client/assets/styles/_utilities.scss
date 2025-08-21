@@ -1,4 +1,5 @@
-$colors: "green", "cyan", "yellow", "navy", "purple", "red";
+$colors: "army", "blue", "brown", "cyan", "gold", "green", "grey", "magenta",
+  "navy", "orange", "pink", "purple", "red", "turquois", "yellow";
 
 @mixin card-spacing-style {
   background-color: var(--white);

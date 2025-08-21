@@ -17,7 +17,7 @@ export class PotsApi<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * No description
+   * @description Get the pots data
    *
    * @tags pots-api
    * @name GetPotsApi
