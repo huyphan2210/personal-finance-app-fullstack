@@ -1,10 +1,12 @@
 from datetime import datetime
 from enum import EnumMeta
 from typing import get_origin, get_args, List, Type
+from uuid import UUID
 from pydantic import BaseModel as PydanticBaseModel
 from flask_restx import fields, Namespace
 
 TYPE_MAP = {
+    UUID: fields.String,
     str: fields.String,
     int: fields.Integer,
     float: fields.Float,

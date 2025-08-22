@@ -68,6 +68,7 @@ const { isShown, type, editBudgetInfo } = defineProps<IBudgetEditModal>();
 const emits = defineEmits([CLOSE_BUDGET_MODAL_EVENT]);
 const errorStore = useErrorStore();
 const form = ref<UpdateBudget>({
+  id: editBudgetInfo?.id || "",
   category: (editBudgetInfo?.category ||
     UpdateBudgetCategoryEnum.Bills) as UpdateBudgetCategoryEnum,
   maximum: editBudgetInfo?.maximum || 0,
@@ -174,6 +175,7 @@ const categoryDropdownSettings = ref<IModalTextDropdownSettings>(
 
 const reassignValuesToForm = () => {
   form.value = {
+    id: editBudgetInfo?.id || "",
     category: (editBudgetInfo?.category ||
       UpdateBudgetCategoryEnum.Bills) as UpdateBudgetCategoryEnum,
     maximum: editBudgetInfo?.maximum || 0,

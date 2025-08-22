@@ -3,6 +3,7 @@ from models.base_model import BaseModel
 
 
 class Pot(BaseModel):
+    id: str
     name: str
     target: float
     total: float

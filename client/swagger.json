@@ -93,6 +93,9 @@
             "Yellow"
           ]
         },
+        "id": {
+          "type": "string"
+        },
         "maximum": {
           "type": "number"
         },
@@ -110,6 +113,7 @@
       "required": [
         "category",
         "colorTheme",
+        "id",
         "maximum",
         "representTransactions",
         "spent"
@@ -223,83 +227,13 @@
     },
     "DeleteBudget": {
       "properties": {
-        "category": {
-          "description": "Budget category",
-          "enum": [
-            "Entertainment",
-            "Bills",
-            "Dining Out",
-            "Personal Care",
-            "General",
-            "Groceries",
-            "Transportation",
-            "Lifestyle",
-            "Education",
-            "Shopping"
-          ],
-          "example": "Entertainment",
-          "type": "string",
-          "x-enum-varnames": [
-            "Entertainment",
-            "Bills",
-            "DiningOut",
-            "PersonalCare",
-            "General",
-            "Groceries",
-            "Transportation",
-            "Lifestyle",
-            "Education",
-            "Shopping"
-          ]
-        },
-        "colorTheme": {
-          "description": "Budget color theme",
-          "enum": [
-            "#7f9161",
-            "#3f82b2",
-            "#93674f",
-            "#82c9d7",
-            "#cab361",
-            "#277c78",
-            "#97a0ac",
-            "#934f6f",
-            "#626070",
-            "#be6c49",
-            "#af81ba",
-            "#826cb0",
-            "#c94736",
-            "#597c7c",
-            "#f2cdac"
-          ],
-          "example": "#7f9161",
-          "type": "string",
-          "x-enum-varnames": [
-            "Army",
-            "Blue",
-            "Brown",
-            "Cyan",
-            "Gold",
-            "Green",
-            "Grey",
-            "Magenta",
-            "Navy",
-            "Orange",
-            "Pink",
-            "Purple",
-            "Red",
-            "Turquois",
-            "Yellow"
-          ]
-        },
-        "maximum": {
-          "description": "Maximum allowed budget",
-          "type": "number"
+        "id": {
+          "description": "Budget ID (UUID)",
+          "type": "string"
         }
       },
       "required": [
-        "category",
-        "colorTheme",
-        "maximum"
+        "id"
       ],
       "type": "object"
     },
@@ -375,6 +309,9 @@
             "Yellow"
           ]
         },
+        "id": {
+          "type": "string"
+        },
         "name": {
           "type": "string"
         },
@@ -387,6 +324,7 @@
       },
       "required": [
         "colorTheme",
+        "id",
         "name",
         "target",
         "total"
@@ -596,6 +534,10 @@
             "Yellow"
           ]
         },
+        "id": {
+          "description": "Budget ID (UUID)",
+          "type": "string"
+        },
         "maximum": {
           "description": "Maximum allowed budget",
           "type": "number"
@@ -604,6 +546,7 @@
       "required": [
         "category",
         "colorTheme",
+        "id",
         "maximum"
       ],
       "type": "object"

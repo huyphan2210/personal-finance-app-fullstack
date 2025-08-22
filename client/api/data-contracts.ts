@@ -27,6 +27,7 @@ export interface Budget {
    * @example "#7f9161"
    */
   colorTheme: BudgetColorThemeEnum;
+  id: string;
   maximum: number;
   representTransactions: Transaction[];
   spent: number;
@@ -54,18 +55,8 @@ export interface CreateBudget {
 }
 
 export interface DeleteBudget {
-  /**
-   * Budget category
-   * @example "Entertainment"
-   */
-  category: DeleteBudgetCategoryEnum;
-  /**
-   * Budget color theme
-   * @example "#7f9161"
-   */
-  colorTheme: DeleteBudgetColorThemeEnum;
-  /** Maximum allowed budget */
-  maximum: number;
+  /** Budget ID (UUID) */
+  id: string;
 }
 
 export interface OverviewContent {
@@ -82,6 +73,7 @@ export interface Pot {
    * @example "#7f9161"
    */
   colorTheme: PotColorThemeEnum;
+  id: string;
   name: string;
   target: number;
   total: number;
@@ -132,6 +124,8 @@ export interface UpdateBudget {
    * @example "#7f9161"
    */
   colorTheme: UpdateBudgetColorThemeEnum;
+  /** Budget ID (UUID) */
+  id: string;
   /** Maximum allowed budget */
   maximum: number;
 }
@@ -197,45 +191,6 @@ export enum CreateBudgetCategoryEnum {
  * @example "#7f9161"
  */
 export enum CreateBudgetColorThemeEnum {
-  Army = "#7f9161",
-  Blue = "#3f82b2",
-  Brown = "#93674f",
-  Cyan = "#82c9d7",
-  Gold = "#cab361",
-  Green = "#277c78",
-  Grey = "#97a0ac",
-  Magenta = "#934f6f",
-  Navy = "#626070",
-  Orange = "#be6c49",
-  Pink = "#af81ba",
-  Purple = "#826cb0",
-  Red = "#c94736",
-  Turquois = "#597c7c",
-  Yellow = "#f2cdac",
-}
-
-/**
- * Budget category
- * @example "Entertainment"
- */
-export enum DeleteBudgetCategoryEnum {
-  Entertainment = "Entertainment",
-  Bills = "Bills",
-  DiningOut = "Dining Out",
-  PersonalCare = "Personal Care",
-  General = "General",
-  Groceries = "Groceries",
-  Transportation = "Transportation",
-  Lifestyle = "Lifestyle",
-  Education = "Education",
-  Shopping = "Shopping",
-}
-
-/**
- * Budget color theme
- * @example "#7f9161"
- */
-export enum DeleteBudgetColorThemeEnum {
   Army = "#7f9161",
   Blue = "#3f82b2",
   Brown = "#93674f",

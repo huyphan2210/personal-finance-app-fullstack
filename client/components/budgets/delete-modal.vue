@@ -30,8 +30,6 @@
 <script lang="ts" setup>
 import { ButtonAppearanceEnum } from "~/interfaces/shared.interface";
 import {
-  DeleteBudgetCategoryEnum,
-  DeleteBudgetColorThemeEnum,
   type DeleteBudget,
 } from "~/api/data-contracts";
 import { type IBudgetDeleteModal } from "~/interfaces/budgets.interface";
@@ -59,11 +57,7 @@ const removeBudget = (e: Event) => {
   e.preventDefault();
   isLoading.value = true;
   const deleteBudgetPayload: DeleteBudget = {
-    category: (deleteBudgetInfo?.category ||
-      DeleteBudgetCategoryEnum.Bills) as DeleteBudgetCategoryEnum,
-    maximum: deleteBudgetInfo?.maximum || 0,
-    colorTheme: (deleteBudgetInfo?.colorTheme ||
-      DeleteBudgetColorThemeEnum.Cyan) as DeleteBudgetColorThemeEnum,
+    id: deleteBudgetInfo?.id || "",
   };
   deleteBudget(deleteBudgetPayload)
     .then(() => {

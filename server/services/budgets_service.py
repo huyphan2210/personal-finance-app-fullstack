@@ -1,3 +1,4 @@
+from uuid import UUID
 from models.transactions_model import Transaction
 from services.transactions_service import IMAGE_HOSTING_URI
 from sqlalchemy import func, desc, or_
@@ -68,6 +69,7 @@ def get_budgets():
         totalMaximum=total_maximum,
         representBudgets=[
             Budget(
+                id=budget.id,
                 category=budget.category,
                 maximum=budget.maximum,
                 colorTheme=(
@@ -108,7 +110,7 @@ def validate_budget_dto(create_budget_dto: CreateBudgetDto):
             BudgetSchema.is_deleted == False,
             or_(
                 BudgetSchema.category == create_budget_dto.category,
-                BudgetSchema.color_theme.lower() == create_budget_dto.colorTheme.lower(),
+                BudgetSchema.color_theme == create_budget_dto.colorTheme.value.lower(),
             ),
         )
         .limit(1)
@@ -146,9 +148,8 @@ def create_budget(create_budget_dto: CreateBudgetDto):
 def update_budget(update_budget_dto: UpdateBudgetDto):
     existing_budget = (
         BudgetSchema.query.filter(
+            BudgetSchema.id == update_budget_dto.id,
             BudgetSchema.is_deleted == False,
-            BudgetSchema.category == update_budget_dto.category,
-            BudgetSchema.color_theme.lower() == update_budget_dto.colorTheme.lower(),
         )
         .limit(1)
         .one_or_none()
@@ -158,17 +159,18 @@ def update_budget(update_budget_dto: UpdateBudgetDto):
         raise NotFoundError("The budget doesn't exist")
 
     existing_budget.maximum = update_budget_dto.maximum
+    existing_budget.category = update_budget_dto.category
+    existing_budget.color_theme = update_budget_dto.colorTheme.lower()
     db.session.commit()
 
     return
 
 
-def delete_budget(delete_budget_dto: DeleteBudgetDto):
+def delete_budget(budget_id: UUID):
     existing_budget = (
         BudgetSchema.query.filter(
+            BudgetSchema.id == budget_id,
             BudgetSchema.is_deleted == False,
-            BudgetSchema.category == delete_budget_dto.category,
-            BudgetSchema.color_theme.lower() == delete_budget_dto.colorTheme.lower(),
         )
         .limit(1)
         .one_or_none()

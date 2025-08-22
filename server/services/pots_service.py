@@ -18,7 +18,7 @@ def get_overview_pots():
                 name=pot.name,
                 target=pot.target,
                 total=pot.total,
-                colorTheme=pot.color_theme,
+                colorTheme=pot.color_theme.lower(),
             )
             for pot in pots
         ],
@@ -34,7 +34,7 @@ def get_pots():
                 name=pot.name,
                 target=pot.target,
                 total=pot.total,
-                colorTheme=pot.color_theme,
+                colorTheme=pot.color_theme.lower(),
             )
             for pot in pots
         ]

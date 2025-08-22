@@ -1,3 +1,4 @@
+import uuid
 from flask import jsonify, request
 from flask_restx import Namespace, Resource, fields
 from http import HTTPStatus
@@ -35,9 +36,21 @@ budget_dto = {
     "maximum": fields.Float(required=True, description="Maximum allowed budget"),
 }
 
+delete_budget_dto = {
+    "id": fields.String(
+        required=True,
+        description="Budget ID (UUID)"
+    )
+}
+
+update_budget_dto = {
+    **budget_dto,
+    **delete_budget_dto
+}
+
 create_budget_model = budgets_ns.model("CreateBudget", budget_dto)
-update_budget_model = budgets_ns.model("UpdateBudget", budget_dto)
-delete_budget_model = budgets_ns.model("DeleteBudget", budget_dto)
+update_budget_model = budgets_ns.model("UpdateBudget", update_budget_dto)
+delete_budget_model = budgets_ns.model("DeleteBudget", delete_budget_dto)
 
 
 @budgets_ns.response(HTTPStatus.INTERNAL_SERVER_ERROR, "Internal Server Error")
@@ -102,10 +115,11 @@ class BudgetsApi(Resource):
         try:
             try:
                 delete_budget_model = DeleteBudgetDto(**requestBody)
+                budget_id = uuid.UUID(delete_budget_model.id)
             except ValueError as e:
                 raise BadRequestError(str(e))
 
-            delete_budget(delete_budget_model)
+            delete_budget(budget_id)
         except BadRequestError as e:
             return e.args[0], HTTPStatus.BAD_REQUEST
         except NotFoundError as e:
