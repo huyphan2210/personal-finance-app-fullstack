@@ -8,8 +8,8 @@ from models.budgets_model import (
     Budget,
     BudgetContent,
     CreateBudgetDto,
-    UpdateBudgetDto,
     DeleteBudgetDto,
+    UpdateBudgetDto,
 )
 from schemas.budget_schema import Budget as BudgetSchema
 from schemas.transaction_schema import Transaction as TransactionSchema
@@ -35,6 +35,7 @@ def get_overview_budgets():
         totalMaximum=total_maximum,
         representBudgets=[
             Budget(
+                id=str(budget.id),
                 category=budget.category,
                 maximum=budget.maximum,
                 colorTheme=(
@@ -104,7 +105,10 @@ def get_budgets():
     )
 
 
-def validate_budget_dto(create_budget_dto: CreateBudgetDto):
+def validate_create_budget_dto(create_budget_dto: CreateBudgetDto):
+    if create_budget_dto.maximum <= 0:
+        raise BadRequestError("Maximum of the budget must be positive.")
+
     existing_budget = (
         BudgetSchema.query.filter(
             BudgetSchema.is_deleted == False,
@@ -128,12 +132,45 @@ def validate_budget_dto(create_budget_dto: CreateBudgetDto):
     ):
         raise BadRequestError("The color has been used.")
 
-    if create_budget_dto.maximum <= 0:
-        raise BadRequestError("Maximum of the budget must be positive.")
+
+def validate_update_budget_dto(update_budget_dto: UpdateBudgetDto):
+    if update_budget_dto.maximum is not None and update_budget_dto.maximum <= 0:
+        raise BadRequestError("The Budget's maximum must be positive.")
+    
+    similar_budget = BudgetSchema.query.filter(
+        or_(
+            BudgetSchema.category == update_budget_dto.category,
+            (
+                BudgetSchema.color_theme == update_budget_dto.colorTheme.value.lower()
+                if update_budget_dto.colorTheme is not None
+                else None
+            ),
+        ),
+        BudgetSchema.id != update_budget_dto.id,
+        BudgetSchema.is_deleted == False,
+    ).one_or_none()
+
+    if similar_budget is not None:
+        raise BadRequestError("The Budget's category or color has been used.")
+
+
+def get_budget_with_id_or_raise(id: UUID):
+    existing_budget = (
+        BudgetSchema.query.filter(
+            BudgetSchema.id == id,
+            BudgetSchema.is_deleted == False,
+        )
+        .limit(1)
+        .one_or_none()
+    )
+
+    if existing_budget is None:
+        raise NotFoundError("The budget doesn't exist")
+    return existing_budget
 
 
 def create_budget(create_budget_dto: CreateBudgetDto):
-    validate_budget_dto(create_budget_dto)
+    validate_create_budget_dto(create_budget_dto)
     new_budget = BudgetSchema(
         category=create_budget_dto.category,
         maximum=create_budget_dto.maximum,
@@ -146,17 +183,8 @@ def create_budget(create_budget_dto: CreateBudgetDto):
 
 
 def update_budget(update_budget_dto: UpdateBudgetDto):
-    existing_budget = (
-        BudgetSchema.query.filter(
-            BudgetSchema.id == update_budget_dto.id,
-            BudgetSchema.is_deleted == False,
-        )
-        .limit(1)
-        .one_or_none()
-    )
-
-    if existing_budget is None:
-        raise NotFoundError("The budget doesn't exist")
+    validate_update_budget_dto(update_budget_dto)
+    existing_budget = get_budget_with_id_or_raise(update_budget_dto.id)
 
     existing_budget.maximum = update_budget_dto.maximum
     existing_budget.category = update_budget_dto.category
@@ -166,18 +194,8 @@ def update_budget(update_budget_dto: UpdateBudgetDto):
     return
 
 
-def delete_budget(budget_id: UUID):
-    existing_budget = (
-        BudgetSchema.query.filter(
-            BudgetSchema.id == budget_id,
-            BudgetSchema.is_deleted == False,
-        )
-        .limit(1)
-        .one_or_none()
-    )
-
-    if existing_budget is None:
-        raise NotFoundError("The budget doesn't exist")
+def delete_budget(delete_budget_dto: DeleteBudgetDto):
+    existing_budget = get_budget_with_id_or_raise(delete_budget_dto.id)
 
     existing_budget.is_deleted = True
     db.session.commit()

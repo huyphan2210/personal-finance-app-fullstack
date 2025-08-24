@@ -69,13 +69,11 @@ class BudgetsApi(Resource):
     @budgets_ns.response(HTTPStatus.BAD_REQUEST, "Invalid input")
     def post(self):
         requestBody = request.get_json()
-
         try:
             try:
                 create_budget_dto = CreateBudgetDto(**requestBody)
             except ValueError as e:
                 raise BadRequestError(str(e))
-
             create_budget(create_budget_dto)
         except BadRequestError as e:
             return e.args[0], HTTPStatus.BAD_REQUEST
@@ -89,13 +87,11 @@ class BudgetsApi(Resource):
     @budgets_ns.response(HTTPStatus.NOT_FOUND, "Budget Not Found")
     def patch(self):
         requestBody = request.get_json()
-
         try:
             try:
                 update_budget_model = UpdateBudgetDto(**requestBody)
             except ValueError as e:
                 raise BadRequestError(str(e))
-
             update_budget(update_budget_model)
         except BadRequestError as e:
             return e.args[0], HTTPStatus.BAD_REQUEST
@@ -111,15 +107,12 @@ class BudgetsApi(Resource):
     @budgets_ns.response(HTTPStatus.NOT_FOUND, "Budget Not Found")
     def delete(self):
         requestBody = request.get_json()
-
         try:
             try:
                 delete_budget_model = DeleteBudgetDto(**requestBody)
-                budget_id = uuid.UUID(delete_budget_model.id)
             except ValueError as e:
                 raise BadRequestError(str(e))
-
-            delete_budget(budget_id)
+            delete_budget(delete_budget_model)
         except BadRequestError as e:
             return e.args[0], HTTPStatus.BAD_REQUEST
         except NotFoundError as e:

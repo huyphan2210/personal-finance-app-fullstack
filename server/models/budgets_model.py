@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 from enums.color_enum import Color
 from models.base_model import BaseModel
@@ -28,9 +29,9 @@ class CreateBudgetDto(BaseModel):
 
 class UpdateBudgetDto(BaseModel):
     id: UUID
-    category: Category
-    colorTheme: Color
-    maximum: float
+    category: Optional[Category] = None
+    colorTheme: Optional[Color] = None
+    maximum: Optional[float] = None
 
 
 class DeleteBudgetDto(BaseModel):
