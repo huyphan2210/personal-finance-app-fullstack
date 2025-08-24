@@ -54,8 +54,31 @@ export interface CreateBudget {
   maximum: number;
 }
 
+export interface CreatePot {
+  /**
+   * Pot color theme
+   * @example "#7f9161"
+   */
+  colorTheme: CreatePotColorThemeEnum;
+  /**
+   * Name of the pot
+   * @minLength 1
+   * @maxLength 30
+   */
+  name: string;
+  /** Maximum target of the pot */
+  target: number;
+  /** Total of the pot */
+  total?: number;
+}
+
 export interface DeleteBudget {
   /** Budget ID (UUID) */
+  id: string;
+}
+
+export interface DeletePot {
+  /** Pot ID (UUID) */
   id: string;
 }
 
@@ -128,6 +151,26 @@ export interface UpdateBudget {
   id: string;
   /** Maximum allowed budget */
   maximum: number;
+}
+
+export interface UpdatePot {
+  /**
+   * Pot color theme
+   * @example "#7f9161"
+   */
+  colorTheme?: UpdatePotColorThemeEnum;
+  /** Pot ID (UUID) */
+  id: string;
+  /**
+   * Name of the pot
+   * @minLength 1
+   * @maxLength 30
+   */
+  name?: string;
+  /** Maximum target of the pot */
+  target?: number;
+  /** Total of the pot */
+  total?: number;
 }
 
 /**
@@ -209,6 +252,28 @@ export enum CreateBudgetColorThemeEnum {
 }
 
 /**
+ * Pot color theme
+ * @example "#7f9161"
+ */
+export enum CreatePotColorThemeEnum {
+  Army = "#7f9161",
+  Blue = "#3f82b2",
+  Brown = "#93674f",
+  Cyan = "#82c9d7",
+  Gold = "#cab361",
+  Green = "#277c78",
+  Grey = "#97a0ac",
+  Magenta = "#934f6f",
+  Navy = "#626070",
+  Orange = "#be6c49",
+  Pink = "#af81ba",
+  Purple = "#826cb0",
+  Red = "#c94736",
+  Turquois = "#597c7c",
+  Yellow = "#f2cdac",
+}
+
+/**
  * One of: ['#7f9161', '#3f82b2', '#93674f', '#82c9d7', '#cab361', '#277c78', '#97a0ac', '#934f6f', '#626070', '#be6c49', '#af81ba', '#826cb0', '#c94736', '#597c7c', '#f2cdac']
  * @example "#7f9161"
  */
@@ -269,6 +334,28 @@ export enum UpdateBudgetCategoryEnum {
  * @example "#7f9161"
  */
 export enum UpdateBudgetColorThemeEnum {
+  Army = "#7f9161",
+  Blue = "#3f82b2",
+  Brown = "#93674f",
+  Cyan = "#82c9d7",
+  Gold = "#cab361",
+  Green = "#277c78",
+  Grey = "#97a0ac",
+  Magenta = "#934f6f",
+  Navy = "#626070",
+  Orange = "#be6c49",
+  Pink = "#af81ba",
+  Purple = "#826cb0",
+  Red = "#c94736",
+  Turquois = "#597c7c",
+  Yellow = "#f2cdac",
+}
+
+/**
+ * Pot color theme
+ * @example "#7f9161"
+ */
+export enum UpdatePotColorThemeEnum {
   Army = "#7f9161",
   Blue = "#3f82b2",
   Brown = "#93674f",

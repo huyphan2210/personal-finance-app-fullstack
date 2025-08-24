@@ -225,10 +225,85 @@
       ],
       "type": "object"
     },
+    "CreatePot": {
+      "properties": {
+        "colorTheme": {
+          "description": "Pot color theme",
+          "enum": [
+            "#7f9161",
+            "#3f82b2",
+            "#93674f",
+            "#82c9d7",
+            "#cab361",
+            "#277c78",
+            "#97a0ac",
+            "#934f6f",
+            "#626070",
+            "#be6c49",
+            "#af81ba",
+            "#826cb0",
+            "#c94736",
+            "#597c7c",
+            "#f2cdac"
+          ],
+          "example": "#7f9161",
+          "type": "string",
+          "x-enum-varnames": [
+            "Army",
+            "Blue",
+            "Brown",
+            "Cyan",
+            "Gold",
+            "Green",
+            "Grey",
+            "Magenta",
+            "Navy",
+            "Orange",
+            "Pink",
+            "Purple",
+            "Red",
+            "Turquois",
+            "Yellow"
+          ]
+        },
+        "name": {
+          "description": "Name of the pot",
+          "maxLength": 30,
+          "minLength": 1,
+          "type": "string"
+        },
+        "target": {
+          "description": "Maximum target of the pot",
+          "type": "number"
+        },
+        "total": {
+          "description": "Total of the pot",
+          "type": "number"
+        }
+      },
+      "required": [
+        "colorTheme",
+        "name",
+        "target"
+      ],
+      "type": "object"
+    },
     "DeleteBudget": {
       "properties": {
         "id": {
           "description": "Budget ID (UUID)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "DeletePot": {
+      "properties": {
+        "id": {
+          "description": "Pot ID (UUID)",
           "type": "string"
         }
       },
@@ -550,6 +625,71 @@
         "maximum"
       ],
       "type": "object"
+    },
+    "UpdatePot": {
+      "properties": {
+        "colorTheme": {
+          "description": "Pot color theme",
+          "enum": [
+            "#7f9161",
+            "#3f82b2",
+            "#93674f",
+            "#82c9d7",
+            "#cab361",
+            "#277c78",
+            "#97a0ac",
+            "#934f6f",
+            "#626070",
+            "#be6c49",
+            "#af81ba",
+            "#826cb0",
+            "#c94736",
+            "#597c7c",
+            "#f2cdac"
+          ],
+          "example": "#7f9161",
+          "type": "string",
+          "x-enum-varnames": [
+            "Army",
+            "Blue",
+            "Brown",
+            "Cyan",
+            "Gold",
+            "Green",
+            "Grey",
+            "Magenta",
+            "Navy",
+            "Orange",
+            "Pink",
+            "Purple",
+            "Red",
+            "Turquois",
+            "Yellow"
+          ]
+        },
+        "id": {
+          "description": "Pot ID (UUID)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the pot",
+          "maxLength": 30,
+          "minLength": 1,
+          "type": "string"
+        },
+        "target": {
+          "description": "Maximum target of the pot",
+          "type": "number"
+        },
+        "total": {
+          "description": "Total of the pot",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
     }
   },
   "info": {
@@ -685,6 +825,31 @@
       }
     },
     "/pots-api": {
+      "delete": {
+        "description": "Delete pot",
+        "operationId": "delete_pots_api",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeletePot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "tags": [
+          "pots-api"
+        ]
+      },
       "get": {
         "description": "Get the pots data",
         "operationId": "get_pots_api",
@@ -694,6 +859,56 @@
             "schema": {
               "$ref": "#/definitions/Pots"
             }
+          }
+        },
+        "tags": [
+          "pots-api"
+        ]
+      },
+      "patch": {
+        "description": "Update pot",
+        "operationId": "patch_pots_api",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdatePot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "tags": [
+          "pots-api"
+        ]
+      },
+      "post": {
+        "description": "Create new pot",
+        "operationId": "post_pots_api",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreatePot"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid input"
           }
         },
         "tags": [

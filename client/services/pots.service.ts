@@ -1,10 +1,45 @@
-import type { Pots } from "~/api/data-contracts";
+import type {
+  CreatePot,
+  DeletePot,
+  Pots,
+  UpdatePot,
+} from "~/api/data-contracts";
 import { PotModalTypeEnum } from "~/interfaces/pots.interface";
 import { handleGetResponse, potsApi } from "./base.service";
 
 export const getPots = async () => {
   const response = await handleGetResponse<Pots>(potsApi.getPotsApi);
   return response.pots;
+};
+
+export const addPot = async (payload: CreatePot) => {
+  try {
+    await potsApi.postPotsApi(payload);
+  } catch (error) {
+    const message =
+      error instanceof Response ? await error.text() : DEFAULT_ERROR_MESSAGE;
+    throw new Error(message);
+  }
+};
+
+export const updatePot = async (payload: UpdatePot) => {
+  try {
+    await potsApi.patchPotsApi(payload);
+  } catch (error) {
+    const message =
+      error instanceof Response ? await error.text() : DEFAULT_ERROR_MESSAGE;
+    throw new Error(message);
+  }
+};
+
+export const deletePot = async (payload: DeletePot) => {
+  try {
+    await potsApi.deletePotsApi(payload);
+  } catch (error) {
+    const message =
+      error instanceof Response ? await error.text() : DEFAULT_ERROR_MESSAGE;
+    throw new Error(message);
+  }
 };
 
 export const potModalHeadings: Record<

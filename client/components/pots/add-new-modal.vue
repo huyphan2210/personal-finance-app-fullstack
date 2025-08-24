@@ -11,15 +11,13 @@
         :type="InputEnumType.Text"
         :max-length="30"
         label="Pot Name"
-        :value="form.potName"
+        :value="form.name"
         :custom-input-handler="setPotName"
         placeholder="e.g. Rainy Days"
       >
         <small class="pot-modal--add-new_form_field_tip">
-          {{ POT_NAME_MAX_LENGTH - form.potName.length }}
-          character{{
-            POT_NAME_MAX_LENGTH - form.potName.length > 1 ? "s" : ""
-          }}
+          {{ POT_NAME_MAX_LENGTH - form.name.length }}
+          character{{ POT_NAME_MAX_LENGTH - form.name.length > 1 ? "s" : "" }}
           left
         </small>
       </shared-input>
@@ -54,25 +52,32 @@ import {
 } from "~/interfaces/shared.interface";
 import type { IPotModal } from "~/interfaces/pots.interface";
 import {
+  addPot,
   potModalHeadings,
   potModalInstruction,
   potModalPrimaryButtonContent,
 } from "~/services/pots.service";
-import { PotColorThemeEnum } from "~/api/data-contracts";
+import {
+  CreatePotColorThemeEnum,
+  PotColorThemeEnum,
+  type CreatePot,
+} from "~/api/data-contracts";
 const CLOSE_POT_MODAL_EVENT = "on-close-modal";
 const POT_NAME_MAX_LENGTH = 30;
 const { isShown, type, usedPots } = defineProps<IPotModal>();
 const emits = defineEmits([CLOSE_POT_MODAL_EVENT]);
+
+const errorStore = useErrorStore();
 const isLoading = ref(false);
 
 const onCloseModal = (isClosed: boolean, fetchData?: boolean) => {
   emits(CLOSE_POT_MODAL_EVENT, fetchData);
 };
 
-const form = ref({
-  potName: "",
+const form = ref<CreatePot>({
+  name: "",
   target: 0,
-  colorTheme: PotColorThemeEnum.Cyan,
+  colorTheme: CreatePotColorThemeEnum.Cyan,
 });
 
 const sortItems = (
@@ -92,13 +97,13 @@ const colorDropdownSettings = {
       const status = !usedPots
         .map((pot) => pot.colorTheme)
         .includes(PotColorThemeEnum[key])
-        ? PotColorThemeEnum[key] === form.value.colorTheme
+        ? CreatePotColorThemeEnum[key] === form.value.colorTheme
           ? ModalDropdownItemStatus.Selected
           : ModalDropdownItemStatus.Ready
         : ModalDropdownItemStatus.Used;
 
       if (status === ModalDropdownItemStatus.Selected) {
-        form.value.colorTheme = PotColorThemeEnum[key];
+        form.value.colorTheme = CreatePotColorThemeEnum[key];
       }
       return {
         itemValue: key,
@@ -106,15 +111,15 @@ const colorDropdownSettings = {
         status: !usedPots
           .map((pot) => pot.colorTheme)
           .includes(PotColorThemeEnum[key])
-          ? PotColorThemeEnum[key] === form.value.colorTheme
+          ? CreatePotColorThemeEnum[key] === form.value.colorTheme
             ? ModalDropdownItemStatus.Selected
             : ModalDropdownItemStatus.Ready
           : ModalDropdownItemStatus.Used,
         onSelect: (selectedColorKey: string) => {
           if (form.value) {
             form.value.colorTheme =
-              PotColorThemeEnum[
-                selectedColorKey as keyof typeof PotColorThemeEnum
+              CreatePotColorThemeEnum[
+                selectedColorKey as keyof typeof CreatePotColorThemeEnum
               ];
           }
         },
@@ -124,14 +129,14 @@ const colorDropdownSettings = {
 };
 
 const isButtonDisabled = () => {
-  if (!form.value.potName || !form.value.target || form.value.target <= 0) {
+  if (!form.value.name || !form.value.target || form.value.target <= 0) {
     return true;
   }
 
   if (
     colorDropdownSettings.options.find(
       (option) =>
-        PotColorThemeEnum[option.itemValue] === form.value.colorTheme &&
+        CreatePotColorThemeEnum[option.itemValue] === form.value.colorTheme &&
         option.status === ModalDropdownItemStatus.Used
     )
   ) {
@@ -147,10 +152,15 @@ const setTarget = (e?: Event) => {
 };
 const setPotName = (e?: Event) => {
   const value = (e?.currentTarget as HTMLInputElement)?.value;
-  form.value.potName = value;
+  form.value.name = value;
 };
 const addNewPot = (e?: Event) => {
   e?.preventDefault();
+  isLoading.value = true;
+  addPot(form.value)
+    .then(() => onCloseModal(true, true))
+    .catch((message) => errorStore.setErrorMessage(message))
+    .finally(() => (isLoading.value = false));
 };
 </script>
 <style lang="scss" scoped>
