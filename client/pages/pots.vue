@@ -32,7 +32,15 @@
     :type="PotModalTypeEnum.AddNew"
     :used-pots="pots ?? []"
     v-on:on-close-modal="closeModal"
-  ></pots-add-new-modal>
+  />
+  <pots-add-new-modal
+    v-if="!isLoading"
+    :is-shown="currentOpeningModal === PotModalTypeEnum.Edit"
+    :type="PotModalTypeEnum.Edit"
+    :used-pots="pots ?? []"
+    :targetPot="targetPot"
+    v-on:on-close-modal="closeModal"
+  />
 </template>
 
 <script setup lang="ts">
@@ -42,13 +50,17 @@ import { ButtonAppearanceEnum } from "~/interfaces/shared.interface";
 import { getPots } from "~/services/pots.service";
 const isLoading = ref(true);
 const currentOpeningModal = ref<PotModalTypeEnum | undefined>();
+const targetPot = ref<Pot | undefined>();
 const pots = ref<Pot[]>();
 const errorStore = useErrorStore();
 
 const openAddNewModal = () => {
   currentOpeningModal.value = PotModalTypeEnum.AddNew;
 };
-const openEditModal = (pot: Pot) => {};
+const openEditModal = (pot: Pot) => {
+  targetPot.value = pot;
+  currentOpeningModal.value = PotModalTypeEnum.Edit;
+};
 const openDeleteModal = (pot: Pot) => {};
 
 const closeModal = (fetchModal?: boolean) => {

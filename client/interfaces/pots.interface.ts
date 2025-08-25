@@ -18,9 +18,10 @@ export interface IPotModal {
   isShown: boolean;
   type: PotModalTypeEnum;
   usedPots: Pot[];
+}
+export interface IEditPotModal extends IPotModal {
   targetPot: Pot;
 }
-
 export interface IEditPotModal extends IPotModal {
   targetPot: Pot;
 }

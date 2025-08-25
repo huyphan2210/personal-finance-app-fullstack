@@ -6,7 +6,7 @@
     :is-modal-shown="isShown"
     v-on:on-close-modal="onCloseModal"
   >
-    <form class="pot-modal--edit_form" @submit="addNewPot">
+    <form class="pot-modal--edit_form" @submit="editPot">
       <shared-input
         :type="InputEnumType.Text"
         :max-length="30"
@@ -16,8 +16,8 @@
         placeholder="e.g. Rainy Days"
       >
         <small class="pot-modal--edit_form_field_tip">
-          {{ POT_NAME_MAX_LENGTH - form.name.length }}
-          character{{ POT_NAME_MAX_LENGTH - form.name.length > 1 ? "s" : "" }}
+          {{ POT_NAME_MAX_LENGTH - form.name!.length }}
+          character{{ POT_NAME_MAX_LENGTH - form.name!.length > 1 ? "s" : "" }}
           left
         </small>
       </shared-input>
@@ -26,10 +26,13 @@
         prefix="$"
         label="Target"
         placeholder="e.g. 2000"
-        :value="form.target.toString()"
+        :value="form.target!.toString()"
         :custom-input-handler="setTarget"
       />
-      <shared-modal-dropdown :settings="colorDropdownSettings" label="Theme" />
+      <shared-modal-dropdown
+        :settings="colorDropdownSettings()"
+        label="Theme"
+      />
       <shared-button
         class="pot-modal--edit_form_btn"
         type="submit"
@@ -50,23 +53,21 @@ import {
   ModalDropdownItemStatus,
   type IModalDropdownItem,
 } from "~/interfaces/shared.interface";
-import type { IPotModal } from "~/interfaces/pots.interface";
+import type { IEditPotModal } from "~/interfaces/pots.interface";
 import {
-  addPot,
   potModalHeadings,
   potModalInstruction,
   potModalPrimaryButtonContent,
+  updatePot,
 } from "~/services/pots.service";
 import {
-  CreatePotColorThemeEnum,
-  PotColorThemeEnum,
   UpdatePotColorThemeEnum,
-  type CreatePot,
+  PotColorThemeEnum,
   type UpdatePot,
 } from "~/api/data-contracts";
 const CLOSE_POT_MODAL_EVENT = "on-close-modal";
 const POT_NAME_MAX_LENGTH = 30;
-const { isShown, type, usedPots, targetPot } = defineProps<IPotModal>();
+const { isShown, type, usedPots, targetPot } = defineProps<IEditPotModal>();
 const emits = defineEmits([CLOSE_POT_MODAL_EVENT]);
 
 const errorStore = useErrorStore();
@@ -80,7 +81,9 @@ const form = ref<UpdatePot>({
   id: targetPot.id,
   name: targetPot.name,
   target: targetPot.target,
-  colorTheme: (targetPot.colorTheme as UpdatePotColorThemeEnum ?? UpdatePotColorThemeEnum.Cyan),
+  colorTheme:
+    (targetPot.colorTheme as unknown as UpdatePotColorThemeEnum) ??
+    UpdatePotColorThemeEnum.Cyan,
 });
 
 const sortItems = (
@@ -92,7 +95,7 @@ const sortItems = (
   return firstItem.itemLabel.localeCompare(secondItem.itemLabel);
 };
 
-const colorDropdownSettings = {
+const colorDropdownSettings = () => ({
   type: ModalDropdownEnumType.Color,
   options: Object.keys(PotColorThemeEnum)
     .map((value) => {
@@ -100,13 +103,13 @@ const colorDropdownSettings = {
       const status = !usedPots
         .map((pot) => pot.colorTheme)
         .includes(PotColorThemeEnum[key])
-        ? CreatePotColorThemeEnum[key] === form.value.colorTheme
+        ? UpdatePotColorThemeEnum[key] === form.value.colorTheme
           ? ModalDropdownItemStatus.Selected
           : ModalDropdownItemStatus.Ready
         : ModalDropdownItemStatus.Used;
 
       if (status === ModalDropdownItemStatus.Selected) {
-        form.value.colorTheme = CreatePotColorThemeEnum[key];
+        form.value.colorTheme = UpdatePotColorThemeEnum[key];
       }
       return {
         itemValue: key,
@@ -114,22 +117,22 @@ const colorDropdownSettings = {
         status: !usedPots
           .map((pot) => pot.colorTheme)
           .includes(PotColorThemeEnum[key])
-          ? CreatePotColorThemeEnum[key] === form.value.colorTheme
+          ? UpdatePotColorThemeEnum[key] === form.value.colorTheme
             ? ModalDropdownItemStatus.Selected
             : ModalDropdownItemStatus.Ready
           : ModalDropdownItemStatus.Used,
         onSelect: (selectedColorKey: string) => {
           if (form.value) {
             form.value.colorTheme =
-              CreatePotColorThemeEnum[
-                selectedColorKey as keyof typeof CreatePotColorThemeEnum
+              UpdatePotColorThemeEnum[
+                selectedColorKey as keyof typeof UpdatePotColorThemeEnum
               ];
           }
         },
       };
     })
     .sort(sortItems),
-};
+});
 
 const isButtonDisabled = () => {
   if (!form.value.name || !form.value.target || form.value.target <= 0) {
@@ -137,9 +140,9 @@ const isButtonDisabled = () => {
   }
 
   if (
-    colorDropdownSettings.options.find(
+    colorDropdownSettings().options.find(
       (option) =>
-        CreatePotColorThemeEnum[option.itemValue] === form.value.colorTheme &&
+        UpdatePotColorThemeEnum[option.itemValue] === form.value.colorTheme &&
         option.status === ModalDropdownItemStatus.Used
     )
   ) {
@@ -157,14 +160,28 @@ const setPotName = (e?: Event) => {
   const value = (e?.currentTarget as HTMLInputElement)?.value;
   form.value.name = value;
 };
-const addNewPot = (e?: Event) => {
+const editPot = (e?: Event) => {
   e?.preventDefault();
   isLoading.value = true;
-  addPot(form.value)
+  updatePot(form.value)
     .then(() => onCloseModal(true, true))
     .catch((message) => errorStore.setErrorMessage(message))
     .finally(() => (isLoading.value = false));
 };
+
+watch(
+  () => targetPot,
+  () => {
+    form.value = {
+      id: targetPot.id,
+      name: targetPot.name,
+      target: targetPot.target,
+      colorTheme:
+        (targetPot.colorTheme as unknown as UpdatePotColorThemeEnum) ??
+        UpdatePotColorThemeEnum.Cyan,
+    };
+  }
+);
 </script>
 <style lang="scss" scoped>
 .pot-modal--edit {
