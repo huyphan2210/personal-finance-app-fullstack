@@ -16,8 +16,10 @@
         placeholder="e.g. Rainy Days"
       >
         <small class="pot-modal--edit_form_field_tip">
-          {{ POT_NAME_MAX_LENGTH - form.name!.length }}
-          character{{ POT_NAME_MAX_LENGTH - form.name!.length > 1 ? "s" : "" }}
+          {{ POT_NAME_MAX_LENGTH - (form.name?.length || 0) }}
+          character{{
+            POT_NAME_MAX_LENGTH - (form.name?.length || 0) > 1 ? "s" : ""
+          }}
           left
         </small>
       </shared-input>
@@ -26,11 +28,12 @@
         prefix="$"
         label="Target"
         placeholder="e.g. 2000"
-        :value="form.target!.toString()"
+        :value="form.target?.toString()"
         :custom-input-handler="setTarget"
       />
       <shared-modal-dropdown
-        :settings="colorDropdownSettings()"
+        :key="targetPot?.id"
+        :settings="colorDropdownSettings"
         label="Theme"
       />
       <shared-button
@@ -52,6 +55,8 @@ import {
   ModalDropdownEnumType,
   ModalDropdownItemStatus,
   type IModalDropdownItem,
+  type IModalColorDropdownSettings,
+  type IModalDropdownColorItem,
 } from "~/interfaces/shared.interface";
 import type { IEditPotModal } from "~/interfaces/pots.interface";
 import {
@@ -78,13 +83,14 @@ const onCloseModal = (isClosed: boolean, fetchData?: boolean) => {
 };
 
 const form = ref<UpdatePot>({
-  id: targetPot.id,
-  name: targetPot.name,
-  target: targetPot.target,
+  id: targetPot?.id || "",
+  name: targetPot?.name,
+  target: targetPot?.target,
   colorTheme:
-    (targetPot.colorTheme as unknown as UpdatePotColorThemeEnum) ??
+    (targetPot?.colorTheme as unknown as UpdatePotColorThemeEnum) ??
     UpdatePotColorThemeEnum.Cyan,
 });
+let originalFormValue = { ...form.value };
 
 const sortItems = (
   firstItem: IModalDropdownItem,
@@ -95,32 +101,26 @@ const sortItems = (
   return firstItem.itemLabel.localeCompare(secondItem.itemLabel);
 };
 
-const colorDropdownSettings = () => ({
+const getColorDropdownSettings = (): IModalColorDropdownSettings => ({
   type: ModalDropdownEnumType.Color,
   options: Object.keys(PotColorThemeEnum)
     .map((value) => {
       const key = value as keyof typeof PotColorThemeEnum;
-      const status = !usedPots
-        .map((pot) => pot.colorTheme)
-        .includes(PotColorThemeEnum[key])
-        ? UpdatePotColorThemeEnum[key] === form.value.colorTheme
-          ? ModalDropdownItemStatus.Selected
-          : ModalDropdownItemStatus.Ready
-        : ModalDropdownItemStatus.Used;
-
-      if (status === ModalDropdownItemStatus.Selected) {
-        form.value.colorTheme = UpdatePotColorThemeEnum[key];
+      const usedColors = usedPots.map((pot) => pot.colorTheme);
+      let status = ModalDropdownItemStatus.Ready;
+      if (
+        usedColors.includes(PotColorThemeEnum[key]) &&
+        form.value.colorTheme === UpdatePotColorThemeEnum[key]
+      ) {
+        status = ModalDropdownItemStatus.Selected;
+      } else if (usedColors.includes(PotColorThemeEnum[key])) {
+        status = ModalDropdownItemStatus.Used;
       }
+
       return {
         itemValue: key,
         itemLabel: value,
-        status: !usedPots
-          .map((pot) => pot.colorTheme)
-          .includes(PotColorThemeEnum[key])
-          ? UpdatePotColorThemeEnum[key] === form.value.colorTheme
-            ? ModalDropdownItemStatus.Selected
-            : ModalDropdownItemStatus.Ready
-          : ModalDropdownItemStatus.Used,
+        status,
         onSelect: (selectedColorKey: string) => {
           if (form.value) {
             form.value.colorTheme =
@@ -134,13 +134,17 @@ const colorDropdownSettings = () => ({
     .sort(sortItems),
 });
 
+const colorDropdownSettings = ref<IModalColorDropdownSettings>(
+  getColorDropdownSettings()
+);
+
 const isButtonDisabled = () => {
   if (!form.value.name || !form.value.target || form.value.target <= 0) {
     return true;
   }
 
   if (
-    colorDropdownSettings().options.find(
+    colorDropdownSettings.value.options.find(
       (option) =>
         UpdatePotColorThemeEnum[option.itemValue] === form.value.colorTheme &&
         option.status === ModalDropdownItemStatus.Used
@@ -149,6 +153,10 @@ const isButtonDisabled = () => {
     return true;
   }
 
+  if (JSON.stringify(form.value) === JSON.stringify(originalFormValue)) {
+    return true;
+  }
+  
   return false;
 };
 
@@ -171,15 +179,17 @@ const editPot = (e?: Event) => {
 
 watch(
   () => targetPot,
-  () => {
+  (value) => {
     form.value = {
-      id: targetPot.id,
-      name: targetPot.name,
-      target: targetPot.target,
+      id: value?.id || "",
+      name: value?.name,
+      target: value?.target,
       colorTheme:
-        (targetPot.colorTheme as unknown as UpdatePotColorThemeEnum) ??
+        (value?.colorTheme as unknown as UpdatePotColorThemeEnum) ??
         UpdatePotColorThemeEnum.Cyan,
     };
+    originalFormValue = { ...form.value };
+    colorDropdownSettings.value = getColorDropdownSettings();
   }
 );
 </script>

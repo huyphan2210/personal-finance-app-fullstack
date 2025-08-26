@@ -142,7 +142,7 @@ def update_pot(update_pot_dto: UpdatePotDto):
 def delete_pot(delete_pot_dto: DeletePotDto):
     existing_pot = get_pot_with_id_or_raise(delete_pot_dto.id)
 
-    existing_pot.is_deleted = False
+    existing_pot.is_deleted = True
 
     db.session.commit()
     return

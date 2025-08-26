@@ -13,15 +13,17 @@ export interface IPotContentCard {
   onEditModal: (pot: Pot) => void;
   onDeleteModal: (pot: Pot) => void;
 }
-
 export interface IPotModal {
+
   isShown: boolean;
   type: PotModalTypeEnum;
   usedPots: Pot[];
 }
+
 export interface IEditPotModal extends IPotModal {
-  targetPot: Pot;
+  targetPot?: Pot;
 }
-export interface IEditPotModal extends IPotModal {
-  targetPot: Pot;
+
+export interface IDeletePotModal extends IPotModal {
+  targetPot?: Pot;
 }

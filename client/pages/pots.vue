@@ -18,7 +18,7 @@
   >
     <li v-for="(pot, index) in pots" class="pots_list_item">
       <pots-content-card
-        :key="pot.name + index"
+        :key="pot.name + pot.target + pot.colorTheme + index"
         :pot-info="pot"
         :dropdown-options="[]"
         :on-edit-modal="openEditModal"
@@ -33,11 +33,19 @@
     :used-pots="pots ?? []"
     v-on:on-close-modal="closeModal"
   />
-  <pots-add-new-modal
+  <pots-edit-modal
     v-if="!isLoading"
     :is-shown="currentOpeningModal === PotModalTypeEnum.Edit"
     :type="PotModalTypeEnum.Edit"
     :used-pots="pots ?? []"
+    :targetPot="targetPot"
+    v-on:on-close-modal="closeModal"
+  />
+  <pots-delete-modal
+    v-if="!isLoading"
+    :is-shown="currentOpeningModal === PotModalTypeEnum.Delete"
+    :type="PotModalTypeEnum.Delete"
+    :used-pots="[]"
     :targetPot="targetPot"
     v-on:on-close-modal="closeModal"
   />
@@ -61,7 +69,10 @@ const openEditModal = (pot: Pot) => {
   targetPot.value = pot;
   currentOpeningModal.value = PotModalTypeEnum.Edit;
 };
-const openDeleteModal = (pot: Pot) => {};
+const openDeleteModal = (pot: Pot) => {
+  targetPot.value = pot;
+  currentOpeningModal.value = PotModalTypeEnum.Delete;
+};
 
 const closeModal = (fetchModal?: boolean) => {
   currentOpeningModal.value = undefined;

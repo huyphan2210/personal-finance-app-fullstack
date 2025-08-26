@@ -33,6 +33,7 @@
             v-for="(budget, index) in budgets?.representBudgets"
             :key="budget.category + index"
             class="budgets_content_spending-summary_list_item"
+            :id="''"
             :color-theme="budget.colorTheme"
             :category="budget.category"
             :maximum-with-currency="budget.maximumWithCurrency"
