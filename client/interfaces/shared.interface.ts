@@ -67,6 +67,8 @@ export interface IInput {
   prefix?: string;
   type: InputEnumType;
   maxLength?: number;
+  minValue?: number;
+  maxValue?: number;
   customInputHandler?: (e?: Event) => void;
 }
 

@@ -19,7 +19,8 @@
         @focusin="() => field?.classList.add('focus')"
         @focusout="() => field?.classList.remove('focus')"
         @change="(e) => emits(VALUE_CHANGE_EVENT, (e.currentTarget as HTMLInputElement).value)"
-        min="0"
+        :min="minValue || 0"
+        :max="maxValue"
         :maxlength="maxLength"
         :id="INPUT_ID"
         :type="typeRecords[type]"
@@ -51,6 +52,8 @@ const {
   customInputHandler,
   value,
   maxLength,
+  minValue,
+  maxValue,
 } = defineProps<IInput>();
 
 const defaultLabelRecords: Record<InputEnumType, string> = {
