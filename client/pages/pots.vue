@@ -23,6 +23,8 @@
         :dropdown-options="[]"
         :on-edit-modal="openEditModal"
         :on-delete-modal="openDeleteModal"
+        :on-add-to-total="openAddToTotalModal"
+        :on-withdraw="openWithdrawModal"
       />
     </li>
   </ul>
@@ -49,6 +51,20 @@
     :targetPot="targetPot"
     v-on:on-close-modal="closeModal"
   />
+  <pots-update-total-modal
+    v-if="!isLoading"
+    :is-shown="currentOpeningModal === PotModalTypeEnum.AddToPot"
+    :type="PotModalTypeEnum.AddToPot"
+    :targetPot="targetPot"
+    v-on:on-close-modal="closeModal"
+  />
+  <pots-update-total-modal
+    v-if="!isLoading"
+    :is-shown="currentOpeningModal === PotModalTypeEnum.Withdraw"
+    :type="PotModalTypeEnum.Withdraw"
+    :targetPot="targetPot"
+    v-on:on-close-modal="closeModal"
+  />
 </template>
 
 <script setup lang="ts">
@@ -72,6 +88,14 @@ const openEditModal = (pot: Pot) => {
 const openDeleteModal = (pot: Pot) => {
   targetPot.value = pot;
   currentOpeningModal.value = PotModalTypeEnum.Delete;
+};
+const openAddToTotalModal = (pot: Pot) => {
+  targetPot.value = pot;
+  currentOpeningModal.value = PotModalTypeEnum.AddToPot;
+};
+const openWithdrawModal = (pot: Pot) => {
+  targetPot.value = pot;
+  currentOpeningModal.value = PotModalTypeEnum.Withdraw;
 };
 
 const closeModal = (fetchModal?: boolean) => {

@@ -1,7 +1,7 @@
 <template>
   <shared-modal
     :heading="potModalHeadings[type]()"
-    :message="potModalInstruction[type]"
+    :message="potModalInstruction[type]()"
     class="pot-modal--edit"
     :is-modal-shown="isShown"
     v-on:on-close-modal="onCloseModal"

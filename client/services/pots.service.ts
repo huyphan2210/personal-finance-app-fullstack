@@ -53,17 +53,20 @@ export const potModalHeadings: Record<
   [PotModalTypeEnum.Withdraw]: (potName) => `Withdraw from '${potName}'`,
 };
 
-export const potModalInstruction: Record<PotModalTypeEnum, string> = {
-  [PotModalTypeEnum.AddNew]:
+export const potModalInstruction: Record<
+  PotModalTypeEnum,
+  (value?: string) => string
+> = {
+  [PotModalTypeEnum.AddNew]: () =>
     "Create a pot to set savings targets. These can help keep you on track as you save for special purchases.",
-  [PotModalTypeEnum.Edit]:
+  [PotModalTypeEnum.Edit]: () =>
     "If your saving targets change, feel free to update your pots.",
-  [PotModalTypeEnum.Delete]:
+  [PotModalTypeEnum.Delete]: () =>
     "Are you sure you want to delete this pot? This action cannot be reversed, and all the data inside it will be removed forever.",
-  [PotModalTypeEnum.AddToPot]:
-    "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus  hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet.",
-  [PotModalTypeEnum.Withdraw]:
-    "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus  hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet.",
+  [PotModalTypeEnum.AddToPot]: (value?: string) =>
+    `You can add a maximum of ${value} to the pot.`,
+  [PotModalTypeEnum.Withdraw]: (value?: string) =>
+    `You can withdraw a maximum of ${value} from the pot.`,
 };
 
 export const potModalPrimaryButtonContent: Record<PotModalTypeEnum, string> = {

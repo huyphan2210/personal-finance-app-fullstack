@@ -14,6 +14,8 @@ export interface IPotContentCard {
   dropdownOptions: IContentCardDropdownOption[];
   onEditModal: (pot: Pot) => void;
   onDeleteModal: (pot: Pot) => void;
+  onAddToTotal: (pot: Pot) => void;
+  onWithdraw: (pot: Pot) => void;
 }
 export interface IPotModal {
   isShown: boolean;
@@ -29,8 +31,8 @@ export interface IDeletePotModal extends IPotModal {
   targetPot?: Pot;
 }
 
-export interface IUpdateTotalPotModal extends IPotModal {
+export interface IUpdateTotalPotModal {
   isShown: boolean;
   type: PotModalTypeEnum.AddToPot | PotModalTypeEnum.Withdraw;
-  targetPot: Pot;
+  targetPot?: Pot;
 }

@@ -23,6 +23,24 @@
         <span>Target of {{ enUSFormatter.format(potInfo.target) }}</span>
       </div>
     </div>
+    <div class="pot-content-card_btn-group">
+      <button
+        class="pot-content-card_btn-group_btn"
+        type="button"
+        @click="() => onAddToTotal(potInfo)"
+        :disabled="potInfo.total >= potInfo.target"
+      >
+        + Add Money
+      </button>
+      <button
+        class="pot-content-card_btn-group_btn"
+        type="button"
+        :disabled="potInfo.total <= 0"
+        @click="() => onWithdraw(potInfo)"
+      >
+        Withdraw
+      </button>
+    </div>
   </shared-content-card>
 </template>
 <script lang="ts" setup>
@@ -32,8 +50,14 @@ import type { IContentCardDropdownOption } from "~/interfaces/shared.interface";
 import { enUSFormatter } from "~/services/base.service";
 import { Color } from "~/types/color";
 
-const { potInfo, dropdownOptions, onDeleteModal, onEditModal } =
-  defineProps<IPotContentCard>();
+const {
+  potInfo,
+  dropdownOptions,
+  onDeleteModal,
+  onEditModal,
+  onAddToTotal,
+  onWithdraw,
+} = defineProps<IPotContentCard>();
 const progressBar = ref<HTMLProgressElement>();
 
 const defaultPotDropdownOptions: IContentCardDropdownOption[] = [
@@ -136,6 +160,31 @@ onMounted(() => {
       span {
         @include text-preset-5;
         color: var(--grey-500);
+      }
+    }
+  }
+  &_btn-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    &_btn {
+      @include text-preset-4-bold;
+      flex: 1;
+      background-color: var(--beige-100);
+      padding: 15px;
+      color: var(--grey-900);
+      border-radius: 0.5rem;
+      border: solid 1px var(--beige-100);
+      &:hover {
+        background-color: transparent;
+        border-color: var(--beige-500);
+      }
+
+       &:disabled {
+        background-color: var(--grey-300);
+        border-color: var(--grey-300);
+        color: var(--grey-500);
+        cursor: not-allowed;
       }
     }
   }
