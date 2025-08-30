@@ -36,7 +36,7 @@
               `?page=1&sortBy=Latest&category=${budgetInfo.category}`
             "
           >
-            See Details
+            See All
             <svg
               width="12"
               height="12"

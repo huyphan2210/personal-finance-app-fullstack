@@ -1,17 +1,23 @@
 from datetime import datetime
 from enum import EnumMeta
-from typing import get_origin, get_args, List, Type
+from typing import Optional, get_origin, get_args, List, Type
 from uuid import UUID
 from pydantic import BaseModel as PydanticBaseModel
 from flask_restx import fields, Namespace
 
-TYPE_MAP = {
+REQUIRED_TYPE_MAP = {
     UUID: fields.String,
     str: fields.String,
     int: fields.Integer,
     float: fields.Float,
     bool: fields.Boolean,
     datetime: fields.String,
+    Optional[UUID]: fields.String,
+    Optional[str]: fields.String,
+    Optional[int]: fields.Integer,
+    Optional[float]: fields.Float,
+    Optional[bool]: fields.Boolean,
+    Optional[datetime]: fields.String,
 }
 
 
@@ -35,9 +41,9 @@ class BaseModel(PydanticBaseModel):
                         description=model_field.description or "",
                     )
                     continue
-                elif item_type in TYPE_MAP:
+                elif item_type in REQUIRED_TYPE_MAP:
                     model_fields[name] = fields.List(
-                        TYPE_MAP[item_type](),
+                        REQUIRED_TYPE_MAP[item_type](),
                         required=model_field.is_required(),
                         description=model_field.description or "",
                     )
@@ -69,7 +75,7 @@ class BaseModel(PydanticBaseModel):
                 continue
 
             # Case 3: field is a primitive
-            restx_field = TYPE_MAP.get(field_type)
+            restx_field = REQUIRED_TYPE_MAP.get(field_type)
             if not restx_field:
                 raise TypeError(
                     f"Unsupported field type: {field_type} for field '{name}'"

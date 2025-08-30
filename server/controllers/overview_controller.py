@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from flask import jsonify
 from flask_restx import Namespace, Resource
 
@@ -11,7 +12,7 @@ overview_ns = Namespace(f"{OVERVIEW}", description="Get summary of Overview")
 class OverviewApi(Resource):
     @overview_ns.doc(description="Get the overview data")
     @overview_ns.response(
-        200, "Success", model=OverviewContent.get_api_model(overview_ns)
+        HTTPStatus.OK, "Success", model=OverviewContent.get_api_model(overview_ns)
     )
     def get(self):
         overview_content = get_overview()
