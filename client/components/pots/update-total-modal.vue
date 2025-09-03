@@ -9,7 +9,7 @@
     <div class="pot-modal--update-total_progress">
       <div class="pot-modal--update-total_progress_saved">
         <small>Total Saved</small>
-        <span>{{ enUSFormatter.format(targetPot?.total || "+Infinity") }}</span>
+        <span>{{ enUSFormatter.format(targetPot?.total || 0) }}</span>
       </div>
       <div class="pot-modal--update-total_progress_bar-wrapper">
         <progress
@@ -54,7 +54,7 @@
           {{ form.percentage.toFixed(2) }}%
         </small>
         <span>
-          Target of {{ enUSFormatter.format(targetPot?.target || "+Infinity") }}
+          Target of {{ enUSFormatter.format(targetPot?.target || 0) }}
         </span>
       </div>
     </div>
