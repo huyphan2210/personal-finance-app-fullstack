@@ -117,6 +117,23 @@ export interface RecurringBillsSummary {
   totalUpcomingAmount: number;
 }
 
+export interface Subscription {
+  amount: number;
+  avatarUrl: string;
+  /**
+   * One of: ['Monthly', 'Yearly']
+   * @example "Monthly"
+   */
+  recurrence: SubscriptionRecurrenceEnum;
+  startDate: string;
+  /**
+   * One of: ['Active', 'Inactive']
+   * @example "Active"
+   */
+  status: SubscriptionStatusEnum;
+  user: string;
+}
+
 export interface Transaction {
   amount: number;
   avatarUrl: string;
@@ -293,6 +310,24 @@ export enum PotColorThemeEnum {
   Red = "#c94736",
   Turquois = "#597c7c",
   Yellow = "#f2cdac",
+}
+
+/**
+ * One of: ['Monthly', 'Yearly']
+ * @example "Monthly"
+ */
+export enum SubscriptionRecurrenceEnum {
+  Monthly = "Monthly",
+  Yearly = "Yearly",
+}
+
+/**
+ * One of: ['Active', 'Inactive']
+ * @example "Active"
+ */
+export enum SubscriptionStatusEnum {
+  Active = "Active",
+  Inactive = "Inactive",
 }
 
 /**

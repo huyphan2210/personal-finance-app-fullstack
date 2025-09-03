@@ -1,4 +1,3 @@
-import os
 from sqlalchemy import String, cast, desc, or_
 from sqlalchemy.orm import Query
 from exceptions import BadRequestError
@@ -6,10 +5,8 @@ from exceptions import BadRequestError
 from models.transactions_model import Transaction, TransactionsContent
 from enums.category_enum import Category
 from schemas.transaction_schema import Transaction as TransactionSchema
+from utilities import IMAGE_HOSTING_URI
 
-IMAGE_HOSTING_URI = os.getenv(
-    "IMAGE_HOSTING_URI", "https://res.cloudinary.com/dejteftxn/image/upload/"
-)
 TRANSACTIONS_PER_PAGE = 10
 
 SORT_OPTIONS = {
@@ -36,7 +33,7 @@ def get_overview_transactions():
             category=transaction.category,
             date=transaction.date,
             amount=transaction.amount,
-            subscriptionId=transaction.subscription_id
+            subscriptionId=transaction.subscription_id,
         )
         for transaction in transactions
     ]

@@ -24,9 +24,9 @@ class SubscriptionsApi(Resource):
         queries = get_subscription_query_parser.parse_args()
         page = queries["page"]
         search = queries["search"]
-        sortBy = queries["sortBy"]
+        sort_by = queries["sortBy"]
 
-        subscriptions = get_subscriptions(page, search, sortBy)
+        subscriptions = get_subscriptions(page, search, sort_by)
 
         return jsonify(subscriptions.model_dump())
 

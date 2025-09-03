@@ -459,6 +459,49 @@
       ],
       "type": "object"
     },
+    "Subscription": {
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "avatarUrl": {
+          "type": "string"
+        },
+        "recurrence": {
+          "description": "One of: ['Monthly', 'Yearly']",
+          "enum": [
+            "Monthly",
+            "Yearly"
+          ],
+          "example": "Monthly",
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "status": {
+          "description": "One of: ['Active', 'Inactive']",
+          "enum": [
+            "Active",
+            "Inactive"
+          ],
+          "example": "Active",
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "avatarUrl",
+        "recurrence",
+        "startDate",
+        "status",
+        "user"
+      ],
+      "type": "object"
+    },
     "Transaction": {
       "properties": {
         "amount": {
@@ -915,6 +958,43 @@
         ]
       }
     },
+    "/subscriptions-api": {
+      "get": {
+        "description": "Get the transactions data",
+        "operationId": "get_subscriptions_api",
+        "parameters": [
+          {
+            "default": 1,
+            "in": "query",
+            "name": "page",
+            "type": "integer"
+          },
+          {
+            "default": "",
+            "in": "query",
+            "name": "search",
+            "type": "string"
+          },
+          {
+            "default": "",
+            "in": "query",
+            "name": "sortBy",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        },
+        "tags": [
+          "subscriptions-api"
+        ]
+      }
+    },
     "/transactions-api": {
       "get": {
         "description": "Get the transactions data",
@@ -987,6 +1067,10 @@
     {
       "description": "Get Pots content",
       "name": "pots-api"
+    },
+    {
+      "description": "Get subscription content",
+      "name": "subscriptions-api"
     }
   ]
 }
