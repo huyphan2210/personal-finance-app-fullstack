@@ -1,4 +1,6 @@
 from datetime import datetime
+from typing import Optional
+from uuid import UUID
 from enums.category_enum import Category
 from models.base_model import BaseModel
 
@@ -9,7 +11,7 @@ class Transaction(BaseModel):
     category: Category
     date: datetime
     amount: float
-    recurring: bool
+    subscriptionId: Optional[UUID] = None
 
 
 class TransactionsContent(BaseModel):

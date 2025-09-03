@@ -36,7 +36,7 @@ def get_overview_transactions():
             category=transaction.category,
             date=transaction.date,
             amount=transaction.amount,
-            recurring=transaction.recurring,
+            subscriptionId=transaction.subscription_id
         )
         for transaction in transactions
     ]
@@ -66,7 +66,7 @@ def get_transactions(page: int, search_string: str, category: str, sort_by: str)
                 category=transaction.category,
                 date=transaction.date,
                 amount=transaction.amount,
-                recurring=transaction.recurring,
+                subscriptionId=transaction.subscription_id,
             )
             for transaction in transactions
         ],
