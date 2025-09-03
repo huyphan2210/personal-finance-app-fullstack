@@ -5,6 +5,7 @@ from controllers.overview_controller import overview_ns
 from controllers.budgets_controller import budgets_ns
 from controllers.transactions_controller import transactions_ns
 from controllers.pots_controller import pots_ns
+from controllers.subscriptions_controller import subscriptions_ns
 from enums.category_enum import Category
 from enums.color_enum import Color
 
@@ -15,6 +16,7 @@ api.add_namespace(overview_ns)
 api.add_namespace(budgets_ns)
 api.add_namespace(transactions_ns)
 api.add_namespace(pots_ns)
+api.add_namespace(subscriptions_ns)
 
 
 @api.documentation

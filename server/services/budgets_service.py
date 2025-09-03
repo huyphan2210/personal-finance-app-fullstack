@@ -86,7 +86,6 @@ def get_budgets():
                         category=transaction.category,
                         date=transaction.date,
                         amount=transaction.amount,
-                        recurring=transaction.recurring,
                     )
                     for transaction in (
                         TransactionSchema.query.filter(

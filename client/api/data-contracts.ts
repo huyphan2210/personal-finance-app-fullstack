@@ -126,7 +126,7 @@ export interface Transaction {
    */
   category: TransactionCategoryEnum;
   date: string;
-  recurring: boolean;
+  subscriptionId?: string;
   user: string;
 }
 

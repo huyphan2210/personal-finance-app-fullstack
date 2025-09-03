@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from flask import jsonify
 from flask_restx import Namespace, Resource, reqparse
 
@@ -18,7 +19,7 @@ class TransactionsApi(Resource):
     @transactions_ns.expect(get_transaction_query_parser)
     @transactions_ns.doc(description="Get the transactions data")
     @transactions_ns.response(
-        200, "Success", model=TransactionsModel.get_api_model(transactions_ns)
+        HTTPStatus.OK, "Success", model=TransactionsModel.get_api_model(transactions_ns)
     )
     def get(self):
         queries = get_transaction_query_parser.parse_args()

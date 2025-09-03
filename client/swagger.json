@@ -499,8 +499,8 @@
         "date": {
           "type": "string"
         },
-        "recurring": {
-          "type": "boolean"
+        "subscriptionId": {
+          "type": "string"
         },
         "user": {
           "type": "string"
@@ -511,7 +511,6 @@
         "avatarUrl",
         "category",
         "date",
-        "recurring",
         "user"
       ],
       "type": "object"
