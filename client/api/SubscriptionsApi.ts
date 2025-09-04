@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import type { Subscription } from "./data-contracts";
+import type { SubscriptionsContent } from "./data-contracts";
 import { HttpClient, type RequestParams } from "./http-client";
 
 export class SubscriptionsApi<
@@ -34,7 +34,7 @@ export class SubscriptionsApi<
     },
     params: RequestParams = {},
   ) =>
-    this.request<Subscription, any>({
+    this.request<SubscriptionsContent, any>({
       path: `/subscriptions-api`,
       method: "GET",
       query: query,

@@ -120,18 +120,24 @@ export interface RecurringBillsSummary {
 export interface Subscription {
   amount: number;
   avatarUrl: string;
+  dueDate: string;
   /**
    * One of: ['Monthly', 'Yearly']
    * @example "Monthly"
    */
   recurrence: SubscriptionRecurrenceEnum;
-  startDate: string;
   /**
    * One of: ['Active', 'Inactive']
    * @example "Active"
    */
   status: SubscriptionStatusEnum;
   user: string;
+}
+
+export interface SubscriptionsContent {
+  currentPage: number;
+  numberOfPages: number;
+  subscriptions: Subscription[];
 }
 
 export interface Transaction {

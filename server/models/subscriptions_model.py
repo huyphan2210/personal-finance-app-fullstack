@@ -13,7 +13,12 @@ class RecurringBillsSummary(BaseModel):
 class Subscription(BaseModel):
     avatarUrl: str
     user: str
-    startDate: datetime
+    dueDate: datetime
     amount: float
     recurrence: SubscriptionRecurrence
     status: SubscriptionStatus
+
+class SubscriptionsContent(BaseModel):
+    subscriptions: list[Subscription]
+    numberOfPages: int
+    currentPage: int

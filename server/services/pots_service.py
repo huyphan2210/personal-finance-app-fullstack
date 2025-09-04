@@ -78,6 +78,13 @@ def validate_update_pot_dto(update_pot_dto: UpdatePotDto):
     if update_pot_dto.total is not None and update_pot_dto.total < 0:
         raise BadRequestError("The Pot's total must be a >= 0.")
 
+    if (
+        update_pot_dto.total is not None
+        and update_pot_dto.target is not None
+        and update_pot_dto.total > update_pot_dto.target
+    ):
+        raise BadRequestError("The Pot's total must not exceed its target.")
+
     similar_pot = PotSchema.query.filter(
         or_(
             PotSchema.name == update_pot_dto.name,

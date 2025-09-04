@@ -467,6 +467,9 @@
         "avatarUrl": {
           "type": "string"
         },
+        "dueDate": {
+          "type": "string"
+        },
         "recurrence": {
           "description": "One of: ['Monthly', 'Yearly']",
           "enum": [
@@ -474,9 +477,6 @@
             "Yearly"
           ],
           "example": "Monthly",
-          "type": "string"
-        },
-        "startDate": {
           "type": "string"
         },
         "status": {
@@ -495,10 +495,33 @@
       "required": [
         "amount",
         "avatarUrl",
+        "dueDate",
         "recurrence",
-        "startDate",
         "status",
         "user"
+      ],
+      "type": "object"
+    },
+    "SubscriptionsContent": {
+      "properties": {
+        "currentPage": {
+          "type": "integer"
+        },
+        "numberOfPages": {
+          "type": "integer"
+        },
+        "subscriptions": {
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/Subscription"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "currentPage",
+        "numberOfPages",
+        "subscriptions"
       ],
       "type": "object"
     },
@@ -986,7 +1009,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Subscription"
+              "$ref": "#/definitions/SubscriptionsContent"
             }
           }
         },
