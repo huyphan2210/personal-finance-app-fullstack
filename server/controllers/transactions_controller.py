@@ -3,7 +3,7 @@ from flask import jsonify
 from flask_restx import Namespace, Resource, reqparse
 
 from services.transactions_service import get_transactions
-from models.transactions_model import TransactionsContent as TransactionsModel
+from models.transactions_model import TransactionsContent
 
 TRANSACTIONS = "transactions-api"
 transactions_ns = Namespace(f"{TRANSACTIONS}", description="Get Transactions content")
@@ -19,7 +19,7 @@ class TransactionsApi(Resource):
     @transactions_ns.expect(get_transaction_query_parser)
     @transactions_ns.doc(description="Get the transactions data")
     @transactions_ns.response(
-        HTTPStatus.OK, "Success", model=TransactionsModel.get_api_model(transactions_ns)
+        HTTPStatus.OK, "Success", model=TransactionsContent.get_api_model(transactions_ns)
     )
     def get(self):
         queries = get_transaction_query_parser.parse_args()
@@ -28,9 +28,9 @@ class TransactionsApi(Resource):
         category = queries["category"]
         sortBy = queries["sortBy"]
 
-        transactions = get_transactions(page, search, category, sortBy)
+        transactions_content = get_transactions(page, search, category, sortBy)
 
-        return jsonify(transactions.model_dump())
+        return jsonify(transactions_content.model_dump())
 
 
 transactions_ns.add_resource(TransactionsApi, "")

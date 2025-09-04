@@ -51,9 +51,8 @@ def get_transactions(page: int, search_string: str, category: str, sort_by: str)
     ).offset((page - 1) * TRANSACTIONS_PER_PAGE)
 
     totalRows = transaction_query.count()
-    numberOfPages = totalRows // TRANSACTIONS_PER_PAGE
-    if totalRows > TRANSACTIONS_PER_PAGE and totalRows % TRANSACTIONS_PER_PAGE > 0:
-        numberOfPages += 1
+    numberOfPages = max(1, (totalRows + TRANSACTIONS_PER_PAGE - 1) // TRANSACTIONS_PER_PAGE)
+
 
     return TransactionsContent(
         transactions=[

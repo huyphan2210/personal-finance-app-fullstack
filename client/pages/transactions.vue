@@ -59,21 +59,14 @@ import type {
   ITransactionItem,
   ITransactionSearchForm,
 } from "~/interfaces/transactions.interface";
-import { getTransactions } from "~/services/transaction.service";
+import { getTransactions } from "~/services/transactions.service";
 import {
   TransactionCategoryEnum,
   type Transaction,
 } from "~/api/data-contracts";
 import { InputEnumType } from "~/interfaces/shared.interface";
+import { sortOptions } from "~/services/base.service";
 
-const sortOptions = [
-  "Latest",
-  "Oldest",
-  "A to Z",
-  "Z to A",
-  "Highest",
-  "Lowest",
-];
 const categoryOptions = [
   "All Transactions",
   ...Object.values(TransactionCategoryEnum),

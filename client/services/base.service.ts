@@ -3,6 +3,7 @@ import { OverviewApi } from "~/api/OverviewApi";
 import { TransactionsApi } from "~/api/TransactionsApi";
 import { PotsApi } from "~/api/PotsApi";
 import { BudgetsApi } from "~/api/BudgetsApi";
+import { SubscriptionsApi } from "~/api/SubscriptionsApi";
 
 const config = useRuntimeConfig();
 
@@ -19,6 +20,10 @@ export const transactionsApi = new TransactionsApi({
 });
 
 export const potsApi = new PotsApi({
+  baseUrl: config.public.apiBase,
+});
+
+export const subscriptionsApi = new SubscriptionsApi({
   baseUrl: config.public.apiBase,
 });
 
@@ -40,3 +45,12 @@ export const enUSFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
 });
+
+export const sortOptions = [
+  "Latest",
+  "Oldest",
+  "A to Z",
+  "Z to A",
+  "Highest",
+  "Lowest",
+];
