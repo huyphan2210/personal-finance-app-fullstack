@@ -1,6 +1,9 @@
-from sqlalchemy import desc, or_, String, cast
+from datetime import datetime, timezone
+from sqlalchemy import desc, func, or_, String, cast
 from sqlalchemy.orm import Query
+from database import db
 
+from enums.subscriptions.subscription_recurrence_enum import SubscriptionRecurrence
 from enums.subscriptions.subscription_status_enum import SubscriptionStatus
 from exceptions import BadRequestError
 from models.subscriptions_model import (
@@ -9,10 +12,13 @@ from models.subscriptions_model import (
     SubscriptionsContent,
 )
 from schemas.subscription_schema import Subscription as SubscriptionSchema
+from schemas.transaction_schema import Transaction as TransactionSchema
 
 from utilities import IMAGE_HOSTING_URI
 
 SUBSCRIPTIONS_PER_PAGE = 10
+
+DUE_DAYS_MAX = 7
 
 SORT_OPTIONS = {
     "Latest": desc(SubscriptionSchema.start_date),
@@ -24,10 +30,45 @@ SORT_OPTIONS = {
 }
 
 
-def get_recurring_bills_summary():
-    SubscriptionSchema.query.filter(SubscriptionSchema.is_deleted == False)
+def get_recurring_bills_monthly_summary():
+    monthly_subscriptions = SubscriptionSchema.query.filter(
+        SubscriptionSchema.is_deleted == False,
+        SubscriptionSchema.status == SubscriptionStatus.Active,
+        SubscriptionSchema.recurrence == SubscriptionRecurrence.Monthly,
+    ).all()
+
+    transactions = TransactionSchema.query.filter(
+        TransactionSchema.is_deleted == False,
+        TransactionSchema.subscription_id.in_([s.id for s in monthly_subscriptions]),
+    ).all()
+
+    paid_amount = 0
+    total_upcoming_amount = 0
+    due_soon_amount = 0
+
+    transaction_map = {
+        transaction.subscription_id: transaction for transaction in transactions
+    }
+
+    for sub in monthly_subscriptions:
+        transaction = transaction_map.get(sub.id)
+        if sub.next_due.tzinfo is None:
+            next_due = sub.next_due.replace(tzinfo=timezone.utc)
+        else:
+            next_due = sub.next_due
+
+        if transaction and next_due:
+            paid_amount += transaction.amount
+        else:
+            total_upcoming_amount += sub.amount
+
+        if (next_due - datetime.now(timezone.utc)).days <= DUE_DAYS_MAX:
+            due_soon_amount += sub.amount
+
     return RecurringBillsSummary(
-        paidAmount=190, totalUpcomingAmount=194.98, dueSoonAmount=59.98
+        paidAmount=paid_amount,
+        totalUpcomingAmount=total_upcoming_amount,
+        dueSoonAmount=due_soon_amount,
     )
 
 
@@ -55,7 +96,26 @@ def get_subscriptions(page: int, search_string: str, sort_by: str):
     ).offset((page - 1) * SUBSCRIPTIONS_PER_PAGE)
 
     totalRows = subscription_query.count()
-    numberOfPages = max(1, (totalRows + SUBSCRIPTIONS_PER_PAGE - 1) // SUBSCRIPTIONS_PER_PAGE)
+    numberOfPages = max(
+        1, (totalRows + SUBSCRIPTIONS_PER_PAGE - 1) // SUBSCRIPTIONS_PER_PAGE
+    )
+
+    total_monthly, total_yearly = [
+        value or 0
+        for value in db.session.query(
+            func.sum(SubscriptionSchema.amount).filter(
+                SubscriptionSchema.recurrence == SubscriptionRecurrence.Monthly
+            ),
+            func.sum(SubscriptionSchema.amount).filter(
+                SubscriptionSchema.recurrence == SubscriptionRecurrence.Yearly
+            ),
+        )
+        .filter(
+            SubscriptionSchema.is_deleted == False,
+            SubscriptionSchema.status == SubscriptionStatus.Active,
+        )
+        .one()
+    ]
 
     return SubscriptionsContent(
         subscriptions=[
@@ -71,6 +131,7 @@ def get_subscriptions(page: int, search_string: str, sort_by: str):
         ],
         numberOfPages=numberOfPages,
         currentPage=page,
+        monthlySummary=get_recurring_bills_monthly_summary(),
     )
 
 

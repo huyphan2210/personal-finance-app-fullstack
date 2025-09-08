@@ -516,12 +516,16 @@
             "$ref": "#/definitions/Subscription"
           },
           "type": "array"
+        },
+        "summary": {
+          "$ref": "#/definitions/RecurringBillsSummary"
         }
       },
       "required": [
         "currentPage",
         "numberOfPages",
-        "subscriptions"
+        "subscriptions",
+        "summary"
       ],
       "type": "object"
     },

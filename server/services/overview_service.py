@@ -1,5 +1,5 @@
 from models.overview_model import Balance, OverviewContent
-from services.subscriptions_service import get_recurring_bills_summary
+from services.subscriptions_service import get_recurring_bills_monthly_summary
 from services.transactions_service import get_overview_transactions
 from services.budgets_service import get_overview_budgets
 from services.pots_service import get_overview_pots
@@ -10,7 +10,7 @@ def get_overview():
     pots = get_overview_pots()
     budgets = get_overview_budgets()
     transactions = get_overview_transactions()
-    recurringBillsSummary = get_recurring_bills_summary()
+    recurringBillsSummary = get_recurring_bills_monthly_summary()
     summary = OverviewContent(
         balance=balance,
         pots=pots,
