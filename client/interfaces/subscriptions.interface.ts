@@ -7,3 +7,7 @@ export interface ISubscriptionSearchForm {
 }
 
 export interface ISubscriptionItem extends Subscription {}
+
+export interface ISubscriptionTable {
+  data: ISubscriptionItem[]
+}

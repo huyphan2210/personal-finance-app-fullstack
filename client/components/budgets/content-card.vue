@@ -59,14 +59,14 @@
               amount,
               date,
               category,
-              recurring,
+              subscriptionId,
             } in budgetInfo.representTransactions"
             :avatar-url="avatarUrl"
             :user="user"
             :amount="amount"
             :date="date"
             :category="category"
-            :recurring="recurring"
+            :subscription-id="subscriptionId"
           ></budgets-transaction-item>
         </ul>
       </section>

@@ -7,7 +7,12 @@
     >
       {{ label ?? defaultLabelRecords[type] }}
     </label>
-    <div class="field-wrapper_input-wrapper">
+    <div
+      :class="{
+        'field-wrapper_input-wrapper': true,
+        search: type === InputEnumType.Search,
+      }"
+    >
       <span class="field-wrapper_input-wrapper_prefix" v-if="prefix">
         {{ prefix }}
       </span>
@@ -91,6 +96,9 @@ const defaultPlaceholderRecords: Record<InputEnumType, string> = {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    &.search {
+      padding-right: 3.25rem;
+    }
 
     &_prefix {
       @include text-preset-4;
