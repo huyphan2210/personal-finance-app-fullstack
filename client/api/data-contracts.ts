@@ -122,6 +122,11 @@ export interface Subscription {
   avatarUrl: string;
   dueDate: string;
   /**
+   * One of: ['DueSoon', 'Paid', 'Unpaid', 'Upcoming']
+   * @example "DueSoon"
+   */
+  paidStatus: SubscriptionPaidStatusEnum;
+  /**
    * One of: ['Monthly', 'Yearly']
    * @example "Monthly"
    */
@@ -136,6 +141,7 @@ export interface Subscription {
 
 export interface SubscriptionsContent {
   currentPage: number;
+  monthlySummary: RecurringBillsSummary;
   numberOfPages: number;
   subscriptions: Subscription[];
 }
@@ -316,6 +322,17 @@ export enum PotColorThemeEnum {
   Red = "#c94736",
   Turquois = "#597c7c",
   Yellow = "#f2cdac",
+}
+
+/**
+ * One of: ['DueSoon', 'Paid', 'Unpaid', 'Upcoming']
+ * @example "DueSoon"
+ */
+export enum SubscriptionPaidStatusEnum {
+  DueSoon = "DueSoon",
+  Paid = "Paid",
+  Unpaid = "Unpaid",
+  Upcoming = "Upcoming",
 }
 
 /**

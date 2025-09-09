@@ -470,6 +470,17 @@
         "dueDate": {
           "type": "string"
         },
+        "paidStatus": {
+          "description": "One of: ['DueSoon', 'Paid', 'Unpaid', 'Upcoming']",
+          "enum": [
+            "DueSoon",
+            "Paid",
+            "Unpaid",
+            "Upcoming"
+          ],
+          "example": "DueSoon",
+          "type": "string"
+        },
         "recurrence": {
           "description": "One of: ['Monthly', 'Yearly']",
           "enum": [
@@ -496,6 +507,7 @@
         "amount",
         "avatarUrl",
         "dueDate",
+        "paidStatus",
         "recurrence",
         "status",
         "user"
@@ -507,6 +519,9 @@
         "currentPage": {
           "type": "integer"
         },
+        "monthlySummary": {
+          "$ref": "#/definitions/RecurringBillsSummary"
+        },
         "numberOfPages": {
           "type": "integer"
         },
@@ -516,16 +531,13 @@
             "$ref": "#/definitions/Subscription"
           },
           "type": "array"
-        },
-        "summary": {
-          "$ref": "#/definitions/RecurringBillsSummary"
         }
       },
       "required": [
         "currentPage",
+        "monthlySummary",
         "numberOfPages",
-        "subscriptions",
-        "summary"
+        "subscriptions"
       ],
       "type": "object"
     },

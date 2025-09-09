@@ -1,4 +1,6 @@
+from collections import defaultdict
 from datetime import datetime, timezone
+from uuid import UUID
 from sqlalchemy import desc, func, or_, String, cast
 from sqlalchemy.orm import Query
 from database import db
@@ -31,34 +33,48 @@ SORT_OPTIONS = {
 
 
 def get_recurring_bills_monthly_summary():
-    monthly_subscriptions = SubscriptionSchema.query.filter(
+    paid_amount = 0
+    total_upcoming_amount = 0
+    due_soon_amount = 0
+
+    monthly_subscriptions: list[SubscriptionSchema] = SubscriptionSchema.query.filter(
         SubscriptionSchema.is_deleted == False,
         SubscriptionSchema.status == SubscriptionStatus.Active,
         SubscriptionSchema.recurrence == SubscriptionRecurrence.Monthly,
     ).all()
 
-    transactions = TransactionSchema.query.filter(
-        TransactionSchema.is_deleted == False,
-        TransactionSchema.subscription_id.in_([s.id for s in monthly_subscriptions]),
-    ).all()
+    transactions: list[TransactionSchema] = (
+        TransactionSchema.query.join(
+            SubscriptionSchema,
+            SubscriptionSchema.id == TransactionSchema.subscription_id,
+        )
+        .filter(
+            TransactionSchema.is_deleted == False,
+            SubscriptionSchema.is_deleted == False,
+            SubscriptionSchema.status == SubscriptionStatus.Active,
+            SubscriptionSchema.recurrence == SubscriptionRecurrence.Monthly,
+            TransactionSchema.date <= SubscriptionSchema.next_due,
+            (SubscriptionSchema.last_due == None)
+            | (TransactionSchema.date >= SubscriptionSchema.last_due),
+        )
+        .all()
+    )
 
-    paid_amount = 0
-    total_upcoming_amount = 0
-    due_soon_amount = 0
-
-    transaction_map = {
-        transaction.subscription_id: transaction for transaction in transactions
-    }
+    transactions_by_subscription: defaultdict[UUID, list[TransactionSchema]] = (
+        defaultdict(list)
+    )
+    for transaction in transactions:
+        transactions_by_subscription[transaction.subscription_id].append(transaction)
 
     for sub in monthly_subscriptions:
-        transaction = transaction_map.get(sub.id)
+        transactions = transactions_by_subscription[sub.id]
         if sub.next_due.tzinfo is None:
             next_due = sub.next_due.replace(tzinfo=timezone.utc)
         else:
             next_due = sub.next_due
 
-        if transaction and next_due:
-            paid_amount += transaction.amount
+        if transactions and next_due:
+            paid_amount += sum(transaction.amount for transaction in transactions)
         else:
             total_upcoming_amount += sub.amount
 
