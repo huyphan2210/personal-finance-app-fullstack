@@ -450,12 +450,16 @@
         },
         "totalUpcomingAmount": {
           "type": "number"
+        },
+        "unpaidAmount": {
+          "type": "number"
         }
       },
       "required": [
         "dueSoonAmount",
         "paidAmount",
-        "totalUpcomingAmount"
+        "totalUpcomingAmount",
+        "unpaidAmount"
       ],
       "type": "object"
     },

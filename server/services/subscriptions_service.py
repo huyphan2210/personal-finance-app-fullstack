@@ -1,10 +1,12 @@
 from collections import defaultdict
 from datetime import datetime, timezone
+from typing import Optional
 from uuid import UUID
 from sqlalchemy import desc, func, or_, String, cast
 from sqlalchemy.orm import Query
 from database import db
 
+from enums.subscriptions.subscription_paid_status_enum import SubscriptionPaidStatus
 from enums.subscriptions.subscription_recurrence_enum import SubscriptionRecurrence
 from enums.subscriptions.subscription_status_enum import SubscriptionStatus
 from exceptions import BadRequestError
@@ -36,6 +38,7 @@ def get_recurring_bills_monthly_summary():
     paid_amount = 0
     total_upcoming_amount = 0
     due_soon_amount = 0
+    unpaid_amount = 0
 
     monthly_subscriptions: list[SubscriptionSchema] = SubscriptionSchema.query.filter(
         SubscriptionSchema.is_deleted == False,
@@ -75,16 +78,21 @@ def get_recurring_bills_monthly_summary():
 
         if transactions and next_due:
             paid_amount += sum(transaction.amount for transaction in transactions)
+
+        days_gap = (next_due - datetime.now(timezone.utc)).days
+        if days_gap <= DUE_DAYS_MAX and days_gap >= 0:
+            due_soon_amount += sub.amount
+            total_upcoming_amount += sub.amount
+        elif days_gap < 0:
+            unpaid_amount += sub.amount
         else:
             total_upcoming_amount += sub.amount
-
-        if (next_due - datetime.now(timezone.utc)).days <= DUE_DAYS_MAX:
-            due_soon_amount += sub.amount
 
     return RecurringBillsSummary(
         paidAmount=paid_amount,
         totalUpcomingAmount=total_upcoming_amount,
         dueSoonAmount=due_soon_amount,
+        unpaidAmount=unpaid_amount
     )
 
 
@@ -102,6 +110,53 @@ def validate_get_subscriptions(page: int, search_string: str, sort_by: str):
     # Validate sortBy
     if sort_by not in SORT_OPTIONS.keys():
         raise BadRequestError("Sort is not approriate.")
+
+
+def get_subscription_paid_status(
+    subscription: SubscriptionSchema, transaction: Optional[TransactionSchema]
+):
+    if transaction and transaction.subscription_id != subscription.id:
+        raise BadRequestError("The transaction doesn't belong to the subscription")
+    # This assumes each subscription has a maximum of one transaction each month
+    # which means it also assumes that the transaction pays the exact amount of the subscription.\
+
+    if transaction is None:
+        transaction_query = TransactionSchema.query.filter(
+            TransactionSchema.subscription_id == subscription.id,
+            TransactionSchema.is_deleted == False,
+            TransactionSchema.date <= subscription.next_due,
+        )
+
+        if subscription.last_due:
+            transaction_query = transaction_query.filter(
+                TransactionSchema.date >= subscription.last_due
+            )
+
+        transaction: Optional[TransactionSchema] = TransactionSchema.query.filter(
+            TransactionSchema.subscription_id == subscription.id,
+            TransactionSchema.is_deleted == False,
+            TransactionSchema.date <= subscription.next_due,
+            or_(
+                subscription.last_due == None,
+                TransactionSchema.date >= subscription.last_due,
+            ),
+        ).one_or_none()
+
+    if transaction:
+        return SubscriptionPaidStatus.Paid
+
+    if subscription.next_due.tzinfo is None:
+        next_due = subscription.next_due.replace(tzinfo=timezone.utc)
+    else:
+        next_due = subscription.next_due
+
+    days_gap = (next_due - datetime.now(timezone.utc)).days
+    if days_gap <= DUE_DAYS_MAX and days_gap >= 0:
+        return SubscriptionPaidStatus.DueSoon
+    if days_gap < 0:
+        return SubscriptionPaidStatus.Unpaid
+
+    return SubscriptionPaidStatus.Upcoming
 
 
 def get_subscriptions(page: int, search_string: str, sort_by: str):
@@ -142,6 +197,7 @@ def get_subscriptions(page: int, search_string: str, sort_by: str):
                 amount=subscription.amount,
                 recurrence=subscription.recurrence,
                 status=subscription.status,
+                paidStatus=get_subscription_paid_status(subscription),
             )
             for subscription in subscriptions
         ],

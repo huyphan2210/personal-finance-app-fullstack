@@ -115,6 +115,7 @@ export interface RecurringBillsSummary {
   dueSoonAmount: number;
   paidAmount: number;
   totalUpcomingAmount: number;
+  unpaidAmount: number;
 }
 
 export interface Subscription {

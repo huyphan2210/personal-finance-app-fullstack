@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class SubscriptionPaidStage(str, Enum):
+class SubscriptionPaidStatus(str, Enum):
     DueSoon = "DueSoon"
     Paid = "Paid"
     Unpaid = "Unpaid"
