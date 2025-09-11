@@ -8,9 +8,10 @@
       <overview-recurring-bills-card-item
         v-for="({ label, amount }, index) in recurringItems"
         :class="{
-          'border-green': index % 3 === 0,
-          'border-yellow': index % 3 === 1,
-          'border-cyan': index % 3 === 2,
+          'border-green': index % 4 === 0,
+          'border-red': index % 4 === 1,
+          'border-cyan': index % 4 === 2,
+          'border-gold': index % 4 === 3,
         }"
         :label="label"
         :amount="amount"
@@ -32,6 +33,10 @@ recurringItems.value = [
   {
     label: "Paid Bills",
     amount: recurringBillsCardContent?.paidAmount,
+  },
+  {
+    label: "Unpaid Bills",
+    amount: recurringBillsCardContent?.unpaidAmount,
   },
   {
     label: "Total Upcoming",

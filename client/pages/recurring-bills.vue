@@ -155,7 +155,11 @@ searchSubscriptions();
 <style lang="scss" scoped>
 .recurring-bills {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   &_form {
+    flex: 1;
     background-color: var(--white);
     padding: 1.5rem 1.25rem;
     border-radius: 0.75rem;

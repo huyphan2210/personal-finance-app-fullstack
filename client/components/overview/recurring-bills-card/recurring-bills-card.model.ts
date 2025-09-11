@@ -1,4 +1,4 @@
-import type { RecurringBillsSummary } from "~/api";
+import { type RecurringBillsSummary } from "~/api/data-contracts";
 
 export interface IOverviewRecurringBillsCard {
   recurringBillsCardContent?: RecurringBillsSummary;

@@ -1,7 +1,7 @@
 <template>
   <li class="recurring-bill-summary-item">
     <span>{{ label }}</span>
-    <span>{{ enUSFormatter.format(amount) }}</span>
+    <span>{{ enUSFormatter.format(amount || 0) }}</span>
   </li>
 </template>
 <script lang="ts" setup>
@@ -14,6 +14,12 @@ const enUSFormatter = new Intl.NumberFormat("en-US", {
 });
 </script>
 <style lang="scss" scoped>
+@mixin border-color($color) {
+  &.border-#{$color} {
+    border-color: var(--#{$color});
+  }
+}
+
 .recurring-bill-summary-item {
   display: flex;
   align-items: center;
@@ -23,16 +29,8 @@ const enUSFormatter = new Intl.NumberFormat("en-US", {
   border-radius: 0.5rem;
   border-left: solid 0.25rem;
 
-  &.border-green {
-    border-color: var(--green);
-  }
-
-  &.border-yellow {
-    border-color: var(--yellow);
-  }
-
-  &.border-cyan {
-    border-color: var(--cyan);
+  @each $color in $colors {
+    @include border-color($color);
   }
 
   span {

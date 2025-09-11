@@ -197,7 +197,7 @@ def get_subscriptions(page: int, search_string: str, sort_by: str):
                 amount=subscription.amount,
                 recurrence=subscription.recurrence,
                 status=subscription.status,
-                paidStatus=get_subscription_paid_status(subscription),
+                paidStatus=get_subscription_paid_status(subscription, None),
             )
             for subscription in subscriptions
         ],

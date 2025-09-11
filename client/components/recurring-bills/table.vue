@@ -21,7 +21,10 @@
       <tr
         :class="{
           'recurring-bills_table_body_item': true,
-          paid: item.dueDate,
+          paid: item.paidStatus === SubscriptionPaidStatusEnum.Paid,
+          'due-soon': item.paidStatus === SubscriptionPaidStatusEnum.DueSoon,
+          unpaid: item.paidStatus === SubscriptionPaidStatusEnum.Unpaid,
+          upcoming: item.paidStatus === SubscriptionPaidStatusEnum.Upcoming,
         }"
         v-for="item in data"
       >
@@ -32,10 +35,10 @@
               {{ item.user }}
             </figcaption>
           </figure>
-          <span>{{ transformDate(item.dueDate) }}</span>
+          <span>{{ transformSubscriptionDueDate(item) }}</span>
         </td>
         <td class="recurring-bills_table_body_item_date">
-          {{ transformDate(item.dueDate) }}
+          {{ transformSubscriptionDueDate(item) }}
         </td>
         <td class="recurring-bills_table_body_item_amount">
           <span>{{ enUSFormatter.format(item.amount) }}</span>
@@ -45,7 +48,14 @@
   </table>
 </template>
 <script lang="ts" setup>
-import type { ISubscriptionTable } from "~/interfaces/subscriptions.interface";
+import {
+  SubscriptionPaidStatusEnum,
+  SubscriptionRecurrenceEnum,
+} from "~/api/data-contracts";
+import type {
+  ISubscriptionItem,
+  ISubscriptionTable,
+} from "~/interfaces/subscriptions.interface";
 
 const { data } = defineProps<ISubscriptionTable>();
 
@@ -54,13 +64,28 @@ const enUSFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
-const transformDate = (dateString: string) => {
-  const date: Date = new Date(dateString);
-  return date.toLocaleString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+const transformSubscriptionDueDate = (subscription: ISubscriptionItem) => {
+  const recurrence = subscription.recurrence;
+  const pluralRules = new Intl.PluralRules("en-US", { type: "ordinal" });
+  const suffixes: Record<string, string> = {
+    one: "st",
+    two: "nd",
+    few: "rd",
+    other: "th",
+  };
+  const dueDate = new Date(subscription.dueDate);
+  const dueDayInMonth: number = dueDate.getDate();
+  const formattedDueDayInMonth = pluralRules.select(dueDayInMonth);
+  let dueDateString = `${recurrence}-${
+    dueDayInMonth + suffixes[formattedDueDayInMonth]
+  }`;
+
+  if (recurrence === SubscriptionRecurrenceEnum.Yearly) {
+    dueDateString += dueDate.toLocaleString("en-GB", {
+      month: "short",
+    });
+  }
+  return dueDateString;
 };
 </script>
 <style lang="scss" scoped>
@@ -124,6 +149,30 @@ const transformDate = (dateString: string) => {
           td {
             padding-bottom: 0;
             border-bottom: none;
+          }
+        }
+
+        &.paid {
+          .recurring-bills_table_body_item_name span,
+          .recurring-bills_table_body_item_date,
+          .recurring-bills_table_body_item_amount span {
+            color: var(--green);
+          }
+        }
+
+        &.unpaid {
+          .recurring-bills_table_body_item_name span,
+          .recurring-bills_table_body_item_date,
+          .recurring-bills_table_body_item_amount span {
+            color: var(--red);
+          }
+        }
+
+        &.due-soon {
+          .recurring-bills_table_body_item_name span,
+          .recurring-bills_table_body_item_date,
+          .recurring-bills_table_body_item_amount span {
+            color: var(--gold);
           }
         }
 
@@ -210,6 +259,9 @@ const transformDate = (dateString: string) => {
                   }
                 }
               }
+            }
+            span {
+              display: none;
             }
           }
         }
