@@ -36,9 +36,13 @@ SORT_OPTIONS = {
 
 def get_recurring_bills_monthly_summary():
     paid_amount = 0
+    num_of_paid_subscriptions = 0
     total_upcoming_amount = 0
+    num_of_total_upcoming_subscriptions = 0
     due_soon_amount = 0
+    num_of_due_soon_subscriptions = 0
     unpaid_amount = 0
+    num_of_unpaid_subscriptions = 0
 
     monthly_subscriptions: list[SubscriptionSchema] = SubscriptionSchema.query.filter(
         SubscriptionSchema.is_deleted == False,
@@ -76,23 +80,32 @@ def get_recurring_bills_monthly_summary():
         else:
             next_due = sub.next_due
 
-        if transactions and next_due:
+        if transactions:
+            num_of_paid_subscriptions += transactions.__len__()
             paid_amount += sum(transaction.amount for transaction in transactions)
 
         days_gap = (next_due - datetime.now(timezone.utc)).days
         if days_gap <= DUE_DAYS_MAX and days_gap >= 0:
             due_soon_amount += sub.amount
             total_upcoming_amount += sub.amount
+            num_of_total_upcoming_subscriptions += 1
+            num_of_due_soon_subscriptions += 1
         elif days_gap < 0:
             unpaid_amount += sub.amount
+            num_of_unpaid_subscriptions += 1
         else:
             total_upcoming_amount += sub.amount
+            num_of_total_upcoming_subscriptions += 1
 
     return RecurringBillsSummary(
         paidAmount=paid_amount,
         totalUpcomingAmount=total_upcoming_amount,
         dueSoonAmount=due_soon_amount,
-        unpaidAmount=unpaid_amount
+        unpaidAmount=unpaid_amount,
+        numOfPaidSubscriptions=num_of_paid_subscriptions,
+        numOfUnpaidSubscriptions=num_of_unpaid_subscriptions,
+        numOfDueSoonSubscriptions=num_of_due_soon_subscriptions,
+        numOfUpcomingSubscriptions=num_of_total_upcoming_subscriptions
     )
 
 
@@ -175,10 +188,14 @@ def get_subscriptions(page: int, search_string: str, sort_by: str):
         value or 0
         for value in db.session.query(
             func.sum(SubscriptionSchema.amount).filter(
-                SubscriptionSchema.recurrence == SubscriptionRecurrence.Monthly
+                SubscriptionSchema.recurrence == SubscriptionRecurrence.Monthly,
+                SubscriptionSchema.is_deleted == False,
+                SubscriptionSchema.status == SubscriptionStatus.Active,
             ),
             func.sum(SubscriptionSchema.amount).filter(
-                SubscriptionSchema.recurrence == SubscriptionRecurrence.Yearly
+                SubscriptionSchema.recurrence == SubscriptionRecurrence.Yearly,
+                SubscriptionSchema.is_deleted == False,
+                SubscriptionSchema.status == SubscriptionStatus.Active,
             ),
         )
         .filter(

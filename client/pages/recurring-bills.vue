@@ -1,7 +1,26 @@
 <template>
   <shared-page-heading />
   <section class="recurring-bills">
-    <section class="recurring-bills_total-and-summary"></section>
+    <section class="recurring-bills_summary">
+      <div class="recurring-bills_summary_monthly">
+        <h2>Monthly Summary</h2>
+        <ul class="recurring-bills_summary_monthly_list">
+          <li
+            v-for="item in monthlySummaryItems"
+            :key="item.content"
+            :class="[
+              'recurring-bills_summary_monthly_list_item',
+              item.className,
+            ]"
+          >
+            <span>{{ item.label }}</span>
+            <span>
+              {{ item.content }}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
     <form
       ref="form"
       role="search"
@@ -39,7 +58,7 @@
         </div>
       </fieldset>
       <recurring-bills-table
-        :data="subscriptionItems"
+        :data="subscriptionContent?.subscriptions || []"
         :class="{
           'is-loading': isLoading === true,
         }"
@@ -54,14 +73,15 @@
 </template>
 
 <script lang="ts" setup>
+import type { SubscriptionsContent } from "~/api/data-contracts";
 import sortIcon from "../assets/images/sort.svg";
 import { InputEnumType, type IDropdown } from "~/interfaces/shared.interface";
 import type {
-  ISubscriptionItem,
+  ISubscriptionMonthlySummary,
   ISubscriptionSearchForm,
 } from "~/interfaces/subscriptions.interface";
 import type { FormFieldTypes } from "~/interfaces/transactions.interface";
-import { sortOptions } from "~/services/base.service";
+import { enUSFormatter, sortOptions } from "~/services/base.service";
 import { getSubscriptions } from "~/services/subscription.service";
 
 const router = useRouter();
@@ -75,7 +95,7 @@ const pageInteger = parseInt(page || "1");
 
 const errorStore = useErrorStore();
 const isLoading = ref<boolean>(true);
-const subscriptionItems = ref<ISubscriptionItem[]>([]);
+const subscriptionContent = ref<SubscriptionsContent>();
 const pageNumber = ref<number>(1);
 const formValues = reactive<ISubscriptionSearchForm>({
   searchString: search,
@@ -91,6 +111,8 @@ const handleFilter = (field: FormFieldTypes, value?: string) => {
 
   searchSubscriptions();
 };
+
+const monthlySummaryItems = ref<ISubscriptionMonthlySummary[]>([]);
 
 const filters: IDropdown[] = [
   {
@@ -131,8 +153,45 @@ const searchSubscriptions = async (event?: Event) => {
       },
     });
 
-    subscriptionItems.value = subscriptionsContent.subscriptions;
-
+    subscriptionContent.value = subscriptionsContent;
+    monthlySummaryItems.value = [
+      {
+        label: "Paid Bills",
+        content: `${
+          subscriptionContent.value.monthlySummary.numOfPaidSubscriptions
+        }(${enUSFormatter.format(
+          subscriptionContent.value?.monthlySummary.paidAmount || 0
+        )})`,
+        className: "paid",
+      },
+      {
+        label: "Unpaid Bills",
+        content: `${
+          subscriptionContent.value.monthlySummary.numOfUnpaidSubscriptions
+        }(${enUSFormatter.format(
+          subscriptionContent.value?.monthlySummary.unpaidAmount || 0
+        )})`,
+        className: "unpaid",
+      },
+      {
+        label: "Total Upcoming",
+        content: `${
+          subscriptionContent.value.monthlySummary.numOfUpcomingSubscriptions
+        }(${enUSFormatter.format(
+          subscriptionContent.value?.monthlySummary.totalUpcomingAmount || 0
+        )})`,
+        className: "upcoming",
+      },
+      {
+        label: "Due Soon",
+        content: `${
+          subscriptionContent.value.monthlySummary.numOfDueSoonSubscriptions
+        }(${enUSFormatter.format(
+          subscriptionContent.value?.monthlySummary.dueSoonAmount || 0
+        )})`,
+        className: "due-soon",
+      },
+    ];
     pageNumber.value = subscriptionsContent.numberOfPages;
     formValues.page = subscriptionsContent.currentPage;
     window.scroll({
@@ -158,6 +217,68 @@ searchSubscriptions();
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  &_summary {
+    &_monthly {
+      background-color: var(--white);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      h2 {
+        @include text-preset-3;
+        color: var(--grey-900);
+      }
+      &_list {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1.25rem;
+        &_item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: var(--grey-500);
+          padding-bottom: 1rem;
+          border-bottom: solid 1px
+            color-mix(in srgb, var(--grey-500), transparent 85%);
+          &:last-child {
+            padding-bottom: 0;
+            border-bottom: 0;
+          }
+
+          span {
+            @include text-preset-5;
+            &:last-child {
+              @include text-preset-5-bold;
+              color: var(--grey-900);
+            }
+          }
+
+          &.paid {
+            color: var(--green);
+            span {
+              color: inherit;
+            }
+          }
+
+          &.unpaid {
+            color: var(--red);
+            span {
+              color: inherit;
+            }
+          }
+
+          &.due-soon {
+            color: var(--gold);
+            span {
+              color: inherit;
+            }
+          }
+        }
+      }
+    }
+  }
+
   &_form {
     flex: 1;
     background-color: var(--white);
@@ -195,6 +316,10 @@ searchSubscriptions();
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(12, 1fr);
+    &_summary {
+      grid-column: 1 / 5;
+    }
+
     &_form {
       grid-column: 5 / -1;
     }

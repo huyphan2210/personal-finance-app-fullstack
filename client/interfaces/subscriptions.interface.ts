@@ -9,5 +9,11 @@ export interface ISubscriptionSearchForm {
 export interface ISubscriptionItem extends Subscription {}
 
 export interface ISubscriptionTable {
-  data: ISubscriptionItem[]
+  data: ISubscriptionItem[];
+}
+
+export interface ISubscriptionMonthlySummary {
+  label: string;
+  content: string;
+  className: string;
 }

@@ -11,6 +11,10 @@ class RecurringBillsSummary(BaseModel):
     totalUpcomingAmount: float
     dueSoonAmount: float
     unpaidAmount: float
+    numOfPaidSubscriptions: int
+    numOfUnpaidSubscriptions: int
+    numOfDueSoonSubscriptions: int
+    numOfUpcomingSubscriptions: int
 
 
 class Subscription(BaseModel):

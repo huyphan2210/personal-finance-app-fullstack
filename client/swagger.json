@@ -445,6 +445,18 @@
         "dueSoonAmount": {
           "type": "number"
         },
+        "numOfDueSoonSubscriptions": {
+          "type": "integer"
+        },
+        "numOfPaidSubscriptions": {
+          "type": "integer"
+        },
+        "numOfUnpaidSubscriptions": {
+          "type": "integer"
+        },
+        "numOfUpcomingSubscriptions": {
+          "type": "integer"
+        },
         "paidAmount": {
           "type": "number"
         },
@@ -457,6 +469,10 @@
       },
       "required": [
         "dueSoonAmount",
+        "numOfDueSoonSubscriptions",
+        "numOfPaidSubscriptions",
+        "numOfUnpaidSubscriptions",
+        "numOfUpcomingSubscriptions",
         "paidAmount",
         "totalUpcomingAmount",
         "unpaidAmount"

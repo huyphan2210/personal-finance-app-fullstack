@@ -113,6 +113,10 @@ export interface Pots {
 
 export interface RecurringBillsSummary {
   dueSoonAmount: number;
+  numOfDueSoonSubscriptions: number;
+  numOfPaidSubscriptions: number;
+  numOfUnpaidSubscriptions: number;
+  numOfUpcomingSubscriptions: number;
   paidAmount: number;
   totalUpcomingAmount: number;
   unpaidAmount: number;
