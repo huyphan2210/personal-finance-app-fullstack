@@ -29,6 +29,8 @@ class Subscription(BaseModel):
 
 class SubscriptionsContent(BaseModel):
     monthlySummary: RecurringBillsSummary
+    totalMonthly: float
+    totalYearly: float
     subscriptions: list[Subscription]
     numberOfPages: int
     currentPage: int

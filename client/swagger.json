@@ -551,13 +551,21 @@
             "$ref": "#/definitions/Subscription"
           },
           "type": "array"
+        },
+        "totalMonthly": {
+          "type": "number"
+        },
+        "totalYearly": {
+          "type": "number"
         }
       },
       "required": [
         "currentPage",
         "monthlySummary",
         "numberOfPages",
-        "subscriptions"
+        "subscriptions",
+        "totalMonthly",
+        "totalYearly"
       ],
       "type": "object"
     },

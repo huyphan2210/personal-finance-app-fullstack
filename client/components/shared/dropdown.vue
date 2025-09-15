@@ -103,7 +103,7 @@ onMounted(() => {
   &_button {
     border-radius: 0.5rem;
     &:hover {
-      cursor: auto;
+      cursor: pointer;
     }
 
     &_content {
@@ -204,12 +204,12 @@ onMounted(() => {
     }
 
     &_button {
-      &:hover {
-        cursor: pointer;
-      }
       border: solid 1px var(--beige-500);
       padding: 0.75rem 1.25rem;
       position: relative;
+      &:hover {
+        border-color: var(--grey-500);
+      }
       &_content {
         display: flex;
         align-items: center;

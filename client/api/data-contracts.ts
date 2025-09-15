@@ -149,6 +149,8 @@ export interface SubscriptionsContent {
   monthlySummary: RecurringBillsSummary;
   numberOfPages: number;
   subscriptions: Subscription[];
+  totalMonthly: number;
+  totalYearly: number;
 }
 
 export interface Transaction {

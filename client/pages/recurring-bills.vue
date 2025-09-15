@@ -2,8 +2,25 @@
   <shared-page-heading />
   <section class="recurring-bills">
     <section class="recurring-bills_summary">
+      <div class="recurring-bills_summary_total">
+        <img src="../assets/images/bills.svg" loading="lazy" alt="Bills" />
+        <div class="recurring-bills_summary_total_number">
+          <div class="recurring-bills_summary_total_number_monthly">
+            <h2>Total monthly bills</h2>
+            <span>
+              {{ enUSFormatter.format(subscriptionContent?.totalMonthly || 0) }}
+            </span>
+          </div>
+          <div class="recurring-bills_summary_total_number_yearly">
+            <h2>Total yearly bills</h2>
+            <span>
+              {{ enUSFormatter.format(subscriptionContent?.totalYearly || 0) }}
+            </span>
+          </div>
+        </div>
+      </div>
       <div class="recurring-bills_summary_monthly">
-        <h2>Monthly Summary</h2>
+        <h2>Monthly summary</h2>
         <ul class="recurring-bills_summary_monthly_list">
           <li
             v-for="item in monthlySummaryItems"
@@ -63,11 +80,6 @@
           'is-loading': isLoading === true,
         }"
       />
-      <!-- <subscriptions-table-nav
-        :pre-selected-page="formValues.page"
-        :number-of-pages="pageNumber"
-        :setPage="setCurrentPage"
-      /> -->
     </form>
   </section>
 </template>
@@ -219,6 +231,34 @@ searchSubscriptions();
   gap: 1.5rem;
 
   &_summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    &_total {
+      display: flex;
+      gap: 1.5rem;
+      background-color: var(--grey-900);
+      color: var(--white);
+      border-radius: 0.5rem;
+      padding: 1.5rem 1.25rem;
+      &_number {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        &_monthly,
+        &_yearly {
+          margin-top: max(auto, 1.5rem);
+          h2 {
+            @include text-preset-4;
+            margin-bottom: 11px;
+          }
+          span {
+            @include text-preset-1;
+          }
+        }
+      }
+    }
+
     &_monthly {
       background-color: var(--white);
       border-radius: 0.75rem;
@@ -311,6 +351,29 @@ searchSubscriptions();
     }
   }
 }
+
+@media screen and (min-width: 48rem) {
+  .recurring-bills {
+    &_summary {
+      flex-direction: unset;
+      &_total {
+        padding: 1.5rem;
+        flex: 1;
+        flex-direction: column;
+        align-items: self-start;
+        gap: 2rem;
+      }
+      &_monthly {
+        flex: 1;
+      }
+    }
+
+    &_form {
+      padding: 2rem;
+    }
+  }
+}
+
 @media screen and (min-width: 90rem) {
   .recurring-bills {
     display: grid;
@@ -318,6 +381,8 @@ searchSubscriptions();
     grid-template-columns: repeat(12, 1fr);
     &_summary {
       grid-column: 1 / 5;
+      flex-direction: column;
+      height: min-content;
     }
 
     &_form {

@@ -221,6 +221,8 @@ def get_subscriptions(page: int, search_string: str, sort_by: str):
         numberOfPages=numberOfPages,
         currentPage=page,
         monthlySummary=get_recurring_bills_monthly_summary(),
+        totalMonthly=total_monthly,
+        totalYearly=total_yearly
     )
 
 
