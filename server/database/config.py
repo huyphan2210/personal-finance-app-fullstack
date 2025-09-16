@@ -5,7 +5,7 @@ from database.seed_data import seed_data
 
 class DatabaseConfig:
     SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DATABASE_URL",
+        "SQLALCHEMY_DATABASE_URI",
         f"postgresql://postgres:1glpN0xybHxRTWFZzj8h@localhost:5432/{LOCAL_DB_NAME}?sslmode=disable",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
