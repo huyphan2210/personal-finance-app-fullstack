@@ -12,6 +12,7 @@ flask-cors = "*"
 sqlalchemy = "*"
 psycopg2-binary = "*"
 flask-sqlalchemy = "*"
+gunicorn = "*"
 
 [dev-packages]
 
