@@ -1,9 +1,10 @@
 from database import db
 from schemas.base_schema import BaseSchema
+from database import LOCAL_DB_NAME
 
 
 class Budget(db.Model, BaseSchema):
-    __tablename__ = "budgets"
+    __tablename__ = f"{LOCAL_DB_NAME}_budgets"
 
     category = db.Column(db.String, nullable=False)
     maximum = db.Column(db.Float, nullable=False)

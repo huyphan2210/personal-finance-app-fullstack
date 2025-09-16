@@ -1,13 +1,12 @@
 import os
 from flask import Flask
-from database import db
+from database import db, LOCAL_DB_NAME
 from database.seed_data import seed_data
-
 
 class DatabaseConfig:
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
-        "postgresql://postgres:1glpN0xybHxRTWFZzj8h@localhost:5432/financedb?sslmode=disable",
+        f"postgresql://postgres:1glpN0xybHxRTWFZzj8h@localhost:5432/{LOCAL_DB_NAME}?sslmode=disable",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

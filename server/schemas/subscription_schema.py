@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from database import db
 from schemas.base_schema import BaseSchema
-
+from database import LOCAL_DB_NAME
 
 class Subscription(db.Model, BaseSchema):
-    __tablename__ = "subscriptions"
+    __tablename__ = f"{LOCAL_DB_NAME}_subscriptions"
 
     avatar_url = db.Column(db.String, nullable=True)
     user = db.Column(db.String, nullable=False)
