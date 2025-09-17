@@ -7,6 +7,7 @@ A full-stack web application built with:
 - **Database**: PostgreSQL
 
 ## Live URL: [Personal Finance App](https://personal-finance-app-fullstack.vercel.app/overview)
+![Personal Finance App Preview](./Preview.jpg)
 
 ## Prerequisites
 
