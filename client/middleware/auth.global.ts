@@ -3,9 +3,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const checkLogin = (isAuthLoaded: boolean) => {
     if (!isAuthLoaded) return;
 
-    if (!isSignedIn.value) {
-      navigateTo(Page.Login)
-    }
+    // if (!isSignedIn.value) {
+    //   navigateTo(Page.Login)
+    // }
   }
   
   checkLogin(isLoaded.value);
