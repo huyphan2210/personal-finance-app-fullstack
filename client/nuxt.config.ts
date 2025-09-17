@@ -1,5 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: "Personal Finance App",
+      link: [
+        { rel: "icon", type: "image/svg+xml", href: "/logo--minimize.svg" },
+      ],
+    },
+  },
   compatibilityDate: "2024-11-01",
   css: ["./assets/styles/default.scss"],
   devtools: { enabled: true },
@@ -21,6 +29,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   runtimeConfig: {
     public: {
       apiBase: process.env.API_URL ?? "http://127.0.0.1:5000/api",

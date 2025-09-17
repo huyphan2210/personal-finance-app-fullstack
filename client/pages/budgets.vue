@@ -94,6 +94,7 @@ import {
 } from "~/interfaces/budgets.interface";
 import { ButtonAppearanceEnum } from "~/interfaces/shared.interface";
 import { getBudgets } from "~/services/budgets.service";
+
 const errorStore = useErrorStore();
 const budgets = ref<IBudgetContent>();
 const chartData = ref<ChartData>();
