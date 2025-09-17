@@ -1,4 +1,3 @@
 <script setup lang="ts">
-const router = useRouter();
-
+navigateTo(Page.Overview);
 </script>
